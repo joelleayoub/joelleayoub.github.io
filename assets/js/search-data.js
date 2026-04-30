@@ -10,11 +10,11 @@ ninja.data = [{
       window.location.href = "/";
     },
   },{id: "nav-experience",
-          title: "experience",
+          title: "Experience",
           description: "",
           section: "Navigation",
           handler: () => {
-            window.location.href = "/experience/";
+            window.location.href = "/Experience/";
           },
         },{id: "nav-projects",
           title: "projects",
