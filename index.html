@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joelle Ayoub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #f9f8f6;
+  --ink: #111;
+  --mid: #555;
+  --faint: #999;
+  --rule: #e0ddd8;
+  --accent: #111;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Inter', system-ui, sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+a:hover { opacity: 0.6; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 52px;
+  background: rgba(249,248,246,0.9);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  text-decoration: none;
+  color: var(--ink);
+}
+.nav-links {
+  display: flex; gap: 32px; list-style: none;
+}
+.nav-links a {
+  font-size: 13px;
+  color: var(--mid);
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--ink); opacity: 1; }
+
+/* ── LAYOUT ── */
+.wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+section {
+  padding: 80px 0;
+  border-top: 1px solid var(--rule);
+}
+section:first-of-type { border-top: none; }
+
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--faint);
+  margin-bottom: 48px;
+}
+
+/* ── HERO ── */
+.hero {
+  padding: 120px 0 80px;
+}
+
+.hero-photo {
+  width: 92px; height: 92px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 28px;
+  background: var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px;
+  overflow: hidden;
+}
+
+.hero-eyebrow {
+  font-size: 13px;
+  color: var(--mid);
+  margin-bottom: 12px;
+  letter-spacing: 0.01em;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 60px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+
+.hero-bio {
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--mid);
+  max-width: 580px;
+  margin-bottom: 32px;
+}
+.hero-bio a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); }
+.hero-bio a:hover { text-decoration-color: var(--ink); opacity: 1; }
+
+.hero-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.hero-links a {
+  font-size: 13px;
+  color: var(--mid);
+  text-decoration: none;
+  display: flex; align-items: center; gap: 5px;
+  transition: color 0.15s;
+}
+.hero-links a:hover { color: var(--ink); opacity: 1; }
+
+/* ── SKILLS MARQUEE ── */
+.skills-section { padding: 60px 0; }
+.skills-intro {
+  font-family: var(--serif);
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 48px;
+  max-width: 520px;
+}
+.skills-intro em { font-style: italic; color: var(--mid); }
+
+.skill-track-wrap {
+  margin-bottom: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.skill-track-wrap::before,
+.skill-track-wrap::after {
+  content: '';
+  position: absolute; top: 0; bottom: 0; width: 60px; z-index: 2;
+  pointer-events: none;
+}
+.skill-track-wrap::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+.skill-track-wrap::after  { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+
+.skill-track {
+  display: flex; gap: 0;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.skill-track-wrap:nth-child(even) .skill-track { animation-direction: reverse; animation-duration: 24s; }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.skill-track-label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--faint);
+  padding: 10px 0 6px;
+  margin-bottom: 0;
+}
+
+.skill-item {
+  font-size: 13px;
+  color: var(--mid);
+  padding: 6px 20px 6px 0;
+  white-space: nowrap;
+  display: flex; align-items: center; gap: 20px;
+}
+.skill-item::after {
+  content: '·';
+  color: var(--rule);
+  font-size: 18px;
+}
+
+.skill-group {
+  margin-bottom: 20px;
+}
+.skill-group-num {
+  font-family: var(--serif);
+  font-size: 11px;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+  display: inline-block;
+  margin-right: 12px;
+}
+.skill-group-title {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+/* ── PROJECTS ── */
+.project-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  color: inherit;
+}
+.project-item:first-of-type { border-top: 1px solid var(--rule); }
+
+.project-images {
+  display: flex; gap: 8px;
+}
+.project-img {
+  flex: 1;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: 4px;
+  background: var(--rule);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px;
+  color: var(--faint);
+  transition: opacity 0.2s;
+}
+.project-item:hover .project-img { opacity: 0.8; }
+
+.project-img.wide { flex: 1.6; }
+
+.project-meta {
+  display: flex; align-items: baseline; gap: 16px;
+}
+.project-date {
+  font-size: 12px;
+  color: var(--faint);
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+.project-tags {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.project-tag {
+  font-size: 11px;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+}
+.project-tag + .project-tag::before {
+  content: '·';
+  margin-right: 8px;
+}
+
+.project-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.project-desc {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--mid);
+  max-width: 600px;
+}
+
+.project-link {
+  font-size: 12px;
+  color: var(--faint);
+  letter-spacing: 0.04em;
+}
+
+/* ── EXPERIENCE ── */
+.exp-item {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+.exp-item:first-of-type { border-top: 1px solid var(--rule); }
+
+.exp-logo {
+  width: 40px; height: 40px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: white;
+  border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.exp-right {}
+
+.exp-header {
+  display: flex; justify-content: space-between; align-items: baseline;
+  gap: 16px; flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.exp-role {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.exp-period {
+  font-size: 12px;
+  color: var(--faint);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.exp-org {
+  font-size: 13px;
+  color: var(--mid);
+  margin-bottom: 10px;
+}
+.exp-bullets {
+  list-style: none;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.exp-bullets li {
+  font-size: 13px;
+  color: var(--mid);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.6;
+}
+.exp-bullets li::before {
+  content: '–';
+  position: absolute; left: 0;
+  color: var(--faint);
+}
+
+/* ── AWARDS ── */
+.award-item {
+  display: flex; gap: 16px; align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+}
+.award-item:first-child { border-top: 1px solid var(--rule); }
+.award-year { color: var(--faint); font-size: 12px; flex-shrink: 0; width: 40px; }
+.award-text { color: var(--mid); }
+.award-text strong { color: var(--ink); font-weight: 500; }
+
+/* ── FOOTER ── */
+footer {
+  padding: 60px 0 48px;
+  border-top: 1px solid var(--rule);
+  font-size: 12px;
+  color: var(--faint);
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 20px; flex-wrap: wrap;
+}
+footer a { color: var(--faint); text-decoration: underline; text-decoration-color: transparent; }
+footer a:hover { text-decoration-color: var(--faint); opacity: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .wrap { padding: 0 20px; }
+  nav { padding: 0 20px; }
+  .nav-links { gap: 20px; }
+  .hero { padding: 90px 0 60px; }
+  .project-images { flex-direction: column; }
+  .project-img { aspect-ratio: 16/9; }
+  .exp-item { grid-template-columns: 1fr; gap: 12px; }
+  footer { flex-direction: column; align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-track { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-name">Joelle Ayoub</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO / ABOUT -->
+  <section class="hero" id="about">
+    <div class="hero-photo">🧑‍🔬</div>
+    <!-- ↑ Replace with: <img class="hero-photo" src="photo.jpg" alt="Joelle Ayoub"> -->
+
+    <div class="hero-eyebrow">Robotics · Hardware · Space · EPFL Lausanne</div>
+    <h1>Joelle Ayoub</h1>
+    <p class="hero-bio">
+      I'm an MSc Robotics student at <a href="https://www.epfl.ch" target="_blank">EPFL</a>
+      with a background in mechanical design, embedded systems, and prototyping.
+      I love building things end-to-end — from CAD and FEM to firmware and ROS2 pipelines.
+      <br><br>
+      Currently leading the build of EPFL's first humanoid robot, designing a CubeSat qualification
+      dispenser, and scouting startups as a student VC partner at Founderful Campus.
+      <br><br>
+      When I'm not in the lab I'm machining parts, soldering PCBs, or reading about early-stage
+      space ventures.
+    </p>
+    <div class="hero-links">
+      <a href="https://github.com/joelleayoub" target="_blank">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/joelle-ayoub" target="_blank">LinkedIn ↗</a>
+      <a href="mailto:joelleeayoubb@gmail.com">Email ↗</a>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills-section" id="skills">
+    <p class="skills-intro">Interested in the <em>full stack</em> — from mechanism design to robot learning</p>
+
+    <div class="skill-group">
+      <span class="skill-group-num">01</span>
+      <span class="skill-group-title">Mechanical</span>
+      <div class="skill-track-wrap">
+        <div class="skill-track">
+          <!-- items duplicated for seamless loop -->
+          <span class="skill-item">SolidWorks</span><span class="skill-item">CATIA</span><span class="skill-item">Fusion 360</span><span class="skill-item">COMSOL FEM</span><span class="skill-item">Ansys</span><span class="skill-item">3D Printing</span><span class="skill-item">Laser Cutting</span><span class="skill-item">CNC Machining</span><span class="skill-item">Flexure Design</span><span class="skill-item">Technical Drawing</span><span class="skill-item">Tolerance Stack-Ups</span><span class="skill-item">Rapid Prototyping</span>
+          <span class="skill-item">SolidWorks</span><span class="skill-item">CATIA</span><span class="skill-item">Fusion 360</span><span class="skill-item">COMSOL FEM</span><span class="skill-item">Ansys</span><span class="skill-item">3D Printing</span><span class="skill-item">Laser Cutting</span><span class="skill-item">CNC Machining</span><span class="skill-item">Flexure Design</span><span class="skill-item">Technical Drawing</span><span class="skill-item">Tolerance Stack-Ups</span><span class="skill-item">Rapid Prototyping</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <span class="skill-group-num">02</span>
+      <span class="skill-group-title">Robotics &amp; Software</span>
+      <div class="skill-track-wrap">
+        <div class="skill-track">
+          <span class="skill-item">ROS2</span><span class="skill-item">Gazebo</span><span class="skill-item">MoveIt!</span><span class="skill-item">URDF</span><span class="skill-item">C++</span><span class="skill-item">Python</span><span class="skill-item">Imitation Learning</span><span class="skill-item">Computer Vision</span><span class="skill-item">Inverse Kinematics</span><span class="skill-item">Control Systems</span><span class="skill-item">Simulation Pipelines</span>
+          <span class="skill-item">ROS2</span><span class="skill-item">Gazebo</span><span class="skill-item">MoveIt!</span><span class="skill-item">URDF</span><span class="skill-item">C++</span><span class="skill-item">Python</span><span class="skill-item">Imitation Learning</span><span class="skill-item">Computer Vision</span><span class="skill-item">Inverse Kinematics</span><span class="skill-item">Control Systems</span><span class="skill-item">Simulation Pipelines</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-group">
+      <span class="skill-group-num">03</span>
+      <span class="skill-group-title">Electronics</span>
+      <div class="skill-track-wrap">
+        <div class="skill-track">
+          <span class="skill-item">KiCad</span><span class="skill-item">PCB Design</span><span class="skill-item">Embedded Systems</span><span class="skill-item">Soldering &amp; Rework</span><span class="skill-item">Power Regulation</span><span class="skill-item">Sensor Integration</span><span class="skill-item">Avionics Interfaces</span>
+          <span class="skill-item">KiCad</span><span class="skill-item">PCB Design</span><span class="skill-item">Embedded Systems</span><span class="skill-item">Soldering &amp; Rework</span><span class="skill-item">Power Regulation</span><span class="skill-item">Sensor Integration</span><span class="skill-item">Avionics Interfaces</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Selected work</p>
+    <h2 style="font-family: var(--serif); font-size: clamp(24px,4vw,36px); font-weight:400; margin-bottom: 8px; letter-spacing:-0.02em;">Projects</h2>
+    <p style="font-size:13px; color: var(--mid); margin-bottom: 0;">(I really like robots)</p>
+
+    <!-- SAPIENS -->
+    <div class="project-item">
+      <div class="project-images">
+        <div class="project-img wide">🤖</div>
+        <!-- Replace with: <img class="project-img wide" src="media/sapiens/thumbnail.jpg"> -->
+        <div class="project-img">⚙️</div>
+        <!-- Replace with: <img class="project-img" src="media/sapiens/hand.jpg"> -->
+      </div>
+      <div class="project-meta">
+        <span class="project-date">Feb 2026 →</span>
+        <div class="project-tags">
+          <span class="project-tag">Robotics</span>
+          <span class="project-tag">ROS2</span>
+          <span class="project-tag">3D Printing</span>
+          <span class="project-tag">Imitation Learning</span>
+        </div>
+      </div>
+      <div class="project-title">SAPIENS Humanoid Robot</div>
+      <p class="project-desc">Leading a team of 8 building EPFL's first humanoid robot based on Berkeley Humanoid Lite — full assembly, custom dexterous hand, wrist cameras in URDF, and a demonstration dataset pipeline for imitation learning.</p>
+    </div>
+
+    <!-- ROVER -->
+    <div class="project-item">
+      <div class="project-images">
+        <div class="project-img wide">🪐</div>
+        <div class="project-img">🏆</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-date">Sep 2022 – Aug 2025</span>
+        <div class="project-tags">
+          <span class="project-tag">Robotics</span>
+          <span class="project-tag">ROS2</span>
+          <span class="project-tag">Computer Vision</span>
+        </div>
+      </div>
+      <div class="project-title">EPFL Xplore Mars Rover — 1st place ERC</div>
+      <p class="project-desc">Three years across Structure, Arm, and Software divisions. Designed a dual-material PETG+TPU wheel cutting manufacturing time by 50%. Unified ROS2 arm control pipeline. Won 1st place among 25 international teams at the European Rover Challenge.</p>
+    </div>
+
+    <!-- ROCKET -->
+    <div class="project-item">
+      <div class="project-images">
+        <div class="project-img wide">🚀</div>
+        <div class="project-img">📡</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-date">Feb 2025 – Oct 2025</span>
+        <div class="project-tags">
+          <span class="project-tag">Aerospace</span>
+          <span class="project-tag">PCB Design</span>
+          <span class="project-tag">Embedded</span>
+        </div>
+      </div>
+      <div class="project-title">Firehorn 1 — Acoustic Levitation Payload</div>
+      <p class="project-desc">Led the 3U payload for Switzerland's first cryogenic bi-liquid rocket. Custom KiCad PCB for avionics–camera communication, power regulation, and compact component selection. Competed at EuRoC.</p>
+    </div>
+
+    <!-- CUBESAT -->
+    <div class="project-item">
+      <div class="project-images">
+        <div class="project-img wide">🛰️</div>
+        <div class="project-img">📐</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-date">Feb 2026 →</span>
+        <div class="project-tags">
+          <span class="project-tag">Aerospace</span>
+          <span class="project-tag">FEM</span>
+          <span class="project-tag">ESA Standards</span>
+        </div>
+      </div>
+      <div class="project-title">3U CubeSat Qualification Dispenser</div>
+      <p class="project-desc">Designing a structural qualification dispenser for 3U CubeSat vibration testing. COMSOL FEM achieving first natural frequencies above 2000 Hz, exceeding ESA requirements. Type III hard anodizing for surface protection.</p>
+    </div>
+
+    <!-- FLEXURE -->
+    <div class="project-item">
+      <div class="project-images">
+        <div class="project-img">⚙️</div>
+      </div>
+      <div class="project-meta">
+        <span class="project-date">Jul – Aug 2024</span>
+        <div class="project-tags">
+          <span class="project-tag">Mechanism Design</span>
+          <span class="project-tag">FEM</span>
+        </div>
+      </div>
+      <div class="project-title">Flexure-Guided Angular Inverter</div>
+      <p class="project-desc">Reduced angular error by 83% (3° → ±0.5°) through analytical dimensioning, CAD, and COMSOL FEM. Validated with laser-cut prototypes and camera-based measurement. Instant-Lab, EPFL Neuchâtel.</p>
+    </div>
+
+    <p style="font-size:12px; color: var(--faint); padding-top: 20px;">
+      Also: Founderful Campus (student VC, 24 startups scouted) · PAVE Space ($40M seed round support)
+    </p>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Background</p>
+
+    <h2 style="font-family: var(--serif); font-size: clamp(20px,3vw,28px); font-weight:400; margin-bottom: 32px; letter-spacing:-0.01em; color: var(--mid);">Work</h2>
+
+    <div class="exp-item">
+      <div class="exp-logo">🤖</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Project Lead — SAPIENS Humanoid Robot</span>
+          <span class="exp-period">Feb 2026 →</span>
+        </div>
+        <div class="exp-org">EPFL AI Team · Lausanne</div>
+        <ul class="exp-bullets">
+          <li>Leading 8 engineers building EPFL's first humanoid robot</li>
+          <li>Hardware integration, custom hand design, URDF + perception pipeline</li>
+          <li>Coordinating mechanics, software, electronics, budget and timeline</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">💼</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Student Partner</span>
+          <span class="exp-period">Sep 2025 →</span>
+        </div>
+        <div class="exp-org">Founderful Campus (EPFL & UNIL)</div>
+        <ul class="exp-bullets">
+          <li>1 of 5 selected student partners to scout and invest in university startups</li>
+          <li>Scouted 24 startups, interviewed 15 founders, drafting investment memos for CHF 25k decisions</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">🛸</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Founder's Associate</span>
+          <span class="exp-period">Jul – Sep 2025</span>
+        </div>
+        <div class="exp-org">PAVE Space SA — last-mile satellite delivery</div>
+        <ul class="exp-bullets">
+          <li>Supported CEO through a $40M seed round close</li>
+          <li>Built investor data room, pitch decks, go-to-market materials, and grant applications</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">🔧</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Prototyping Coach</span>
+          <span class="exp-period">Sep 2024 – Jun 2025</span>
+        </div>
+        <div class="exp-org">EPFL-SPOT · Lausanne</div>
+        <ul class="exp-bullets">
+          <li>Coached hundreds of students through 3D printing, laser cutting, machining, and soldering</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">⚙️</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Mechanism Design Intern</span>
+          <span class="exp-period">Jul – Aug 2024</span>
+        </div>
+        <div class="exp-org">Instant-Lab · EPFL Neuchâtel</div>
+        <ul class="exp-bullets">
+          <li>Designed a flexure angular inverter reducing angular error by 83%</li>
+          <li>Analytical dimensioning, COMSOL FEM, laser-cut prototyping, experimental validation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">🏭</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">Manufacturing Trainee</span>
+          <span class="exp-period">Jul – Aug 2023</span>
+        </div>
+        <div class="exp-org">ETML — Technical School of Lausanne</div>
+        <ul class="exp-bullets">
+          <li>Turning, milling, drilling, and welding from technical drawings</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 style="font-family: var(--serif); font-size: clamp(20px,3vw,28px); font-weight:400; margin: 48px 0 32px; letter-spacing:-0.01em; color: var(--mid);">Education</h2>
+
+    <div class="exp-item">
+      <div class="exp-logo">🎓</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">MSc in Robotics</span>
+          <span class="exp-period">2024 → 2027</span>
+        </div>
+        <div class="exp-org">EPFL — Swiss Federal Institute of Technology, Lausanne</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-logo">🎓</div>
+      <div class="exp-right">
+        <div class="exp-header">
+          <span class="exp-role">BSc in Microengineering</span>
+          <span class="exp-period">2020 → 2024</span>
+        </div>
+        <div class="exp-org">EPFL — Swiss Federal Institute of Technology, Lausanne</div>
+        <ul class="exp-bullets">
+          <li>★ Exceptional Contribution to Student Associations Award</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2 style="font-family: var(--serif); font-size: clamp(20px,3vw,28px); font-weight:400; margin: 48px 0 24px; letter-spacing:-0.01em; color: var(--mid);">Awards</h2>
+
+    <div class="award-item">
+      <span class="award-year">2025</span>
+      <span class="award-text"><strong>1st place</strong>, European Rover Challenge — EPFL Xplore, among 25 international teams</span>
+    </div>
+    <div class="award-item">
+      <span class="award-year">2025</span>
+      <span class="award-text"><strong>Firehorn 1</strong>, first Swiss cryogenic bi-liquid rocket to successfully take flight</span>
+    </div>
+    <div class="award-item">
+      <span class="award-year">2024</span>
+      <span class="award-text"><strong>Exceptional Contribution to Student Associations Award</strong>, EPFL</span>
+    </div>
+
+  </section>
+
+</div><!-- /wrap -->
+
+<div class="wrap">
+  <footer>
+    <span>Joelle Ayoub · Lausanne, Switzerland · 2026</span>
+    <span>
+      <a href="mailto:joelleeayoubb@gmail.com">joelleeayoubb@gmail.com</a>
+      &nbsp;·&nbsp;
+      <a href="https://www.linkedin.com/in/joelle-ayoub" target="_blank">LinkedIn</a>
+    </span>
+  </footer>
+</div>
+
+</body>
+</html>
