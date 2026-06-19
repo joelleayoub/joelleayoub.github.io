@@ -16,50 +16,70 @@
   <div class="banner-tags"><span class="banner-tag">Robotics</span><span class="banner-tag">ROS2</span><span class="banner-tag">SolidWorks</span><span class="banner-tag">Computer Vision</span><span class="banner-tag">3D Printing</span></div>
   <h1 class="banner-title">EPFL Xplore Mars Rover</h1>
   <p class="banner-sub">Three years building a Mars rover from scratch: Structure, Robotic Arm, and Software. Won 1st place among 25 international teams at the European Rover Challenge.</p>
-  <div class="banner-btns"><a href="https://github.com/EPFLXplore" target="_blank" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>EPFL Xplore GitHub</a></div>
+  <div class="banner-btns"><a href="https://epflxplore.github.io/Website/" target="_blank" class="btn btn-primary">EPFL Xplore Website</a><a href="https://github.com/EPFLXplore" target="_blank" class="btn btn-ghost"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>GitHub</a></div>
 </div>
 <div class="proj-body">
 <div class="proj-main">
-  <h2>Overview</h2>
-  <p>Three years with <strong>EPFL Xplore</strong>, progressing from Structure Member → Team Leader of Structure → Robotic Arm & Software Member. The team builds a full Mars rover from scratch every year and competes internationally.</p>
+  <details class="collapsible" open>
+    <summary>Project Overview</summary>
+    <div class="detail-content">
+      <p><strong>EPFL Xplore</strong> is a student-led association that designs Mars rovers and drones, competes at the European Rover Challenge, and helps train the next generation of space robotics engineers.</p>
+      <p>Founded in 2020, the team brings together approximately 60 students from mechanics, electronics, software, and space sciences. Each year, it develops the next generation of its rover and drone for the ERC.</p>
+      <p>The rover combines autonomous navigation, custom electronic boards, a robotic arm for object and control-panel manipulation, and a drilling system for deep soil sampling. Across five iterations, EPFL Xplore has earned four podium finishes, including first place in 2025.</p>
+      <p><a class="overview-link" href="https://epflxplore.github.io/Website/" target="_blank">Visit the EPFL Xplore website</a></p>
+    </div>
+  </details>
 
-  <h2>3D Model</h2>
-  <div class="model-viewer-wrap">
-    <div class="model-placeholder"><div class="model-placeholder-icon">🪐</div><div>Add rover CAD export here</div><div style="font-size:10px;margin-top:4px">Replace with &lt;model-viewer src="assets/rover.glb"&gt;</div></div>
-  </div>
+  <details class="collapsible">
+    <summary>Year 3: Software Division (2024–2025)</summary>
+    <div class="detail-content">
+      <p>Moved to the Software division, working on the robotic arm and drone:</p>
+      <ul>
+        <li>Developed <strong>computer vision algorithms</strong> for drone obstacle detection</li>
+        <li>Unified multiple control modes (manual/auto IK, velocity, torque-controlled gripper) into a <strong>single ROS2 control pipeline</strong></li>
+        <li>Validated in simulation with Gazebo and MoveIt!</li>
+        <li><strong>Won 1st place</strong> among 25 international teams at the European Rover Challenge</li>
+      </ul>
+    </div>
+  </details>
 
-  <h2>Year 3: Software Division (2024–2025)</h2>
-  <p>Moved to the Software division, working on the robotic arm and drone:</p>
-  <ul>
-    <li>Developed <strong>computer vision algorithms</strong> for drone obstacle detection</li>
-    <li>Unified multiple control modes (manual/auto IK, velocity, torque-controlled gripper) into a <strong>single ROS2 control pipeline</strong></li>
-    <li>Validated in simulation with Gazebo and MoveIt!</li>
-    <li>Documented the full control architecture on Notion for future teams</li>
-    <li><strong>Won 1st place</strong> among 25 international teams at the European Rover Challenge</li>
-  </ul>
+  <details class="collapsible">
+    <summary>Year 2: Structure Team Leader (2023–2024)</summary>
+    <div class="detail-content">
+      <p>Led a team of 8 in designing and fabricating the rover structure and drill:</p>
+      <ul>
+        <li>Rebuilt the structure of the new rover, iterating on and improving the previous design</li>
+        <li>Redesigned the rover wheels for faster manufacturing and improved passive vibration damping</li>
+        <li>Improved systems integration and cable management within the chassis</li>
+        <li>Increased suspension rigidity by selecting better-suited carbon-fiber tubes</li>
+        <li>Directed project planning, budgeting, and mechanical production</li>
+      </ul>
+      <details class="collapsible">
+        <summary>Wheel Design</summary>
+        <div class="detail-content">
+          <div class="detail-media-placeholder">Wheel design image</div>
+          <table class="spec-table">
+            <tr><th>Parameter</th><th>Value</th></tr>
+            <tr><td>Structure Material</td><td>PETG (stiff, lightweight)</td></tr>
+            <tr><td>Compliant Elements</td><td>TPU (flexible, shock-absorbing)</td></tr>
+            <tr><td>Manufacturing Method</td><td>Dual-material 3D printing</td></tr>
+            <tr><td>Manufacturing Time Reduction</td><td>~50% vs previous design</td></tr>
+            <tr><td>Key Feature</td><td>Passive vibration damping on uneven terrain</td></tr>
+          </table>
+        </div>
+      </details>
+    </div>
+  </details>
 
-  <h2>Year 2: Structure Team Leader (2023–2024)</h2>
-  <p>Led a team of 8 in designing and fabricating the rover structure and drill:</p>
-  <ul>
-    <li>Developed a <strong>fully 3D-printed dual-material wheel</strong> (PETG structure + TPU compliant elements): passive vibration damping on uneven terrain, <strong>50% reduction in manufacturing time</strong></li>
-    <li>Directed project planning, budgeting, and mechanical production</li>
-  </ul>
-
-  <h2>Year 1: Structure Member (2022–2023)</h2>
-  <ul>
-    <li>Designed and iterated the <strong>differential system</strong> through rapid prototyping, producing final 2D manufacturing drawings</li>
-    <li>Fabricated wheels by 3D printing inner rims and molds, casting PU coating for terrain grip</li>
-  </ul>
-
-  <h2>Wheel Design</h2>
-  <table class="spec-table">
-    <tr><th>Parameter</th><th>Value</th></tr>
-    <tr><td>Structure Material</td><td>PETG (stiff, lightweight)</td></tr>
-    <tr><td>Compliant Elements</td><td>TPU (flexible, shock-absorbing)</td></tr>
-    <tr><td>Manufacturing Method</td><td>Dual-material 3D printing</td></tr>
-    <tr><td>Manufacturing Time Reduction</td><td>~50% vs previous design</td></tr>
-    <tr><td>Key Feature</td><td>Passive vibration damping on uneven terrain</td></tr>
-  </table>
+  <details class="collapsible">
+    <summary>Year 1: Structure Member (2022–2023)</summary>
+    <div class="detail-content">
+      <ul>
+        <li>Designed and iterated the <strong>differential system</strong> through rapid prototyping, producing final 2D manufacturing drawings</li>
+        <li>Fabricated wheels by 3D printing inner rims and molds, casting PU coating for terrain grip</li>
+      </ul>
+    </div>
+  </details>
 
   <h2>Photo Gallery</h2>
   <div class="photo-grid">
