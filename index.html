@@ -112,13 +112,6 @@ a{color:inherit;text-decoration:none}
 .exp-bullets li::before{content:'–';position:absolute;left:0;color:var(--faint)}
 .exp-section-label{font-family:var(--sans);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin:48px 0 0;padding-bottom:0}
 
-/* ── AWARDS ── */
-.award-row{display:flex;gap:16px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--border);font-size:13.5px}
-.award-row:first-child{border-top:1px solid var(--border)}
-.award-year{color:var(--faint);font-size:11.5px;width:38px;flex-shrink:0}
-.award-text{color:var(--mid)}
-.award-text strong{color:var(--text);font-weight:500}
-
 /* ── FOOTER ── */
 footer{padding:48px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--faint)}
 footer a{color:var(--faint);transition:color .15s}
@@ -161,7 +154,7 @@ footer a:hover{color:var(--mid)}
     <p class="hero-bio">
       MSc Robotics student at <a href="https://epfl.ch" target="_blank">EPFL</a>, 
       building robots and space systems from concept to tested hardware.
-      I work across the full stack — mechanical design, FEM, PCB, and ROS2 software.<br><br>
+      I work across the full stack: mechanical design, FEM, PCB, and ROS2 software.<br><br>
       Currently leading the build of EPFL's first humanoid robot, designing a CubeSat 
       qualification dispenser, and scouting early-stage startups as a student VC partner.
       When not in the lab I'm machining parts, soldering, or reading about space ventures.
@@ -186,7 +179,7 @@ footer a:hover{color:var(--mid)}
 <!-- SKILLS -->
 <section class="section" id="skills">
   <div class="section-eyebrow">Technical</div>
-  <p class="skills-intro">Interested in the <em>full stack</em> —<br>from mechanism design to robot learning</p>
+  <p class="skills-intro">Interested in the <em>full stack</em> :<br>from mechanism design to robot learning</p>
 
   <div class="skill-group">
     <div class="skill-group-head"><span class="skill-group-num">01</span><span class="skill-group-name">Mechanical</span></div>
@@ -240,7 +233,7 @@ footer a:hover{color:var(--mid)}
       </div>
       <div class="card-body">
         <div class="card-tags"><span class="card-tag">Robotics</span><span class="card-tag">ROS2</span><span class="card-tag">SolidWorks</span></div>
-        <div class="card-title">Mars Rover — 1st Place ERC</div>
+        <div class="card-title">Mars Rover: 1st Place ERC</div>
         <p class="card-desc">3 years across Structure, Arm & Software. PETG+TPU wheel design, unified ROS2 arm pipeline. Won 1st among 25 teams at the European Rover Challenge.</p>
         <div class="card-foot"><span class="card-date">Sep 2022 – Aug 2025</span><a href="https://github.com/EPFLXplore" target="_blank" class="card-gh" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg></a></div>
       </div>
@@ -253,7 +246,7 @@ footer a:hover{color:var(--mid)}
       </div>
       <div class="card-body">
         <div class="card-tags"><span class="card-tag">Aerospace</span><span class="card-tag">PCB</span><span class="card-tag">Embedded</span></div>
-        <div class="card-title">Firehorn 1 — Acoustic Levitation Payload</div>
+        <div class="card-title">Firehorn 1: Acoustic Levitation Payload</div>
         <p class="card-desc">Led 3U payload on Switzerland's first cryogenic bi-liquid rocket. Custom KiCad PCB for avionics–camera comms. Competed at EuRoC.</p>
         <div class="card-foot"><span class="card-date">Feb – Oct 2025</span></div>
       </div>
@@ -285,19 +278,6 @@ footer a:hover{color:var(--mid)}
       </div>
     </a>
 
-    <a href="projects/founderful/" class="project-card">
-      <div class="card-img-wrap">
-        <div class="card-ph" style="background:linear-gradient(135deg,#0d1117 0%,#1a1a10 100%)">💼</div>
-        <div class="card-overlay"><div class="overlay-btn"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>View Project</div></div>
-      </div>
-      <div class="card-body">
-        <div class="card-tags"><span class="card-tag">Ventures</span><span class="card-tag">VC</span><span class="card-tag">EPFL</span></div>
-        <div class="card-title">Founderful Campus + PAVE Space</div>
-        <p class="card-desc">1 of 5 student VCs at EPFL/UNIL — 24 startups scouted, 15 founders interviewed. Also supported PAVE Space through a $40M seed round as Founder's Associate.</p>
-        <div class="card-foot"><span class="card-date">2025 → Present</span></div>
-      </div>
-    </a>
-
   </div>
 </section>
 
@@ -309,20 +289,11 @@ footer a:hover{color:var(--mid)}
   <div class="exp-section-label" style="color:var(--mid);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:0">Work</div>
 
   <div class="exp-item">
-    <div class="exp-logo">🤖</div>
-    <div>
-      <div class="exp-header"><span class="exp-role">Project Lead — SAPIENS Humanoid</span><span class="exp-period">Feb 2026 →</span></div>
-      <div class="exp-org">EPFL AI Team · Lausanne</div>
-      <ul class="exp-bullets"><li>Leading 8 engineers building EPFL's first humanoid robot</li><li>Hardware integration, custom hand design, URDF + perception pipeline</li><li>Coordinating mechanics, software, electronics, budget and timeline</li></ul>
-    </div>
-  </div>
-
-  <div class="exp-item">
     <div class="exp-logo">💼</div>
     <div>
       <div class="exp-header"><span class="exp-role">Student Partner</span><span class="exp-period">Sep 2025 →</span></div>
       <div class="exp-org">Founderful Campus (EPFL & UNIL)</div>
-      <ul class="exp-bullets"><li>1 of 5 selected student partners — scouted 24 startups, interviewed 15 founders</li><li>Drafting investment memos for CHF 25k convertible loan decisions</li></ul>
+      <ul class="exp-bullets"><li>1 of 5 selected student partners: scouted 24 startups, interviewed 15 founders</li><li>Led an investment committee that approved an investment in a student startup</li><li>Drafting investment memos for CHF 25k convertible loan decisions</li></ul>
     </div>
   </div>
 
@@ -330,7 +301,7 @@ footer a:hover{color:var(--mid)}
     <div class="exp-logo">🛸</div>
     <div>
       <div class="exp-header"><span class="exp-role">Founder's Associate</span><span class="exp-period">Jul – Sep 2025</span></div>
-      <div class="exp-org">PAVE Space SA — last-mile satellite delivery</div>
+      <div class="exp-org">PAVE Space SA: last-mile satellite delivery</div>
       <ul class="exp-bullets"><li>Supported CEO through a $40M seed round close</li><li>Built investor data room, pitch decks, go-to-market materials, grant applications</li></ul>
     </div>
   </div>
@@ -357,7 +328,7 @@ footer a:hover{color:var(--mid)}
     <div class="exp-logo">🏭</div>
     <div>
       <div class="exp-header"><span class="exp-role">Manufacturing Trainee</span><span class="exp-period">Jul – Aug 2023</span></div>
-      <div class="exp-org">ETML — Technical School of Lausanne</div>
+      <div class="exp-org">ETML: Technical School of Lausanne</div>
       <ul class="exp-bullets"><li>Turning, milling, drilling and welding from technical drawings</li></ul>
     </div>
   </div>
@@ -368,7 +339,7 @@ footer a:hover{color:var(--mid)}
     <div class="exp-logo">🎓</div>
     <div>
       <div class="exp-header"><span class="exp-role">MSc in Robotics</span><span class="exp-period">2024 → 2027</span></div>
-      <div class="exp-org">EPFL — Swiss Federal Institute of Technology, Lausanne</div>
+      <div class="exp-org">EPFL: Swiss Federal Institute of Technology, Lausanne</div>
     </div>
   </div>
 
@@ -376,16 +347,9 @@ footer a:hover{color:var(--mid)}
     <div class="exp-logo">🎓</div>
     <div>
       <div class="exp-header"><span class="exp-role">BSc in Microengineering</span><span class="exp-period">2020 → 2024</span></div>
-      <div class="exp-org">EPFL — Swiss Federal Institute of Technology, Lausanne</div>
-      <ul class="exp-bullets"><li>★ Exceptional Contribution to Student Associations Award</li></ul>
+      <div class="exp-org">EPFL: Swiss Federal Institute of Technology, Lausanne</div>
     </div>
   </div>
-
-  <div class="exp-section-label" style="color:var(--mid);font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-top:48px;margin-bottom:0">Awards</div>
-
-  <div class="award-row"><span class="award-year">2025</span><span class="award-text"><strong>1st place</strong>, European Rover Challenge — EPFL Xplore, 25 international teams</span></div>
-  <div class="award-row"><span class="award-year">2025</span><span class="award-text"><strong>Firehorn 1</strong> — first Swiss cryogenic bi-liquid rocket to successfully take flight</span></div>
-  <div class="award-row"><span class="award-year">2024</span><span class="award-text"><strong>Exceptional Contribution to Student Associations Award</strong>, EPFL</span></div>
 </section>
 
 <footer>
