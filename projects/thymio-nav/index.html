@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Thymio Autonomous Navigation: Joelle Ayoub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../project.css?v=20260619-6">
+</head>
+<body>
+<nav class="nav">
+  <div class="nav-logo"><a href="../../index.html" style="color:var(--text)">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Thymio Navigation</span></div>
+  <a href="../../index.html#projects" class="nav-back">&larr; All Projects</a>
+</nav>
+
+<div class="proj-banner">
+  <div class="banner-tags"><span class="banner-tag">Robotics</span><span class="banner-tag">Computer Vision</span><span class="banner-tag">State Estimation</span><span class="banner-tag">Path Planning</span><span class="banner-tag">Control Systems</span></div>
+  <h1 class="banner-title">Thymio Autonomous Navigation</h1>
+  <p class="banner-sub">MICRO-452 Basics of Mobile Robotics, EPFL: a four-person team project integrating vision, A* planning, state estimation, reactive obstacle avoidance, and motion control.</p>
+</div>
+
+<div class="proj-body">
+<div class="proj-main">
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">A complete autonomous-navigation pipeline for a Thymio robot, capable of reaching a goal through mapped obstacles, reacting to unexpected obstacles, maintaining a pose estimate, and recovering after being moved to a new position.</p>
+  </div>
+
+  <details class="collapsible">
+    <summary>Project Overview</summary>
+    <div class="detail-content">
+      <p>We placed a Thymio robot on a map covered with obstacles and tasked it with reaching a target while avoiding both known obstacles visible to an overhead camera and unknown obstacles introduced during the run. The robot also needed to localize itself continuously and recover after being "kidnapped" and moved to a new position.</p>
+      <p>ArUco markers identified the robot, goal, obstacles, and workspace references. Five integrated modules handled computer vision, global path planning, state estimation, local obstacle avoidance, and motion control inside one asynchronous control loop.</p>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/system-overview.jpg" alt="Thymio autonomous navigation setup" onerror="this.hidden=true"><div class="detail-media-placeholder">Navigation setup and workspace</div><figcaption>Thymio, target, ArUco markers, and obstacle map</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Computer Vision</summary>
+    <div class="detail-content">
+      <p>We used OpenCV's ArUco marker detection to identify the robot, goal, and known obstacles from an overhead camera feed. Marker IDs classified each object, while detected corners and centers mapped pixel coordinates onto a discretized representation of the workspace.</p>
+      <p>Obstacle regions were inflated by a safety margin based on the Thymio's physical footprint, preventing the planner from producing paths that grazed obstacle edges. Three measured reference markers provided a pixel-to-millimeter scale factor, allowing wheel odometry to be expressed consistently in camera coordinates.</p>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/vision-aruco.jpg" alt="ArUco marker detection for the Thymio robot and obstacles" onerror="this.hidden=true"><div class="detail-media-placeholder">ArUco marker detection</div><figcaption>Robot, goal, obstacle, and reference-marker detection</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/vision-grid.jpg" alt="Discretized navigation grid generated from camera data" onerror="this.hidden=true"><div class="detail-media-placeholder">Discretized obstacle grid</div><figcaption>Inflated obstacle map used by the path planner</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Global Path Planning</summary>
+    <div class="detail-content">
+      <p>Once the occupancy grid was built, we used A* search with a Manhattan-distance heuristic on an 8-connected grid to compute a collision-free path from the robot's current cell to the goal.</p>
+      <p>The raw path often contained dozens of adjacent grid cells. A simplification stage retained only points where the travel direction changed, reducing the result to a compact sequence of meaningful waypoints that the motion controller could follow directly.</p>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/astar-path.jpg" alt="A star path planning result for the Thymio robot" onerror="this.hidden=true"><div class="detail-media-placeholder">A* path and simplified waypoints</div><figcaption>Collision-free grid path reduced to controller waypoints</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>State Estimation</summary>
+    <div class="detail-content">
+      <p>We implemented an Extended Kalman Filter around a differential-drive odometry model to maintain the robot's position and heading. The prediction step used left and right motor speeds with the Thymio's wheel geometry, while the correction step used camera measurements whenever the robot's ArUco marker was visible.</p>
+      <p>When camera measurements were unavailable, the filter continued open-loop using the motion model. Process-noise and measurement-noise covariance matrices were tuned empirically until the estimated trajectory closely followed the camera trajectory during normal operation and remained stable through brief occlusions.</p>
+      <table class="spec-table">
+        <tr><th>EKF Stage</th><th>Input</th></tr>
+        <tr><td>Prediction</td><td>Left and right motor speeds, wheel geometry, elapsed time</td></tr>
+        <tr><td>Correction</td><td>ArUco position and heading from the overhead camera</td></tr>
+        <tr><td>State</td><td>Robot position and orientation</td></tr>
+        <tr><td>Tuning</td><td>Empirical process and measurement covariance adjustment</td></tr>
+      </table>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/ekf-estimation.jpg" alt="Extended Kalman Filter pose estimation for Thymio" onerror="this.hidden=true"><div class="detail-media-placeholder">Camera and EKF trajectories</div><figcaption>Measured and estimated robot pose over time</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Local Obstacle Avoidance</summary>
+    <div class="detail-content">
+      <p>Unknown obstacles added during a run could not appear in the global camera map in advance. We therefore used the Thymio's five front infrared proximity sensors as a reactive local layer.</p>
+      <p>Sensor readings were scaled and combined through a fixed Braitenberg-style weight matrix to produce left and right motor corrections. Crossing a proximity threshold switched the robot from waypoint tracking into avoidance mode. Once every sensor cleared the threshold, the controller returned automatically to the planned path.</p>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/obstacle-avoidance.jpg" alt="Thymio reacting to an unexpected obstacle" onerror="this.hidden=true"><div class="detail-media-placeholder">Reactive obstacle avoidance</div><figcaption>Infrared proximity sensing and local steering response</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Motion Control</summary>
+    <div class="detail-content">
+      <p>We implemented a modified Astolfi controller to drive the robot through the simplified waypoint list. For each target, the controller computed heading error from the current estimated state and scaled it with the angular gain <code>k_alpha</code>.</p>
+      <p>Linear speed remained zero until heading error fell below a threshold. This forced the Thymio to orient itself before moving forward, avoiding wide arcs and improving waypoint precision. Once aligned, the controller applied a fixed forward speed while continuing to correct heading.</p>
+      <div class="technical-note"><strong>Control strategy:</strong> rotate first, advance second, and continuously correct heading toward the current waypoint.</div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>System Integration</summary>
+    <div class="detail-content">
+      <p>All modules ran inside one asynchronous main loop using <code>tdmclient</code> for communication with the robot. Each cycle coordinated perception, planning, estimation, local navigation, and motor commands.</p>
+      <ul>
+        <li>Read the camera feed and update the obstacle grid</li>
+        <li>Recompute the A* path when the goal or mapped obstacle layout changed</li>
+        <li>Run the Kalman filter every cycle to maintain a continuous pose estimate</li>
+        <li>Monitor proximity sensors and activate local avoidance when required</li>
+        <li>Detect kidnapping after the robot disappeared and reappeared elsewhere</li>
+        <li>Replan from the recovered pose and send updated motor commands</li>
+      </ul>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/system-demo.jpg" alt="Integrated Thymio autonomous navigation demonstration" onerror="this.hidden=true"><div class="detail-media-placeholder">Integrated system demonstration</div><figcaption>Vision, planning, estimation, and control running together</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Results and Limitations</summary>
+    <div class="detail-content">
+      <p>The integrated system built a map from the overhead camera, planned a collision-free route, navigated through known obstacles, reacted to obstacles that were invisible to the camera, reached the goal, and recovered after the robot was moved to a different position.</p>
+      <p>The remaining unresolved case was long-duration navigation with the camera fully hidden. A state-tracking bug prevented the camera-occlusion flag from updating correctly, so the Kalman filter's open-loop prediction was not exercised as intended. The root cause was identified, but the project timeline ended before the correction could be validated.</p>
+      <div class="technical-note"><strong>Core lesson:</strong> the hardest and most valuable challenge was not any single algorithm. It was integrating five independently developed modules so they exchanged state correctly inside one real-time loop.</div>
+    </div>
+  </details>
+</div>
+
+<div class="proj-sidebar">
+  <div class="sidebar-block">
+    <div class="sidebar-label">Details</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Course</div><div class="kv-val"><strong>MICRO-452</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Programme</div><div class="kv-val">Basics of Mobile Robotics, EPFL</div></div>
+      <div class="kv-row"><div class="kv-key">Team</div><div class="kv-val">4 members</div></div>
+      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Sep 2024 &ndash; Dec 2024</div></div>
+      <div class="kv-row"><div class="kv-key">Platform</div><div class="kv-val">Thymio II</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Tools</div>
+    <div class="contrib-list">
+      <div class="contrib-item"><div class="contrib-key">Vision</div><div class="contrib-val">Python, OpenCV, ArUco markers</div></div>
+      <div class="contrib-item"><div class="contrib-key">Planning</div><div class="contrib-val">A* search, occupancy grid</div></div>
+      <div class="contrib-item"><div class="contrib-key">Estimation</div><div class="contrib-val">NumPy, Extended Kalman Filter</div></div>
+      <div class="contrib-item"><div class="contrib-key">Control</div><div class="contrib-val">Astolfi controller, Braitenberg avoidance</div></div>
+      <div class="contrib-item"><div class="contrib-key">Robot</div><div class="contrib-val">tdmclient, Thymio</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="proj-nav">
+  <a href="../cubesat/" class="proj-nav-item"><span class="proj-nav-dir">&larr; Previous</span><span class="proj-nav-title">CubeSat Dispenser</span></a>
+  <a href="../flexure/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next &rarr;</span><span class="proj-nav-title">Flexure Inverter</span></a>
+</div>
+</body></html>
