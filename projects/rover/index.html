@@ -36,6 +36,47 @@
   </details>
 
   <details class="collapsible">
+    <summary>European Rover Challenge</summary>
+    <div class="detail-content">
+      <p>The European Rover Challenge is an international space robotics competition in which university teams operate their rovers and drones through tasks inspired by real Mars exploration missions. Teams are evaluated on both technical performance and the engineering decisions behind their systems.</p>
+      <div class="info-grid">
+        <div>
+          <h3>Competition Format</h3>
+          <ul>
+            <li>Open to university teams from around the world</li>
+            <li>Documentation and technical-review phase before qualification</li>
+            <li>On-site competition at the ERC Mars Yard in Poland</li>
+            <li>Technical interviews and live system demonstrations</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Mission Tasks</h3>
+          <ul>
+            <li><strong>Navigation:</strong> autonomous traversal across rocky terrain</li>
+            <li><strong>Drone:</strong> autonomous flight and competition-ring detection</li>
+            <li><strong>Science:</strong> soil analysis and geological assessment</li>
+            <li><strong>Maintenance:</strong> operating switches and manipulating objects with the robotic arm</li>
+            <li><strong>Presentation:</strong> defending engineering and management decisions before a jury</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Scoring</h3>
+          <ul>
+            <li>Each mission task is scored independently</li>
+            <li>Task prizes recognize strong performance in individual categories</li>
+            <li>The final ranking combines results across the competition</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Why It Matters</h3>
+          <p>The ERC tests far more than a single subsystem. It requires reliable integration across mechanics, electronics, autonomy, science, and operations while the team performs under time pressure.</p>
+        </div>
+      </div>
+      <p><a class="overview-link" href="https://roverchallenge.eu/" target="_blank" rel="noopener">Visit the official European Rover Challenge website</a></p>
+    </div>
+  </details>
+
+  <details class="collapsible">
     <summary>Year 3: Software Division (2024–2025)</summary>
     <div class="detail-content">
       <p>Moved to the Software division, working on the robotic arm and drone:</p>
@@ -45,6 +86,12 @@
         <li>Validated the robotic arm architecture in simulation using Gazebo, MoveIt, and RViz</li>
         <li><strong>Won 1st place</strong> among 25 international teams at the European Rover Challenge</li>
       </ul>
+      <h3>Year in Photos</h3>
+      <div class="year-media-grid">
+        <figure class="year-media-item"><img src="assets/2025-rover.jpg" alt="EPFL Xplore rover at ERC 2025" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2025 Rover</span><small>assets/2025-rover.jpg</small></div><figcaption>The rover at ERC 2025</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2025-team-erc.jpg" alt="EPFL Xplore team at ERC 2025" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2025 ERC Team</span><small>assets/2025-team-erc.jpg</small></div><figcaption>EPFL Xplore team at the competition</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2025-working.jpg" alt="EPFL Xplore software development and testing in 2025" onerror="this.hidden=true"><div class="year-media-placeholder"><span>Software Work</span><small>assets/2025-working.jpg</small></div><figcaption>Development and testing during the season</figcaption></figure>
+      </div>
       <details class="collapsible">
         <summary>Robotic Arm ROS2 Pipeline</summary>
         <div class="detail-content">
@@ -92,9 +139,18 @@
         <li>Increased suspension rigidity by selecting better-suited carbon-fiber tubes</li>
         <li>Directed project planning, budgeting, and mechanical production</li>
       </ul>
+      <h3>Year in Photos</h3>
+      <div class="year-media-grid">
+        <figure class="year-media-item"><img src="assets/2024-rover.jpg" alt="EPFL Xplore rover for the 2024 season" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2024 Rover</span><small>assets/2024-rover.jpg</small></div><figcaption>The completed rover for the 2024 season</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2024-team-erc.jpg" alt="EPFL Xplore team at ERC 2024" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2024 ERC Team</span><small>assets/2024-team-erc.jpg</small></div><figcaption>EPFL Xplore team at the competition</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2024-working.jpg" alt="EPFL Xplore structure manufacturing and integration in 2024" onerror="this.hidden=true"><div class="year-media-placeholder"><span>Structure Work</span><small>assets/2024-working.jpg</small></div><figcaption>Structure manufacturing and integration</figcaption></figure>
+      </div>
       <details class="collapsible">
         <summary>Wheel Design</summary>
         <div class="detail-content">
+          <h3>Design Rationale</h3>
+          <p>As the rover's first point of contact with the ground, the wheels are the primary passive element responsible for reducing terrain-induced vibrations. At the ERC, uneven surfaces and rocks of different sizes create repeated impacts that can propagate through the suspension and chassis. The wheel therefore needs enough compliance to deform around terrain features while remaining sufficiently rigid to support the rover's weight and maintain predictable motion.</p>
+          <p>To combine these requirements, the wheel was manufactured in a single bi-material 3D print. A rigid PETG rim provides structural support, while a flexible TPU tire deforms continuously at the contact patch. This deformation helps the rover adapt to rocky terrain and limits the vibrations transmitted into the structure without requiring a more complex wheel assembly.</p>
           <div class="detail-media-placeholder">Wheel design image</div>
           <table class="spec-table">
             <tr><th>Parameter</th><th>Value</th></tr>
@@ -116,19 +172,14 @@
         <li>Designed and iterated the <strong>differential system</strong> through rapid prototyping, producing final 2D manufacturing drawings</li>
         <li>Fabricated wheels by 3D printing inner rims and molds, casting PU coating for terrain grip</li>
       </ul>
+      <h3>Year in Photos</h3>
+      <div class="year-media-grid">
+        <figure class="year-media-item"><img src="assets/2023-rover.jpg" alt="EPFL Xplore rover for the 2023 season" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2023 Rover</span><small>assets/2023-rover.jpg</small></div><figcaption>The completed rover for the 2023 season</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2023-team-erc.jpg" alt="EPFL Xplore team at ERC 2023" onerror="this.hidden=true"><div class="year-media-placeholder"><span>2023 ERC Team</span><small>assets/2023-team-erc.jpg</small></div><figcaption>EPFL Xplore team at the competition</figcaption></figure>
+        <figure class="year-media-item"><img src="assets/2023-working.jpg" alt="EPFL Xplore mechanical prototyping and fabrication in 2023" onerror="this.hidden=true"><div class="year-media-placeholder"><span>Mechanical Work</span><small>assets/2023-working.jpg</small></div><figcaption>Prototyping and fabrication during the season</figcaption></figure>
+      </div>
     </div>
   </details>
-
-  <h2>Photo Gallery</h2>
-  <div class="photo-grid">
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">🪐</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">🏆</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">⚙️</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">🔧</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">🦾</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#0f1a10">🏅</div></div>
-  </div>
-  <p class="photo-caption">→ Replace with: assets/rover-01.jpg etc.</p>
 </div>
 <div class="proj-sidebar">
   <div class="sidebar-block">
