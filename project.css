@@ -88,8 +88,24 @@ a{color:inherit;text-decoration:none}
 .detail-feature-media>img[hidden]{display:none}
 .detail-feature-media>img:not([hidden])+.detail-media-placeholder{display:none}
 .detail-feature-media figcaption{font-size:10.5px;color:var(--faint);line-height:1.4;margin-top:6px}
-.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 28px;margin:18px 0}
-.info-grid h3{margin-top:12px}
+.erc-lead{font-size:15px!important;color:var(--text)!important;max-width:760px}
+.erc-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--border2);border-bottom:1px solid var(--border2);margin:24px 0}
+.erc-fact{padding:16px 14px;border-right:1px solid var(--border)}
+.erc-fact:first-child{padding-left:0}
+.erc-fact:last-child{border-right:none}
+.erc-fact-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:4px}
+.erc-fact-value{font-size:12.5px;color:var(--text);line-height:1.45}
+.erc-phases{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:18px 0 28px}
+.erc-phase{display:grid;grid-template-columns:34px 1fr;gap:12px;padding-top:14px;border-top:1px solid var(--border2)}
+.erc-phase-num{font-size:11px;color:var(--accent);font-weight:600}
+.erc-phase h3{margin:0 0 5px}
+.erc-phase p{margin:0}
+.erc-missions{border-top:1px solid var(--border2);margin:12px 0 28px}
+.erc-mission{display:grid;grid-template-columns:120px 1fr;gap:20px;padding:11px 0;border-bottom:1px solid var(--border)}
+.erc-mission-name{font-size:12.5px;color:var(--text);font-weight:500}
+.erc-mission-desc{font-size:12.5px;color:var(--mid);font-weight:300}
+.erc-footer{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding-top:18px;border-top:1px solid var(--border2);margin-bottom:20px}
+.erc-footer h3{margin-top:0}
 .technical-note{padding:14px 16px;border-left:2px solid var(--accent);background:var(--surface);color:var(--mid);font-size:13px;line-height:1.7;margin:18px 0}
 .overview-link{color:var(--accent)}
 .overview-link:hover{text-decoration:underline}
@@ -157,5 +173,9 @@ model-viewer{width:100%;height:300px;background:transparent;--poster-color:trans
   .detail-content{padding:16px}
   .detail-media-grid{grid-template-columns:1fr}
   .year-media-grid{grid-template-columns:1fr}
-  .info-grid{grid-template-columns:1fr}
+  .erc-facts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .erc-fact:nth-child(2){border-right:none}
+  .erc-fact:nth-child(-n+2){border-bottom:1px solid var(--border)}
+  .erc-phases,.erc-footer{grid-template-columns:1fr}
+  .erc-mission{grid-template-columns:1fr;gap:3px}
 }
