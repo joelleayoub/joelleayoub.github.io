@@ -14,7 +14,7 @@
 </nav>
 <div class="proj-banner">
   <div class="banner-tags"><span class="banner-tag">Robotics</span><span class="banner-tag">ROS2</span><span class="banner-tag">SolidWorks</span><span class="banner-tag">Computer Vision</span><span class="banner-tag">3D Printing</span></div>
-  <h1 class="banner-title">EPFL Xplore --- Mars Rover</h1>
+  <h1 class="banner-title">EPFL Xplore - Mars Rover</h1>
   <p class="banner-sub">Building a new Mars rover and drone each year from scratch. Won 1st place among 25 international teams at the European Rover Challenge.</p>
   <div class="banner-btns"><a href="https://github.com/EPFLXplore" target="_blank" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>EPFL Xplore GitHub</a></div>
 </div>
@@ -40,44 +40,11 @@
     <div class="detail-content">
       <p>Moved to the Software division, working on the robotic arm and drone:</p>
       <ul>
-        <li>Developed <strong>computer vision algorithms</strong> for drone obstacle detection</li>
-        <li>Unified automatic inverse kinematics, manual joint-velocity control, and torque-based gripper control within a <strong>single ROS2 pipeline</strong></li>
-        <li>Validated the robotic arm architecture in simulation using Gazebo, MoveIt, and RViz</li>
+        <li>Developed a <strong>real-time ring detection pipeline</strong> for the autonomous drone using grayscale conversion, median filtering, and the Hough Circle Transform to estimate each competition ring's center and diameter</li>
+        <li>Unified multiple control modes (manual/auto IK, velocity, torque-controlled gripper) into a <strong>single ROS2 control pipeline</strong></li>
+        <li>Validated in simulation with Gazebo and MoveIt!</li>
         <li><strong>Won 1st place</strong> among 25 international teams at the European Rover Challenge</li>
       </ul>
-      <details class="collapsible">
-        <summary>Robotic Arm ROS2 Pipeline</summary>
-        <div class="detail-content">
-          <p>The six-joint robotic arm originally used a fragmented control architecture. Automatic motion planning was connected to <code>ros2_control</code>, while other operating modes relied on separate custom hardware paths. I refactored the system so the arm and gripper could share one modular control framework and switch controllers at runtime.</p>
-
-          <h3>Unified Architecture</h3>
-          <p>The pipeline was built around the ROS2 <code>controller_manager</code>. MoveIt generated collision-checked joint trajectories for automatic inverse kinematics and sent them to the <code>joint_trajectory_controller</code>. Manual commands used a velocity controller to move individual joints continuously in real time. This made the same robot description and controller configuration usable in simulation and, later, on physical hardware.</p>
-          <div class="detail-media-placeholder">Initial and unified control architecture diagram</div>
-
-          <h3>Custom Hardware Interface</h3>
-          <p>A custom <code>hardware_interface::SystemInterface</code> connected the controllers to the simulated robot. The interface initialized and validated the joint configuration, exported position, velocity, and effort states, exposed the required command interfaces, and synchronized commands and feedback through its <code>read()</code> and <code>write()</code> cycles.</p>
-          <table class="spec-table">
-            <tr><th>Layer</th><th>Implementation</th></tr>
-            <tr><td>Motion Planning</td><td>MoveIt automatic IK, trajectory planning, and collision checking</td></tr>
-            <tr><td>Arm Control</td><td>Position trajectories and manual joint-velocity commands</td></tr>
-            <tr><td>Gripper Control</td><td>Effort commands for torque-based opening and closing</td></tr>
-            <tr><td>Simulation</td><td>Gazebo physics with shared ROS2 controller configuration</td></tr>
-            <tr><td>Visualization</td><td>RViz joint states, trajectories, and end-effector poses</td></tr>
-          </table>
-
-          <h3>Gripper Control Strategy</h3>
-          <p>The physical gripper motors did not include encoders, so precise finger-position feedback was unavailable and unnecessary for the open-and-close task. Instead of estimating position, I configured effort command interfaces and used torque control. The arm retained position and velocity control while the gripper received force commands through the same ROS2 architecture.</p>
-
-          <h3>Simulation and Validation</h3>
-          <p>The architecture was tested in Gazebo and monitored in RViz. Automatic trajectories generated by MoveIt executed correctly, manual joint-velocity commands produced smooth motion, joint limits were enforced, and torque commands opened and closed the gripper. State updates and controller commands remained synchronized throughout the simulations.</p>
-          <div class="detail-media-grid">
-            <div class="detail-media-placeholder">Gazebo arm and gripper simulation</div>
-            <div class="detail-media-placeholder">RViz and MoveIt trajectory validation</div>
-          </div>
-
-          <div class="technical-note"><strong>Project scope:</strong> validation was completed in simulation because fabrication delays prevented access to the physical arm during the semester. Manual Cartesian inverse kinematics and joystick teleoperation were identified as the next development steps.</div>
-        </div>
-      </details>
     </div>
   </details>
 
@@ -144,7 +111,7 @@
   <div class="sidebar-block">
     <div class="sidebar-label">My Contributions</div>
     <div class="contrib-list">
-      <div class="contrib-item"><div class="contrib-key">2024–25</div><div class="contrib-val">ROS2 arm pipeline, computer vision, drone obstacle detection</div></div>
+      <div class="contrib-item"><div class="contrib-key">2024–25</div><div class="contrib-val">ROS2 arm pipeline, computer vision, drone ring detection</div></div>
       <div class="contrib-item"><div class="contrib-key">2023–24</div><div class="contrib-val">Team Lead Structure: dual-material wheel, drill design</div></div>
       <div class="contrib-item"><div class="contrib-key">2022–23</div><div class="contrib-val">Differential system, wheel fabrication (3D print + PU cast)</div></div>
     </div>
