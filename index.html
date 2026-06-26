@@ -121,7 +121,11 @@
 
   /* experience narrative */
   .xp{display:grid;grid-template-columns:200px 1fr;gap:40px;padding:34px 0;border-top:1px solid var(--rule);}
+  .xp-left{display:flex;flex-direction:column;gap:14px;}
   .xp .when{font-family:var(--grot);font-size:12px;letter-spacing:.04em;color:var(--ink-faint);}
+  .xp-logo{width:52px;height:52px;border:1px solid var(--rule);background:var(--paper-2);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+  .xp-logo img{width:100%;height:100%;object-fit:contain;padding:7px;}
+  .xp-logo-ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--grot);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);}
   .xp h3{font-size:22px;font-weight:400;}
   .xp .org{font-style:italic;color:var(--accent);font-size:16px;margin:3px 0 14px;}
   .xp p{font-size:16px;color:var(--ink-soft);line-height:1.66;max-width:60ch;}
@@ -149,7 +153,7 @@
     .proj{grid-template-columns:1fr;gap:16px;}
     .proj .pimg{order:-1;}
     .proj .when{text-align:left;}
-    .xp{grid-template-columns:1fr;gap:8px;}
+    .xp{grid-template-columns:1fr;gap:8px;}.xp-left{flex-direction:row;align-items:center;gap:12px;}
     .arch-row{grid-template-columns:36px 1fr;gap:14px;}
     .arch-row .aright{grid-column:2;justify-content:flex-start;margin-top:6px;}
     header.nav nav{display:none;}
@@ -283,11 +287,11 @@
   <section class="sec" id="exp">
     <div class="wrap">
       <div class="sec-top"><h2>Experience</h2><span class="idx">03 – Roles</span></div>
-      <div class="xp reveal"><div class="when">Sep 2025 – Present</div><div><h3>Student Partner</h3><div class="org">Founderful Campus · EPFL &amp; UNIL</div><p>As one of five student partners, I scout and meet early-stage founders across EPFL and UNIL: 24 startups sourced and 15 founder interviews so far. I led an investment committee through to a yes on a student startup, and I write the memos behind our CHF 25k convertible-loan decisions.</p></div></div>
-      <div class="xp reveal"><div class="when">Jul – Sep 2025</div><div><h3>Founder's Associate</h3><div class="org">PAVE Space SA · last-mile satellite delivery</div><p>I worked alongside the CEO through the close of a $40M seed round, building the investor data room, pitch decks, go-to-market materials, and grant applications that supported it.</p></div></div>
-      <div class="xp reveal"><div class="when">Sep 2024 – Jun 2025</div><div><h3>Prototyping Coach</h3><div class="org">EPFL-SPOT · Lausanne</div><p>I coached hundreds of students through the makerspace: 3D printing, laser cutting, machining, and soldering, helping them take their own projects from sketch to a working part.</p></div></div>
-      <div class="xp reveal"><div class="when">Jul – Aug 2024</div><div><h3>Mechanism Design Intern</h3><div class="org">Instant-Lab · EPFL Neuchâtel</div><p>I designed a flexure-guided angular inverter that cut angular error by 83%, validating the design through COMSOL FEM, laser-cut prototypes, and camera-based experiments.</p></div></div>
-      <div class="xp reveal"><div class="when">Jul – Aug 2023</div><div><h3>Manufacturing Trainee</h3><div class="org">ETML · Technical School of Lausanne</div><p>My first hands-on workshop role: turning, milling, drilling, and welding parts straight from technical drawings.</p></div></div>
+      <div class="xp reveal"><div class="xp-left"><div class="when">Sep 2025 – Present</div><div class="xp-logo"><img src="media/logos/founderful.png" alt="Founderful" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="xp-logo-ph" style="display:none">FF</div></div></div><div><h3>Student Partner</h3><div class="org">Founderful Campus · EPFL &amp; UNIL</div><p>As one of five student partners, I scout and meet early-stage founders across EPFL and UNIL: 24 startups sourced and 15 founder interviews so far. I led an investment committee through to a yes on a student startup, and I write the memos behind our CHF 25k convertible-loan decisions.</p></div></div>
+      <div class="xp reveal"><div class="xp-left"><div class="when">Jul – Sep 2025</div><div class="xp-logo"><img src="media/logos/pave-space.png" alt="PAVE Space" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="xp-logo-ph" style="display:none">PS</div></div></div><div><h3>Founder's Associate</h3><div class="org">PAVE Space SA · last-mile satellite delivery</div><p>I worked alongside the CEO through the close of a $40M seed round, building the investor data room, pitch decks, go-to-market materials, and grant applications that supported it.</p></div></div>
+      <div class="xp reveal"><div class="xp-left"><div class="when">Sep 2024 – Jun 2025</div><div class="xp-logo"><img src="media/logos/epfl-spot.png" alt="EPFL SPOT" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="xp-logo-ph" style="display:none">SP</div></div></div><div><h3>Prototyping Coach</h3><div class="org">EPFL-SPOT · Lausanne</div><p>I coached hundreds of students through the makerspace: 3D printing, laser cutting, machining, and soldering, helping them take their own projects from sketch to a working part.</p></div></div>
+      <div class="xp reveal"><div class="xp-left"><div class="when">Jul – Aug 2024</div><div class="xp-logo"><img src="media/logos/instant-lab.png" alt="Instant-Lab" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="xp-logo-ph" style="display:none">IL</div></div></div><div><h3>Mechanism Design Intern</h3><div class="org">Instant-Lab · EPFL Neuchâtel</div><p>I designed a flexure-guided angular inverter that cut angular error by 83%, validating the design through COMSOL FEM, laser-cut prototypes, and camera-based experiments.</p></div></div>
+      <div class="xp reveal"><div class="xp-left"><div class="when">Jul – Aug 2023</div><div class="xp-logo"><img src="media/logos/etml.png" alt="ETML" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="xp-logo-ph" style="display:none">ET</div></div></div><div><h3>Manufacturing Trainee</h3><div class="org">ETML · Technical School of Lausanne</div><p>My first hands-on workshop role: turning, milling, drilling, and welding parts straight from technical drawings.</p></div></div>
     </div>
   </section>
 

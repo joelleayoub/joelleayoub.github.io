@@ -1,17 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>SAPIENS Humanoid Robot: Joelle Ayoub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
+<script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
 <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
 </head>
 <body>
 <nav class="nav">
-  <div class="nav-logo"><a href="../../index.html" style="color:var(--text)">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">SAPIENS Humanoid Robot</span></div>
-  <a href="../../index.html#projects" class="nav-back">← All Projects</a>
+  <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">SAPIENS Humanoid Robot</span></div>
+  <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
 
 <div class="proj-banner">
@@ -115,4 +116,9 @@
   <a href="../../index.html#projects" class="proj-nav-item"><span class="proj-nav-dir">← Back</span><span class="proj-nav-title">All Projects</span></a>
   <a href="../rover/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next →</span><span class="proj-nav-title">Mars Rover: 1st Place ERC</span></a>
 </div>
+<script>
+const root=document.documentElement,tbtn=document.getElementById('themeToggle');
+tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==="dark"?"light":"dark";root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
+</script>
 </body></html>
+
