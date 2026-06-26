@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
@@ -8,216 +8,119 @@
 <script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
 <style>
-  /* State machine diagram */
   .sm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:20px 0}
   .sm-node{border:1px solid var(--rule);background:var(--paper-2);padding:10px 12px;text-align:center}
   .sm-node .sm-label{font-family:var(--grot);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);font-weight:500}
   .sm-node .sm-desc{font-size:13px;color:var(--ink-soft);margin-top:4px;line-height:1.4}
-  .sm-node.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--paper-2))}
-  .sm-arrow{display:flex;align-items:center;justify-content:center;color:var(--ink-faint);font-family:var(--grot);font-size:18px;grid-column:span 4;padding:2px 0}
-  /* PID table */
   .pid-table{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;font-family:var(--grot)}
   .pid-table th{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:7px 12px;border-bottom:1px solid var(--rule);font-weight:500}
   .pid-table td{padding:7px 12px;border-bottom:1px solid var(--rule);color:var(--ink-soft)}
   .pid-table td:first-child{color:var(--ink);font-weight:500}
   .pid-table tr:hover td{background:var(--paper-2)}
   .pid-num{color:var(--accent) !important;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12px}
-  /* Pipeline steps */
   .pipeline{display:flex;flex-direction:column;gap:0;margin:18px 0}
   .pipeline-step{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:start}
   .pipeline-step:last-child{border-bottom:none}
   .pipeline-num{font-family:var(--grot);font-size:11px;color:var(--accent);font-weight:500;padding-top:1px}
   .pipeline-text{font-size:15px;color:var(--ink-soft);line-height:1.55}
   .pipeline-text strong{color:var(--ink);font-weight:500}
+  .block-divider{border:none;border-top:2px solid var(--rule);margin:56px 0 40px}
+  .block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+  .block-heading{font-family:var(--serif);font-size:22px;font-weight:400;font-style:italic;color:var(--ink);margin:0 0 22px}
+  .placeholder-card{border:1px dashed var(--rule);border-radius:2px;padding:36px 28px;text-align:center;margin:24px 0}
+  .placeholder-card .ph-label{font-family:var(--grot);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
+  .placeholder-card .ph-body{font-size:14px;color:var(--ink-faint);line-height:1.65;max-width:380px;margin:0 auto}
 </style>
 </head>
 <body>
 <nav class="nav">
   <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Autonomous Crazyflie Gate Racing</span></div>
-  <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
+  <div class="nav-right"><a href="../../index.html#work" class="nav-back">&#8592; All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
 
 <div class="proj-banner">
   <div class="banner-tags">
     <span class="banner-tag">Python</span><span class="banner-tag">Webots</span><span class="banner-tag">Crazyflie</span><span class="banner-tag">OpenCV</span><span class="banner-tag">Computer Vision</span><span class="banner-tag">Cascaded PID</span><span class="banner-tag">State Machine</span><span class="banner-tag">Autonomous Navigation</span>
   </div>
-  <h1 class="banner-title">Autonomous Crazyflie Gate Racing <em>in Webots</em></h1>
-  <p class="banner-sub">A vision-based autonomous flight controller that detects unknown gates with OpenCV, builds a spatial memory of their positions, and replays optimized gate-passing trajectories — all in the Webots simulator. EPFL MICRO-502 Aerial Robotics.</p>
+  <h1 class="banner-title">Autonomous Crazyflie Gate Racing</h1>
+  <p class="banner-sub">A vision-based autonomy stack for a simulated Crazyflie quadrotor: gate detection with OpenCV, geometric position estimation, 8-state FSM navigation, spatial memory, and cascaded PID control. EPFL MICRO-502 Aerial Robotics.</p>
 </div>
 
 <div class="proj-body">
 <div class="proj-main">
 
+  <!-- ===== SIMULATION ===== -->
+  <div class="block-label">Simulation</div>
+  <p class="block-heading">Webots &middot; Individual task &middot; MICRO-502</p>
+
   <div class="overview-intro">
     <div class="overview-heading">Overview</div>
-    <p class="overview-lead">A complete gate-racing autonomy stack: perception, estimation, state-machine navigation, memory, and cascaded PID control — implemented from scratch for a simulated Crazyflie quadrotor competing across three laps in a randomized arena.</p>
+    <p class="overview-lead">A complete gate-racing autonomy stack built from scratch: perception, estimation, state-machine navigation, spatial memory, and cascaded PID control, for a simulated Crazyflie competing across three laps in a randomized 8x8 m arena with five unknown gates.</p>
   </div>
 
   <details class="collapsible">
-    <summary>Problem Statement</summary>
+    <summary>The Task</summary>
     <div class="detail-content">
-      <p>The arena is an 8×8 m space containing five square gates arranged roughly in a circle around [4, 4]. Gate positions, sizes, and heights are <strong>randomized each run</strong>. The takeoff pad is fixed at [1, 4].</p>
+      <p>The arena contains five square gates arranged roughly in a circle around [4, 4]. Gate positions, sizes, and heights are <strong>randomized each run</strong>. The drone must complete three laps counter-clockwise within a 240 s cutoff.</p>
 
       <figure class="detail-feature-media">
         <img src="assets/track-diagram.png" alt="Arena layout with five gates and two lap paths" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">Track diagram — drop assets/track-diagram.png</div>
-        <figcaption>Orange: vision-based first lap. Red: timed second and third laps. Gates 1–5 must be completed counter-clockwise.</figcaption>
+        <div class="detail-media-placeholder">Track diagram -- drop assets/track-diagram.png</div>
+        <figcaption>Orange: vision-based mapping lap. Red: timed laps 2 and 3.</figcaption>
       </figure>
 
-      <h3>Three-phase race</h3>
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Take off</strong> from the fixed pad at [1, 4, 0.1] and climb to search altitude.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Mapping lap</strong> — gate positions are unknown. Detect each gate using the onboard camera, estimate its world position, and fly through all five counter-clockwise. The clock does not run during this lap.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Timed laps 2 and 3</strong> — replay the remembered gate centers at maximum speed without needing vision. The clock runs from leaving the start region to re-entering it.</div></div>
-      </div>
-
-      <p>Output at each timestep: a high-level setpoint <code>[x, y, z, yaw]</code> passed to a cascaded PID controller, which outputs four motor PWM values. Evaluation on three randomized environments with a 240 s real-time cutoff.</p>
-
-      <figure class="detail-feature-media">
-        <img src="assets/system-diagram.png" alt="Data flow from sensors through algorithm to PID and motors" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">System diagram — drop assets/system-diagram.png</div>
-        <figcaption>Data flow: global pose + camera image → my algorithm → [x, y, z, yaw] → cascaded PID → PWM1–4.</figcaption>
-      </figure>
-    </div>
-  </details>
-
-  <details class="collapsible">
-    <summary>Computer Vision Pipeline</summary>
-    <div class="detail-content">
-      <p>Each gate has a <strong>magenta 0.4 m patch</strong> at center height — the primary visual cue. The wooden frame is too easily confused with arena walls and fixtures.</p>
-
-      <figure class="detail-feature-media">
-        <img src="assets/arena-overview.png" alt="Webots simulation arena with gates visible" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">Arena screenshot — drop assets/arena-overview.png</div>
-        <figcaption>Webots arena overview. The magenta gate patches are the primary detection cue.</figcaption>
-      </figure>
-
-      <h3>Detection steps</h3>
-      <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text">Convert BGRA camera image to <strong>HSV</strong>.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>HSV threshold</strong> isolates the magenta range.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Morphological open + close</strong> removes noise and fills gaps in the mask.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Contour extraction</strong> on the cleaned binary mask.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Filter</strong> by area, bounding-box size, aspect ratio, image-boundary margin, and magenta-pixel count.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">06</div><div class="pipeline-text"><strong>Score</strong> each candidate by area, center bias, and magenta density. Highest score wins.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">07</div><div class="pipeline-text">Output: bounding box, centroid, area, score, image size, and angular offsets <code>angle_x</code> / <code>angle_y</code> derived from the 1.5 rad camera FOV.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Mapping lap</strong> -- gate positions are entirely unknown at takeoff. The drone must detect each gate from vision, estimate its world position, and fly through all five counter-clockwise. The clock does not run during this lap.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Timed laps 2 and 3</strong> -- replay the remembered gate centers at maximum speed without needing vision. Evaluated on three randomized environments.</div></div>
       </div>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>Gate Position Estimation</summary>
+    <summary>What I Built</summary>
     <div class="detail-content">
-      <p>A single pixel detection is not a world position. Converting image-space to 3D requires the drone pose and a depth estimate.</p>
 
-      <h3>Depth sources</h3>
-      <p><strong>Primary:</strong> <code>range_front</code> sensor, valid when the gate is squarely ahead. <strong>Fallback:</strong> image-based depth from the known 0.4 m magenta patch height and camera focal length derived from FOV — used when the range sensor reads the wall behind the gate instead of the gate itself.</p>
-
-      <h3>Position projection</h3>
-      <p>Given depth <em>d</em>, drone yaw <em>ψ</em>, and horizontal image angle <code>angle_x</code>:</p>
-      <p>Gate XY is projected forward from the drone position using the composite bearing <em>ψ + angle_x</em>. Gate Z is estimated from drone altitude plus the vertical projection through <code>angle_y</code>. All estimates are clipped to valid arena bounds [0.5, 7.5] and gate-height ranges [0.75, 2.1] m.</p>
+      <h3>Computer Vision Pipeline</h3>
+      <p>Each gate has a magenta 0.4 m patch at center height. The pipeline converts the camera frame to HSV, thresholds for the magenta range, cleans the mask with morphological operations, extracts contours, and filters candidates by area, aspect ratio, boundary margin, and pixel density. Each candidate is scored by size, center bias, and magenta density; the highest score becomes the detection output, with angular offsets derived from the 1.5 rad camera FOV.</p>
 
       <figure class="detail-feature-media">
-        <img src="assets/gate-dimensions.png" alt="Gate dimension diagram showing 0.4 m patch height and variable leg length" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">Gate diagram — drop assets/gate-dimensions.png</div>
-        <figcaption>Gate geometry. The 0.4 m magenta patch height is the known anchor for image-based depth estimation.</figcaption>
+        <img src="assets/arena-overview.png" alt="Webots simulation arena" onerror="this.hidden=true">
+        <div class="detail-media-placeholder">Arena screenshot -- drop assets/arena-overview.png</div>
+        <figcaption>Webots arena. Magenta gate patches are the primary detection cue.</figcaption>
       </figure>
-    </div>
-  </details>
 
-  <details class="collapsible">
-    <summary>Robust Detection Confirmation</summary>
-    <div class="detail-content">
-      <p>A single noisy detection can produce a wildly wrong world estimate. The confirmation layer requires <strong>temporal consistency</strong> before committing to a gate position.</p>
+      <h3>Gate Position Estimation and Confirmation</h3>
+      <p>Converting a pixel detection to a world position requires drone pose and depth. The primary depth source is the <code>range_front</code> sensor; when it reads the wall behind the gate, a fallback uses the known 0.4 m patch height and camera FOV to compute image-based depth. Gate XY is projected from drone position along the composite bearing (yaw + horizontal image angle), with Z from the vertical angle offset. All estimates are clipped to valid arena and height bounds.</p>
+      <p>A temporal confirmation layer buffers recent estimates and takes the <strong>median XY and Z</strong> across the window. Candidates are rejected if spread is too large, if the gate falls outside the expected angular sector, or if it is geometrically implausible. When a detection is promising but not yet confirmed, the drone enters a cautious probe approach to collect a better view before committing.</p>
 
-      <h3>Multi-detection median filter</h3>
-      <p>Recent estimates are buffered. The <strong>median XY and Z</strong> over the window becomes the stable gate estimate. A candidate is rejected if any of these conditions fail:</p>
-      <ul>
-        <li>XY spread across the buffer exceeds threshold — estimate is jumping around</li>
-        <li>Z spread is too large — altitude estimate is unstable</li>
-        <li>Estimated gate falls outside expected angular sector for the current gate index</li>
-        <li>Estimated gate is outside the plausible arena radius from [4, 4]</li>
-        <li>Bounding box is too small to be a reliable gate view</li>
-        <li>Gate direction is inconsistent with the expected counter-clockwise sector</li>
-      </ul>
-
-      <h3>Probe approach mode</h3>
-      <p>When a detection looks promising but is not yet fully confirmed, the drone enters a cautious "probe approach" — moving toward the estimate to get a better view before committing. Special handling prevents accepting oblique side-views of the gate frame as a pass target for gates 3 and 4, which are often approached from difficult angles.</p>
-    </div>
-  </details>
-
-  <details class="collapsible">
-    <summary>State Machine</summary>
-    <div class="detail-content">
-      <p>The top-level controller is a finite-state machine with eight states. Transitions are driven by detection confidence, timer conditions, arena geometry, and simulator gate-credit callbacks.</p>
-
+      <h3>State Machine</h3>
+      <p>An 8-state FSM drives top-level behavior. Transitions depend on detection confidence, timers, arena geometry, and simulator gate-credit callbacks. Arena geometry priors (five gates at radius 3.0 m around [4, 4]) guide search direction, validate detections, and provide fallback estimates when vision is lost.</p>
       <div class="sm-grid">
-        <div class="sm-node active"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 1.05 m, stabilize, then enter Search</div></div>
-        <div class="sm-node active"><div class="sm-label">Search</div><div class="sm-desc">Yaw oscillation + altitude variation around expected gate sector</div></div>
-        <div class="sm-node active"><div class="sm-label">Scan Next</div><div class="sm-desc">Brief scan after passing a gate before committing to Search for the next</div></div>
-        <div class="sm-node active"><div class="sm-label">Align</div><div class="sm-desc">Visual servo to center gate in camera; set approach yaw and z</div></div>
-        <div class="sm-node active"><div class="sm-label">Approach</div><div class="sm-desc">Move toward gate, refine estimate, collect memory candidates</div></div>
-        <div class="sm-node active"><div class="sm-label">Pass</div><div class="sm-desc">Fly through gate along stored pass yaw; wait for simulator credit</div></div>
-        <div class="sm-node active"><div class="sm-label">Return Start</div><div class="sm-desc">Navigate back to takeoff region to end mapping lap</div></div>
-        <div class="sm-node active"><div class="sm-label">Fast Laps</div><div class="sm-desc">Replay remembered gate centers at speed — no vision needed</div></div>
+        <div class="sm-node"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 1.05 m, stabilize</div></div>
+        <div class="sm-node"><div class="sm-label">Search</div><div class="sm-desc">Yaw oscillation + altitude scan around expected gate sector</div></div>
+        <div class="sm-node"><div class="sm-label">Scan Next</div><div class="sm-desc">Brief scan after a pass before committing to the next gate</div></div>
+        <div class="sm-node"><div class="sm-label">Align</div><div class="sm-desc">Visual servo to center gate; set approach yaw and altitude</div></div>
+        <div class="sm-node"><div class="sm-label">Approach</div><div class="sm-desc">Move toward gate, collect close-range memory candidates</div></div>
+        <div class="sm-node"><div class="sm-label">Pass</div><div class="sm-desc">Fly through gate; wait for simulator credit</div></div>
+        <div class="sm-node"><div class="sm-label">Return Start</div><div class="sm-desc">Navigate back to start to end mapping lap</div></div>
+        <div class="sm-node"><div class="sm-label">Fast Laps</div><div class="sm-desc">Replay gate centers at speed; no vision</div></div>
       </div>
 
-      <h3>Arena geometry priors</h3>
-      <p>The controller bakes in knowledge of the arena structure: five gates arranged around center [4, 4] at a search radius of 3.0 m, in counter-clockwise order. Each gate has an <strong>expected angular sector</strong>. This guides search direction, validates detections, and provides fallback estimates when vision is lost.</p>
-
-      <h3>Recovery logic</h3>
-      <p>If the drone gets stuck during Search (no confirmed detection after a budget expires), it can replay the <em>previous gate</em> to reposition itself before retrying the current gate. Boundary proximity triggers a retreat to the recovery radius before resuming search.</p>
-    </div>
-  </details>
-
-  <details class="collapsible">
-    <summary>Visual Servoing and Approach</summary>
-    <div class="detail-content">
-      <h3>Servoing setpoints</h3>
-      <p><strong>Yaw:</strong> proportional correction from <code>angle_x</code> — positive detection offset steers the drone to face the gate. <strong>Altitude:</strong> Z command is updated from <code>angle_y</code> with an exponential smoothing blend toward the confirmed gate estimate.</p>
-
-      <h3>Pass commit conditions</h3>
-      <p>The drone commits to a pass through the gate when the detection is sufficiently centered (small <code>angle_x</code>) and the bounding box is large enough to indicate proximity. A timeout condition also triggers commit to avoid getting stuck. For thin side-on gate views, the controller <strong>stages in front of the gate</strong> — moving to a perpendicular position before attempting to fly through — rather than diving through from a bad angle and missing the gate volume.</p>
-
-      <h3>Continuous refinement</h3>
-      <p>During approach, the drone keeps updating <code>pass_yaw</code> and <code>pass_z</code> from fresh visual servo commands and stores memory candidates at close range, where estimates are most accurate.</p>
-    </div>
-  </details>
-
-  <details class="collapsible">
-    <summary>Gate Memory and Fast Replay Laps</summary>
-    <div class="detail-content">
-      <h3>Memory construction</h3>
-      <p>After each successful pass, the controller fuses several sources into a gate memory point:</p>
-      <ul>
-        <li>Confirmed multi-detection median estimate</li>
-        <li>Visual memory candidates collected at close range during approach</li>
-        <li>Observed pass-path midpoints</li>
-        <li>Probe sightings from earlier in the approach</li>
-      </ul>
-      <p>Each candidate is validated against angular sector, arena-radius bounds, boundary margins, and height limits before being accepted. Gates that are never reliably detected receive a <strong>fallback estimate</strong> from arena geometry priors.</p>
-
-      <h3>Replay planner</h3>
-      <p>For laps 2 and 3, each gate is replayed in three phases using the remembered gate center and the stored pass normal:</p>
-      <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">→</div><div class="pipeline-text"><strong>Approach point:</strong> a position 1.2–1.5 m before the gate along the pass direction.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">→</div><div class="pipeline-text"><strong>Gate center dwell:</strong> fly to the remembered center at the stored height.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">→</div><div class="pipeline-text"><strong>Exit point:</strong> a position past the gate to confirm the pass and set up for the next.</div></div>
-      </div>
-      <p>Setpoint jumps in XY and Z are <strong>step-size limited</strong> so the PID controller never demands extreme tilt or loses altitude authority. If the simulator does not credit a pass, the planner retries with small lateral and vertical offsets.</p>
+      <h3>Gate Memory and Fast Replay</h3>
+      <p>After each successful pass, the controller fuses the confirmed median estimate, close-range visual candidates, and observed pass-path midpoints into a gate memory point. Gates that are never reliably detected receive a fallback estimate from arena geometry priors. For laps 2 and 3, each gate is replayed in three phases: approach point, gate-center dwell, and exit point. Setpoint jumps are step-size limited so the PID never demands extreme tilt or loses altitude authority. Missed gate credits trigger retries with small lateral and vertical offsets.</p>
     </div>
   </details>
 
   <details class="collapsible">
     <summary>Cascaded PID Control</summary>
     <div class="detail-content">
-      <p>The low-level controller converts a <code>[x, y, z, yaw]</code> setpoint into four motor PWM commands through four cascaded loops.</p>
+      <p>A [x, y, z, yaw] setpoint is converted to four motor PWM commands through four cascaded loops. Quaternion rotation projects inertial velocity into the body frame between the position and velocity stages.</p>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Position PID</strong> — XY and Z position error → inertial-frame velocity setpoints. Quaternion rotation projects velocity into the body frame.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Velocity PID</strong> — body-frame velocity error → body-frame acceleration commands.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Attitude PID</strong> — desired acceleration + yaw → roll, pitch, and yaw-rate setpoints. Acceleration is clipped to ±π/6 rad before the attitude loop.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Rate PID</strong> — roll/pitch/yaw-rate errors → motor mixing commands. Combined thrust magnitude computed from the 3D acceleration vector including gravity compensation.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Position PID</strong> -- XY and Z error to inertial-frame velocity setpoints.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Velocity PID</strong> -- body-frame velocity error to acceleration commands.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Attitude PID</strong> -- desired acceleration and yaw to roll, pitch, and yaw-rate setpoints. Acceleration clipped to &#177;&#960;/6 rad.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Rate PID</strong> -- angular rate errors to motor mixing commands. Thrust computed from 3D acceleration with gravity compensation.</div></div>
       </div>
 
       <h3>Tuned gains</h3>
@@ -232,15 +135,7 @@
         <tr><td>Rate roll/pitch</td><td class="pid-num">1.5</td><td class="pid-num">0.0</td><td class="pid-num">0.1</td></tr>
         <tr><td>Rate yaw</td><td class="pid-num">0.02</td><td class="pid-num">0.0</td><td class="pid-num">0.001</td></tr>
       </table>
-
-      <h3>Output limits</h3>
-      <ul>
-        <li>XY velocity capped at <strong>2.0 m/s</strong></li>
-        <li>Z velocity capped at <strong>0.75 m/s</strong></li>
-        <li>Roll/pitch acceleration limited to <strong>±π/6 rad</strong></li>
-        <li>Motor PWM clipped to <strong>0–600</strong></li>
-      </ul>
-      <p>The Z velocity cap was critical: large replay waypoint jumps could otherwise cause the drone to over-tilt and lose altitude authority, especially at higher speeds between gates.</p>
+      <p>XY velocity capped at 2.0 m/s; Z at 0.75 m/s. The Z cap was critical: large waypoint jumps could otherwise cause the drone to over-tilt and lose altitude authority between gates.</p>
     </div>
   </details>
 
@@ -248,34 +143,41 @@
     <summary>Challenges</summary>
     <div class="detail-content">
       <ul>
-        <li><strong>Randomized gate locations, sizes, and heights</strong> — no environment is the same; the controller can't be hand-tuned to a fixed layout</li>
-        <li><strong>No gate map in the first lap</strong> — the drone must locate and estimate each gate purely from vision before it can be passed</li>
-        <li><strong>False positives</strong> — arena walls, floor patterns, and lighting produce magenta-like regions that must be filtered without discarding real gate detections</li>
-        <li><strong>Oblique views</strong> — approaching a gate from an angle shows a thin sliver of the patch; the controller must detect this case and reposition perpendicular rather than attempting a bad-angle pass</li>
-        <li><strong>Range sensor wall bleed</strong> — <code>range_front</code> sometimes reads the wall behind the gate; the fallback image-depth estimator avoids this but adds uncertainty</li>
-        <li><strong>Simulator gate credit tolerance</strong> — the drone must fly precisely enough through the gate volume; near-miss trajectories are not credited, requiring retry logic</li>
-        <li><strong>Speed vs. reliability tradeoff</strong> — aggressive replay waypoints improve lap time but risk altitude loss or missed credits; step-size limiting and a retry mechanism balance both</li>
-        <li><strong>Vision loss recovery</strong> — the drone can lose sight of a gate at any point; fallback memory, probe sightings, and forced-progress timeouts prevent getting permanently stuck</li>
+        <li><strong>Randomized layout</strong> -- no two runs are the same; the controller cannot rely on a fixed gate map</li>
+        <li><strong>First-lap blindness</strong> -- gate positions are entirely unknown at takeoff; vision is the only source of truth</li>
+        <li><strong>False positives</strong> -- arena walls and floor patterns produce magenta-like regions that must be rejected without discarding real gates</li>
+        <li><strong>Oblique views</strong> -- approaching a gate from a bad angle shows a thin sliver of patch; the controller detects this and repositions perpendicular before attempting a pass</li>
+        <li><strong>Range sensor wall bleed</strong> -- <code>range_front</code> sometimes reads the wall behind the gate; the image-depth fallback avoids this but adds uncertainty</li>
+        <li><strong>Speed vs. reliability</strong> -- aggressive replay waypoints improve lap time but risk altitude loss or missed gate credits; step-size limiting and retry logic balance both</li>
       </ul>
     </div>
   </details>
 
-  <h2>Outcome</h2>
-  <p>The finished controller completes the full pipeline end-to-end: take off, search five unknown gates with vision, detect and estimate their world positions, fly through each counter-clockwise, return to start, then execute two faster memory-replay laps. It handles vision loss, false positives, oblique views, range-sensor failures, and missed gate credits through dedicated fallback logic at every layer.</p>
-  <p>The project built practical depth across the robotics stack — OpenCV perception, geometric coordinate-frame projection, temporal filtering, finite-state machine design, trajectory replay planning, and PID cascade tuning — under real uncertainty from a randomized environment and a hard time budget.</p>
+  <h2>Simulation Outcome</h2>
+  <p>The controller completes the full pipeline: take off, detect and estimate five unknown gate positions from vision, fly through each counter-clockwise, return to start, then execute two faster memory-replay laps. It handles vision loss, false positives, oblique views, range-sensor failures, and missed gate credits through fallback logic at every layer.</p>
+
+  <!-- ===== REAL FLIGHT ===== -->
+  <hr class="block-divider">
+  <div class="block-label">Real Flight</div>
+  <p class="block-heading">Crazyflie 2.x Hardware</p>
+
+  <div class="placeholder-card">
+    <div class="ph-label">Hardware Task In Progress</div>
+    <p class="ph-body">The group real-flight phase on a physical Crazyflie quadrotor will be documented here once completed. Content coming soon.</p>
+  </div>
 
 </div>
 
 <div class="proj-sidebar">
   <div class="sidebar-block">
-    <div class="sidebar-label">Details</div>
+    <div class="sidebar-label">Simulation</div>
     <div class="sidebar-kv">
       <div class="kv-row"><div class="kv-key">Course</div><div class="kv-val"><strong>MICRO-502 Aerial Robotics</strong></div></div>
       <div class="kv-row"><div class="kv-key">Institution</div><div class="kv-val">EPFL</div></div>
-      <div class="kv-row"><div class="kv-key">Scope</div><div class="kv-val">Individual — simulation task</div></div>
+      <div class="kv-row"><div class="kv-key">Scope</div><div class="kv-val">Individual task</div></div>
       <div class="kv-row"><div class="kv-key">Simulator</div><div class="kv-val">Webots</div></div>
       <div class="kv-row"><div class="kv-key">Platform</div><div class="kv-val">Crazyflie 2.x quadrotor</div></div>
-      <div class="kv-row"><div class="kv-key">Arena</div><div class="kv-val">8 × 8 m, 5 randomized gates</div></div>
+      <div class="kv-row"><div class="kv-key">Arena</div><div class="kv-val">8 x 8 m, 5 randomized gates</div></div>
       <div class="kv-row"><div class="kv-key">Time limit</div><div class="kv-val">240 s real-time</div></div>
     </div>
   </div>
@@ -294,20 +196,20 @@
       <div class="contrib-item"><div class="contrib-key">Perception</div><div class="contrib-val">HSV gate detector, multi-detection median filter, image-depth fallback</div></div>
       <div class="contrib-item"><div class="contrib-key">Navigation</div><div class="contrib-val">8-state FSM, visual servo, probe approach, boundary recovery</div></div>
       <div class="contrib-item"><div class="contrib-key">Memory</div><div class="contrib-val">Gate memory fusion, fallback fills, fast-lap replay planner</div></div>
-      <div class="contrib-item"><div class="contrib-key">Control</div><div class="contrib-val">4-loop PID cascade tuning, step-size limiting, quaternion rotation</div></div>
+      <div class="contrib-item"><div class="contrib-key">Control</div><div class="contrib-val">4-loop PID cascade, step-size limiting, quaternion rotation</div></div>
     </div>
   </div>
   <div class="sidebar-block">
-    <div class="sidebar-label">Hardware task</div>
-    <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val"><span class="status-dot"></span>Real-flight task coming</div></div>
-    <p style="font-size:13px;color:var(--ink-faint);margin-top:10px;line-height:1.5">The group hardware phase on a real Crazyflie will be added here once completed.</p>
+    <div class="sidebar-label">Real Flight</div>
+    <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val"><span class="status-dot"></span>In progress</div></div>
+    <p style="font-size:13px;color:var(--ink-faint);margin-top:10px;line-height:1.5">Group hardware phase on a real Crazyflie. Details will be added here once completed.</p>
   </div>
 </div>
 </div>
 
 <div class="proj-nav">
-  <a href="../thymio-nav/" class="proj-nav-item"><span class="proj-nav-dir">← Previous</span><span class="proj-nav-title">Thymio Autonomous Navigation</span></a>
-  <a href="../legged-rl/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next →</span><span class="proj-nav-title">Legged Robotics RL</span></a>
+  <a href="../thymio-nav/" class="proj-nav-item"><span class="proj-nav-dir">&#8592; Previous</span><span class="proj-nav-title">Thymio Autonomous Navigation</span></a>
+  <a href="../legged-rl/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next &#8594;</span><span class="proj-nav-title">Legged Robotics RL</span></a>
 </div>
 
 <script>
