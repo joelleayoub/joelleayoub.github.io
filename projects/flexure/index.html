@@ -129,8 +129,7 @@
 
   <div class="full-media">
     <figure>
-      <img src="assets/cad.png" hidden alt="CAD model of the flexure inverter">
-      <div class="media-ph tall">CAD view — assets/cad.png</div>
+      <img src="assets/cad.png" alt="CAD model of the flexure inverter">
       <figcaption>Parametric CAD layout. Left: input arm with fan-shaped protractor. Right: symmetric flexure body with blade stages.</figcaption>
     </figure>
   </div>
@@ -142,13 +141,11 @@
 
   <div class="media-pair">
     <figure>
-      <img src="assets/sim-error.png" hidden alt="Simulation angular error plot">
-      <div class="media-ph tall">Error plot — assets/sim-error.png</div>
+      <div class="media-ph tall">Error plot — add assets/sim-error-plot.png</div>
       <figcaption>Angular error vs. input angle for the optimised ("inverseur parfait") design. Max error ≈ ±0.35°.</figcaption>
     </figure>
     <figure>
-      <img src="assets/sim-stress.png" hidden alt="COMSOL von Mises stress map">
-      <div class="media-ph tall">Stress map — assets/sim-stress.png</div>
+      <div class="media-ph tall">Stress map — add assets/sim-stress.png</div>
       <figcaption>Von Mises stress at α = ±11.9°. Stress concentration at blade roots; peak well below yield.</figcaption>
     </figure>
   </div>
@@ -161,8 +158,7 @@
 
   <div class="full-media">
     <figure>
-      <img src="assets/prototype.jpg" hidden alt="Laser-cut prototype assembled">
-      <div class="media-ph tall">Prototype photo — assets/prototype.jpg</div>
+      <img src="assets/prototype.jpg" alt="Laser-cut prototype assembled">
       <figcaption>Assembled laser-cut prototype. Input arm (left) with fan-scale; output arm (right) with symmetric flexure stage.</figcaption>
     </figure>
   </div>
@@ -171,23 +167,16 @@
   <h2>Experimental Validation</h2>
   <p>A 12× camera microscope measured the output angle for a series of discrete input positions. Red reference lines on the frame established a stable datum. Results were overlaid with simulation predictions.</p>
 
-  <div class="media-pair">
+  <div class="full-media">
     <figure>
-      <img src="assets/exp-setup-1.jpg" hidden alt="Camera measurement setup">
-      <div class="media-ph tall">Setup — assets/exp-setup-1.jpg</div>
-      <figcaption>Camera measurement at θ_in ≈ +10°. Red reference lines used to track output angle.</figcaption>
-    </figure>
-    <figure>
-      <img src="assets/exp-setup-2.jpg" hidden alt="Camera measurement deflected">
-      <div class="media-ph tall">Deflected — assets/exp-setup-2.jpg</div>
-      <figcaption>Same setup at a larger positive input. The output arm deflects symmetrically in the opposite direction.</figcaption>
+      <img src="assets/sim-error.png" alt="Camera measurement setup — two positions">
+      <figcaption>12× camera measurement setup at two different input angles. Red reference lines track the output angle relative to the fixed frame.</figcaption>
     </figure>
   </div>
 
   <div class="full-media">
     <figure>
-      <img src="assets/exp-results.png" hidden alt="Experimental vs simulation error comparison">
-      <div class="media-ph short">Results chart — assets/exp-results.png</div>
+      <div class="media-ph short">Results chart — add assets/exp-results.png</div>
       <figcaption>Experimental (teal) vs. simulation (red) angular error for the optimised design. Good agreement; scatter likely due to manual angle reading.</figcaption>
     </figure>
   </div>
@@ -237,8 +226,7 @@
 
   <div class="full-media">
     <figure>
-      <img src="assets/comparison.png" hidden alt="Full comparison chart">
-      <div class="media-ph short">Comparison chart — assets/comparison.png</div>
+      <img src="assets/compare.png" alt="Full comparison chart">
       <figcaption>Angular error vs. input angle: optimised (red line + experimental teal dots), non-optimised mean (teal curve), FEM (black). The optimised geometry suppresses error by &gt;80%.</figcaption>
     </figure>
   </div>
