@@ -9,17 +9,16 @@
 <link rel="stylesheet" href="../../project.css">
 <style>
 .liftoff-hero{margin:28px 0}
-.liftoff-hero img{width:100%;max-height:420px;object-fit:cover;object-position:center top;display:block;border:1px solid var(--rule)}
+.liftoff-hero img{width:100%;max-height:420px;object-fit:cover;object-position:center 30%;display:block;border:1px solid var(--rule)}
 .liftoff-hero figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px}
 .block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
 .block-heading{font-size:22px;font-weight:300;font-style:italic;color:var(--ink);margin-bottom:20px;font-family:var(--serif)}
 .block-divider{border:none;border-top:1px solid var(--rule);margin:52px 0}
 .sd-note{padding:16px 20px;background:var(--paper-2);border-left:3px solid #a33;color:var(--ink-soft);font-size:14px;line-height:1.75;margin:20px 0}
 .sd-note strong{color:var(--ink)}
-.gallery-row{display:grid;grid-template-columns:1fr;gap:0;margin:32px 0}
-.gallery-row figure{margin:0}
-.gallery-row img{width:100%;max-height:360px;object-fit:cover;display:block;border:1px solid var(--rule)}
-.gallery-row figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px}
+.photo-natural{margin:24px 0;text-align:center}
+.photo-natural img{display:inline-block;max-height:560px;max-width:100%;width:auto;height:auto;border:1px solid var(--rule)}
+.photo-natural figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px;text-align:left}
 </style>
 </head>
 <body>
@@ -47,13 +46,12 @@
   </figure>
 
   <details class="collapsible">
-    <summary>Firehorn 1 and the Payload Division</summary>
+    <summary>EPFL Rocket Team and Firehorn 1</summary>
     <div class="detail-content">
-      <p>Firehorn 1 is the EPFL Rocket Team's first EthaLOX (ethanol and liquid oxygen) single-stage launch vehicle. Designed for a 30 km apogee ceiling, its inaugural mission at EuRoC 2025 flew the 3 km qualification profile: 5 m tall, 83 kg dry mass, 7 kN thrust, 240 mm diameter. It is the first Swiss cryogenic bi-liquid rocket to have flown.</p>
-      <p>The Payload Division delivers two payloads: a 3U acoustic levitation demonstrator housed in the nose cone, and a three-camera flight recording system distributed along the airframe. I joined as Division Lead after a first-year student had completed a proof of concept for the acoustic levitation experiment, and built the camera system from scratch.</p>
-      <div class="detail-media-grid">
+      <p>The <strong>EPFL Rocket Team</strong> is a student association of approximately 240 members dedicated to reaching space before the end of the decade with a fully student-developed liquid launch vehicle. Founded in 2017, the team has won EuRoC 2021, placed third in 2022, and in 2023 launched Nordend, Switzerland's first liquid rocket to fly.</p>
+      <p><strong>Firehorn 1</strong> is the team's first EthaLOX (ethanol and liquid oxygen) single-stage launch vehicle, designed from the outset for a 30 km apogee. Its inaugural mission at EuRoC 2025 flew the 3 km qualification profile: 5 m tall, 83 kg dry mass, 7 kN thrust. It carries two payloads, both developed by the Payload Division: an acoustic levitation experiment in the nose cone, and a three-camera flight recording system distributed along the airframe.</p>
+      <div class="diagram-stack">
         <figure class="detail-media-item"><img src="assets/firehorn.png" alt="Firehorn 1 launch vehicle"><figcaption>Firehorn 1 launch vehicle</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/cameras.png" alt="Three camera positions on Firehorn 1"><figcaption>Camera placements: Camera 1 (bottom aerocover, downward), Camera 2 (top aerocover, radial), Camera 3 (AV bay, parachute)</figcaption></figure>
       </div>
     </div>
   </details>
@@ -63,13 +61,28 @@
   <div class="block-heading">3-Camera Flight Recording System</div>
 
   <details class="collapsible">
+    <summary>Camera Placement and Requirements</summary>
+    <div class="detail-content">
+      <p>Three cameras are distributed along the airframe to capture liftoff, the flight environment, and parachute deployment. Each position has its own thermal, vibration, and size constraints.</p>
+      <ul>
+        <li><strong>Camera 1</strong> (bottom aerocover, facing downward): liftoff monitoring, integrated into the aerocover structure, 125.5 g</li>
+        <li><strong>Camera 2</strong> (top aerocover, radial): flight environment, radial orientation, aluminium heat block and spring-loaded screws for vibration isolation, 221.66 g</li>
+        <li><strong>Camera 3</strong> (avionics bay): parachute deployment footage</li>
+      </ul>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/cameras.png" alt="Three camera positions on Firehorn 1"><figcaption>Camera placements on the airframe</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
     <summary>Camera Selection and Communication</summary>
     <div class="detail-content">
-      <p>Three <strong>RunCam Split 4 V2</strong> cameras were selected: compact at 10.2 g, capable of 2.7K at 60 fps with a 140° field of view, and physically separating the lens from the processing board so the lens can be positioned independently within tight aerocover geometry.</p>
-      <p>The RunCam communicates over <strong>UART</strong>, while the avionics use <strong>I2C</strong> converted to an I2CAN bus for long cable runs through the airframe. Each camera module therefore needs a protocol bridge and regulated power. The full chain is: Avionics MCU → I2C → LT3960 (I2CAN transceiver) → I2CAN → Custom PCB → UART → RunCam.</p>
+      <p>The <strong>RunCam Split 4 V2</strong> was selected for its compact form factor (10.2 g), high resolution (2.7K at 60 fps, 140° field of view), and modular design: the lens and processing board are physically separated, allowing the lens to be positioned independently within tight aerocover geometry.</p>
+      <p>The RunCam communicates over <strong>UART</strong>, while the avionics use <strong>I2C</strong> converted to I2CAN for long cable runs through the airframe. Each camera module bridges the two: I2CAN in from the avionics, UART out to the camera, plus regulated power.</p>
       <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/runcam.png" alt="RunCam Split 4 V2 with its separated processing board"><figcaption>RunCam Split 4 V2: lens and processing board are physically separated</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/cammodule.png" alt="Camera module communication and power diagram"><figcaption>Camera module block diagram: AV board, custom PCB, RunCam PCB, and sensor</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/runcam.png" alt="RunCam Split 4 V2 with separated processing board"><figcaption>RunCam Split 4 V2: lens and processing board are physically separated</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/cammodule.png" alt="Camera module communication and power diagram"><figcaption>Communication chain: Avionics → I2CAN → Custom PCB → UART → RunCam</figcaption></figure>
       </div>
     </div>
   </details>
@@ -77,38 +90,38 @@
   <details class="collapsible">
     <summary>PCB Design</summary>
     <div class="detail-content">
-      <p>The camera PCB handles three functions: I2CAN to UART protocol conversion, a 24 V to 5 V step-down for the RunCam processing board, and camera on/off commands from the avionics. It was designed entirely in <strong>KiCad</strong>.</p>
-      <p>The prototyping phase used an <strong>Arduino Nano</strong> as the microcontroller, which made it easy to iterate on the firmware and validate the communication chain. Once the design was confirmed and space inside the aerocover became a hard constraint, I replaced the Nano with a <strong>Seeed XIAO</strong>: a far more compact board with the same serial capability, freeing up significant board area and mass budget. The board connects to the avionics rod via MPS connectors for modular integration.</p>
+      <p>The camera PCB handles three functions: I2CAN to UART protocol conversion, a 24 V to 5 V step-down for the RunCam processing board, and camera on/off commands triggered by a photoresistor on liftoff. It was designed entirely in <strong>KiCad</strong>.</p>
+      <p>Prototyping used an <strong>Arduino Nano</strong> to validate the communication chain quickly. Once the design was confirmed and space inside the aerocover became a hard constraint, I replaced the Nano with a <strong>Seeed XIAO</strong>: a far more compact board with the same serial capability. The board connects to the avionics rod via MPS connectors for modular integration and is thermally bonded to an aluminium block to manage heat.</p>
       <ul>
         <li>LT3960 I2CAN transceiver for long-distance avionics communication</li>
         <li>MPM3620 step-down converter (24 V to 5 V)</li>
-        <li>Seeed XIAO microcontroller replacing the Arduino Nano prototype</li>
-        <li>Photoresistor for liftoff detection on the camera power-on sequence</li>
-        <li>Aluminium thermal block bonded to each PCB for heat dissipation</li>
+        <li>Seeed XIAO microcontroller, replacing the Arduino Nano for compactness</li>
+        <li>Photoresistor for liftoff-triggered camera power-on</li>
+        <li>MPS connectors for modular rod-mount integration</li>
       </ul>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>Camera Mechanical Mounts</summary>
+    <summary>EuRoC 2025 · the Flight</summary>
     <div class="detail-content">
-      <p>Three custom supports position each camera module in the airframe. The design constraints differ between positions: Camera 1 sits in a confined bottom aerocover and must face downward for liftoff monitoring, Camera 2 is radially oriented in the top aerocover and must survive the highest vibration loads, and Camera 3 mounts inside the avionics bay pointing at the parachute.</p>
-      <ul>
-        <li><strong>Camera 1:</strong> integrated into the bottom aerocover structure, facing down. 125.5 g. Modified aerocover geometry to clear the lens field of view.</li>
-        <li><strong>Camera 2:</strong> top aerocover, radial orientation. Aluminium heat block for thermal capacity, spring-loaded screws to isolate the camera from structural vibration. 221.66 g.</li>
-        <li><strong>Camera 3:</strong> avionics bay, fixed to the MPS rod stack, pointed at the parachute bay for deployment footage.</li>
-      </ul>
+      <p>Firehorn 1 lifted off at EuRoC 2025 and completed its flight, becoming <strong>Switzerland's first cryogenic bi-liquid rocket to fly</strong>. Over 80 team members were on site after more than a year of development.</p>
+      <figure class="photo-natural">
+        <img src="assets/joelle_rocket.png" alt="Joelle with Firehorn 1 at EuRoC 2025">
+        <figcaption>At EuRoC 2025 with Firehorn 1</figcaption>
+      </figure>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>EuRoC 2025 and the SD Cards</summary>
+    <summary>EuRoC 2025 · the Fire</summary>
     <div class="detail-content">
-      <p>Firehorn 1 lifted off at EuRoC 2025 and completed its flight, making history as Switzerland's first cryogenic bi-liquid rocket to fly. On landing, an unexpected fire broke out in the avionics bay. The heat burned through the electronics and melted the plastic enclosures around the camera modules.</p>
-      <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/sdcard.png" alt="SD card recovered from the burnt avionics bay"><figcaption>The SD card recovered from the fire: physically intact, all data lost</figcaption></figure>
-      </div>
-      <div class="sd-note"><strong>All footage was lost.</strong> The SD cards were physically recovered from the debris but the thermal damage had corrupted the recorded data. Nothing was saved from any of the three cameras.</div>
+      <p>On landing, an unexpected fire broke out in the avionics bay. The heat burned through the electronics and melted the plastic enclosures around the camera modules. The SD cards were physically recovered from the debris.</p>
+      <figure class="photo-natural">
+        <img src="assets/sdcard.png" alt="Recovering the SD card from the burnt avionics bay">
+        <figcaption>Recovering the SD cards from the charred avionics bay</figcaption>
+      </figure>
+      <div class="sd-note"><strong>All footage was lost.</strong> The thermal damage had corrupted all recorded data. Nothing was saved from any of the three cameras.</div>
     </div>
   </details>
 
@@ -119,21 +132,24 @@
   <details class="collapsible">
     <summary>Acoustic Levitation Experiment</summary>
     <div class="detail-content">
-      <p>The 3U acoustic levitation payload uses two arrays of 19 ultrasonic transducers to generate a precise standing acoustic field capable of levitating a small spherical object. The aim is to observe how acoustic levitation behaves in high-g and low-g environments during flight.</p>
-      <p>A first-year student had completed a proof of concept before I joined the team. My role was to supervise and lead the work required to make it flight-ready: we re-soldered connections, replaced the driver and battery system with more reliable components, and ran extensive testing under vibration to confirm stable levitation before integration.</p>
+      <p>The acoustic levitation payload uses two opposing concave arrays of <strong>Murata MA40S4S 40 kHz ultrasonic transducers</strong>, each arranged in a hexagonal packing pattern, to generate a standing wave field between them. A small spherical object placed in the field is trapped at the pressure nodes and levitates without contact. The design requirement is to maintain levitation under up to 8g axial and 3g radial acceleration during flight.</p>
+      <p>The 3U assembly (30 x 10 x 10 cm, approximately 3 kg) has an external structure of laser-cut Plexiglas for visual inspection, and an internal rod-based framework. A 3D-printed PETG base plate with M5 inserts anchors four M5 rods that carry all internal components via M5 nuts, allowing precise adjustment of spacing and orientation. The key components mounted on the rods are:</p>
+      <ul>
+        <li><strong>Acoustic levitator:</strong> the two opposing transducer domes, held at a fixed 8.5 cm separation by a stabilizer</li>
+        <li><strong>Battery pack holder:</strong> secures the 2 x 18650 cells that power the system independently from the rocket avionics</li>
+        <li><strong>Raspberry Pi Zero W holder:</strong> the main processing unit, runs the levitation control logic</li>
+        <li><strong>Motor driver holder (L298N):</strong> amplifies the square-wave drive signals to the transducers</li>
+        <li><strong>Accelerometer holder:</strong> records acceleration data throughout the flight for post-processing</li>
+        <li><strong>Camera holder:</strong> positions an internal camera 30 cm from the levitation point to monitor the ball</li>
+      </ul>
+      <p>The transducer structure was initially printed in regular PETG, which deformed under soldering heat. It was redesigned in <strong>HT PETG</strong> (high-temperature PETG) to survive the assembly process without distortion.</p>
+      <p>I supervised this payload and led the work to make it flight-ready: re-soldering connections, upgrading the motor driver and battery system to more reliable components, and running extensive testing under vibration to confirm stable levitation before integration.</p>
       <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/payload.png" alt="Ball levitating in the acoustic field"><figcaption>Spherical test object levitating between the two transducer arrays</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/payload.png" alt="Ball levitating between the two transducer arrays"><figcaption>Spherical test object levitating in the acoustic field</figcaption></figure>
         <figure class="detail-media-item"><img src="assets/payload_testing.png" alt="Acoustic levitation payload testing"><figcaption>Payload testing and validation before integration</figcaption></figure>
       </div>
     </div>
   </details>
-
-  <div class="gallery-row">
-    <figure>
-      <img src="assets/joelle_rocket.png" alt="Joelle with Firehorn 1 at EuRoC 2025">
-      <figcaption>At EuRoC 2025 with Firehorn 1</figcaption>
-    </figure>
-  </div>
 
 </div>
 
@@ -163,8 +179,9 @@
     <div class="sidebar-label">Acoustic Payload</div>
     <div class="sidebar-kv">
       <div class="kv-row"><div class="kv-key">Form factor</div><div class="kv-val">3U, ~3 kg</div></div>
-      <div class="kv-row"><div class="kv-key">Transducers</div><div class="kv-val">2 arrays × 19 ultrasonic</div></div>
-      <div class="kv-row"><div class="kv-key">My role</div><div class="kv-val">Supervised hardware refinement and testing</div></div>
+      <div class="kv-row"><div class="kv-key">Transducers</div><div class="kv-val">2 arrays, Murata MA40S4S, 40 kHz, hexagonal</div></div>
+      <div class="kv-row"><div class="kv-key">Array gap</div><div class="kv-val">8.5 cm</div></div>
+      <div class="kv-row"><div class="kv-key">My role</div><div class="kv-val">Supervised: hardware, driver, battery, testing</div></div>
     </div>
   </div>
   <div class="sidebar-block">
@@ -174,7 +191,6 @@
       <div class="kv-row"><div class="kv-key">Thrust</div><div class="kv-val">7 kN</div></div>
       <div class="kv-row"><div class="kv-key">Dry mass</div><div class="kv-val">83 kg</div></div>
       <div class="kv-row"><div class="kv-key">Length</div><div class="kv-val">5 m</div></div>
-      <div class="kv-row"><div class="kv-key">Target apogee</div><div class="kv-val">3 km (EuRoC) / 30 km (design)</div></div>
     </div>
   </div>
 </div>
