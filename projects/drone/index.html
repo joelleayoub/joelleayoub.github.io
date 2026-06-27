@@ -77,11 +77,9 @@
   </details>
 
   <details class="collapsible">
-    <summary>What I Built</summary>
+    <summary>Computer Vision</summary>
     <div class="detail-content">
-
-      <h3>Computer Vision Pipeline</h3>
-      <p>Each gate has a magenta 0.4 m patch at center height. The pipeline converts the camera frame to HSV, thresholds for the magenta range, cleans the mask with morphological operations, extracts contours, and filters candidates by area, aspect ratio, boundary margin, and pixel density. Each candidate is scored by size, center bias, and magenta density; the highest score becomes the detection output, with angular offsets derived from the 1.5 rad camera FOV.</p>
+      <p>Each gate has a magenta 0.4 m patch at center height as the primary visual cue. The pipeline converts the camera frame to HSV, thresholds for the magenta range, cleans the mask with morphological operations, extracts contours, and filters candidates by area, aspect ratio, boundary margin, and pixel density. Each candidate is scored by size, center bias, and magenta density; the highest score becomes the detection output, with angular offsets <code>angle_x</code> / <code>angle_y</code> derived from the 1.5 rad camera FOV.</p>
 
       <figure class="detail-feature-media">
         <img src="assets/arena-overview.png" alt="Webots simulation arena" onerror="this.hidden=true">
@@ -89,12 +87,19 @@
         <figcaption>Webots arena. Magenta gate patches are the primary detection cue.</figcaption>
       </figure>
 
-      <h3>Gate Position Estimation and Confirmation</h3>
-      <p>Converting a pixel detection to a world position requires drone pose and depth. The primary depth source is the <code>range_front</code> sensor; when it reads the wall behind the gate, a fallback uses the known 0.4 m patch height and camera FOV to compute image-based depth. Gate XY is projected from drone position along the composite bearing (yaw + horizontal image angle), with Z from the vertical angle offset. All estimates are clipped to valid arena and height bounds.</p>
-      <p>A temporal confirmation layer buffers recent estimates and takes the <strong>median XY and Z</strong> across the window. Candidates are rejected if spread is too large, if the gate falls outside the expected angular sector, or if it is geometrically implausible. When a detection is promising but not yet confirmed, the drone enters a cautious probe approach to collect a better view before committing.</p>
+      <h3>Robust Confirmation</h3>
+      <p>A single detection is noisy. Recent estimates are buffered and the <strong>median XY and Z</strong> across the window becomes the stable gate estimate. Candidates are rejected if XY or Z spread is too large, if the gate falls outside the expected angular sector for the current gate index, or if it is geometrically implausible relative to the arena. When a detection is promising but not yet confirmed, the drone enters a cautious probe approach to get a better view before committing.</p>
+    </div>
+  </details>
 
-      <h3>State Machine</h3>
-      <p>An 8-state FSM drives top-level behavior. Transitions depend on detection confidence, timers, arena geometry, and simulator gate-credit callbacks. Arena geometry priors (five gates at radius 3.0 m around [4, 4]) guide search direction, validate detections, and provide fallback estimates when vision is lost.</p>
+  <details class="collapsible">
+    <summary>Path Planning and Navigation</summary>
+    <div class="detail-content">
+      <h3>Gate Position Estimation</h3>
+      <p>Converting a pixel detection to a world position requires drone pose and depth. The primary depth source is the <code>range_front</code> sensor; when it reads the wall behind the gate, a fallback uses the known 0.4 m patch height and camera FOV to compute image-based depth. Gate XY is projected from drone position along the composite bearing (yaw + <code>angle_x</code>), with Z from the vertical angle offset. All estimates are clipped to valid arena and height bounds.</p>
+
+      <h3>8-State FSM</h3>
+      <p>A finite-state machine drives top-level behavior. Transitions depend on detection confidence, timers, arena geometry, and simulator gate-credit callbacks. Arena geometry priors (five gates at radius 3.0 m around [4, 4], counter-clockwise) guide search direction, validate detections, and provide fallback estimates when vision is lost. If Search stalls, the controller replays the previous gate to reposition before retrying.</p>
       <div class="sm-grid">
         <div class="sm-node"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 1.05 m, stabilize</div></div>
         <div class="sm-node"><div class="sm-label">Search</div><div class="sm-desc">Yaw oscillation + altitude scan around expected gate sector</div></div>
@@ -106,15 +111,15 @@
         <div class="sm-node"><div class="sm-label">Fast Laps</div><div class="sm-desc">Replay gate centers at speed; no vision</div></div>
       </div>
 
-      <h3>Gate Memory and Fast Replay</h3>
-      <p>After each successful pass, the controller fuses the confirmed median estimate, close-range visual candidates, and observed pass-path midpoints into a gate memory point. Gates that are never reliably detected receive a fallback estimate from arena geometry priors. For laps 2 and 3, each gate is replayed in three phases: approach point, gate-center dwell, and exit point. Setpoint jumps are step-size limited so the PID never demands extreme tilt or loses altitude authority. Missed gate credits trigger retries with small lateral and vertical offsets.</p>
+      <h3>Gate Memory and Replay</h3>
+      <p>After each successful pass, the controller fuses the confirmed median estimate, close-range visual candidates, and observed pass-path midpoints into a gate memory point. Gates that are never reliably detected receive a fallback from arena geometry priors. For laps 2 and 3, each gate is replayed in three phases: approach point, gate-center dwell, and exit point. Setpoint jumps are step-size limited so the PID never demands extreme tilt. Missed gate credits trigger retries with small lateral and vertical offsets.</p>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>Cascaded PID Control</summary>
+    <summary>Control</summary>
     <div class="detail-content">
-      <p>A [x, y, z, yaw] setpoint is converted to four motor PWM commands through four cascaded loops. Quaternion rotation projects inertial velocity into the body frame between the position and velocity stages.</p>
+      <p>A [x, y, z, yaw] setpoint is converted to four motor PWM commands through four cascaded PID loops. Quaternion rotation projects inertial velocity into the body frame between the position and velocity stages.</p>
 
       <div class="pipeline">
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Position PID</strong> -- XY and Z error to inertial-frame velocity setpoints.</div></div>
