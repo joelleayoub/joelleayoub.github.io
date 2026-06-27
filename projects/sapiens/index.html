@@ -55,7 +55,7 @@
 
   <div class="overview-intro">
     <div class="overview-heading">Overview</div>
-    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source 12-DoF biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. As hardware lead I own the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
+    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. The full robot has 22 degrees of freedom: 12 across the two legs and 10 across the two arms. As hardware lead, we handle the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
   </div>
 
   <div class="hw-photo-pair">
@@ -72,7 +72,7 @@
   <details class="collapsible">
     <summary>The Task</summary>
     <div class="detail-content">
-      <p>Berkeley Humanoid Lite ships as open-source CAD files, firmware, and a parts list, not as a kit. Every structural part must be 3D-printed, inspected, and iterated before assembly. The robot has 12 degrees of freedom across two legs (6 per leg), each joint driven by a brushless DC motor with a 3D-printed gearbox and a magnetic encoder. The complete build requires printing roughly 160 parts, hand-soldering all motor and encoder cables, performing electrical calibration on each of the 12 motors, and assembling the full kinematic chain from ankle to torso.</p>
+      <p>Berkeley Humanoid Lite ships as open-source CAD files, firmware, and a parts list, not as a kit. Every structural part must be 3D-printed and iterated if necessary before assembly. The robot has 12 degrees of freedom across two legs (6 per leg), each joint driven by a brushless DC motor with a 3D-printed gearbox and a magnetic encoder. The complete build requires printing roughly 160 parts, hand-soldering all motor and encoder cables, performing electrical calibration on each of the 12 motors, and assembling the full kinematic chain from ankle to torso.</p>
 
       <h3>What makes this hard</h3>
       <ul>
@@ -87,14 +87,14 @@
   <details class="collapsible">
     <summary>Mechanical Assembly and Iteration</summary>
     <div class="detail-content">
-      <p>The build starts from raw filament and ends with a standing 12-DoF biped. Every structural part, from ankle links to the hip yoke, is FDM-printed in PLA or PETG. Iteration is central to the process: initial prints reveal fit issues at bearing seats, gear mesh contact, or cable exit points, which feed back into revised print settings or modified CAD before the next attempt.</p>
+      <p>The build starts from raw filament and ends with a standing biped. Every structural part, from ankle links to the hip yoke, is FDM-printed in PETG. Iteration is central to the process: initial prints reveal fit issues at bearing seats, gear mesh contact, or cable exit points, which feed back into revised print settings or modified CAD before the next attempt.</p>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Part preparation:</strong> slice each component, tune infill and wall count for structural load, and print in batches. Inspect dimensional accuracy at bearing and shaft interfaces before moving on.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Part preparation:</strong> slice each component and tune infill and wall count for structural load. Inspect a test piece before printing the full batch. Always print backup parts for critical structural components.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Gearbox and joint assembly:</strong> press-fit bearings, insert motor shafts, mesh printed gearbox stages. Verify free rotation and check for binding across the full range of motion.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Cable routing:</strong> route motor phase wires, encoder I2C lines, and CAN bus cables through internal link channels before closing each link segment. Order of operations is critical as access closes permanently after assembly.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Kinematic chain buildup:</strong> assemble ankle, knee, and hip joints sequentially, torqueing all fasteners to spec and verifying range of motion at each stage before proceeding to the next link.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Iteration:</strong> identify parts that broke, bound, or did not meet tolerance under load. Modify parameters, reprint, and re-test. Iteration is not a failure mode, it is the process.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Iteration:</strong> identify parts that broke, bound, or did not meet tolerance under load. Modify parameters, reprint, and re-test. Iteration is not a failure mode, it is the process. During our first sim-to-real transfer, several leg links could not sustain the robot's full weight. The fix was straightforward: wall count was raised to 20 perimeters on the structural links, making them stiff enough to hold the static load.</div></div>
       </div>
 
       <figure class="detail-photo">
@@ -139,8 +139,8 @@
       <p>Beyond the base BHL platform, the team is developing two hardware enhancements that extend the robot's manipulation capabilities beyond what the original design provides.</p>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The hand is being designed, printed, and integrated by the hardware team.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand <span style="font-family:var(--grot);font-size:11px;color:var(--ink-faint)">(in progress)</span>:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The hand is being designed, printed, and integrated by the hardware team.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves <span style="font-family:var(--grot);font-size:11px;color:var(--ink-faint)">(in progress)</span>:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
       </div>
 
       <figure class="detail-photo">
@@ -171,6 +171,7 @@
       <p>The policy takes 45 numbers as input at each timestep: a velocity command, body angular velocity, gravity direction in body frame, joint positions, joint velocities, and the previous action. It outputs 12 joint position targets, one per leg joint. A fast 250 Hz PD loop on the motor controllers chases these targets, while the policy itself thinks at 25 Hz. The walking gait emerges from the reward structure rather than from a gait clock: the policy discovers the left-right alternating cadence on its own because it is rewarded for keeping exactly one foot in the air at a time.</p>
 
       <p>Before touching hardware, every candidate policy is validated in a second independent physics engine (MuJoCo) that it was never trained on. Policies that look good in the training simulator but fail in MuJoCo are discarded as overfit to simulation artifacts. Only policies that agree across both simulators earn a place on the real robot.</p>
+      <p><a href="https://www.linkedin.com/feed/update/urn:li:activity:7459544682881101826/" target="_blank" rel="noopener" style="font-family:var(--grot);font-size:13px;color:var(--accent);border-bottom:1px solid color-mix(in srgb,var(--accent) 40%,transparent)">Watch Mina's first steps on LinkedIn &rarr;</a></p>
     </div>
   </details>
 
@@ -212,7 +213,7 @@
     <div class="sidebar-label">Hardware</div>
     <div class="sidebar-kv">
       <div class="kv-row"><div class="kv-key">Base</div><div class="kv-val">Berkeley Humanoid Lite</div></div>
-      <div class="kv-row"><div class="kv-key">DoF</div><div class="kv-val">12 (legs) + custom arm</div></div>
+      <div class="kv-row"><div class="kv-key">DoF</div><div class="kv-val">22 total (12 legs, 10 arms)</div></div>
       <div class="kv-row"><div class="kv-key">Motors</div><div class="kv-val">BLDC, quasi-direct drive</div></div>
       <div class="kv-row"><div class="kv-key">Fabrication</div><div class="kv-val">FDM 3D printing, ~160 parts</div></div>
       <div class="kv-row"><div class="kv-key">Encoders</div><div class="kv-val">AS5600 magnetic, 12-bit</div></div>
