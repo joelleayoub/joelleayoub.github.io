@@ -37,10 +37,6 @@
   .results-grid figure{margin:0}
   .results-grid img{width:100%;aspect-ratio:4/3;object-fit:contain;background:var(--paper-2);border:1px solid var(--rule);display:block}
   .results-grid figcaption{font-size:12px;color:var(--ink-faint);margin-top:6px;font-family:var(--grot);line-height:1.4}
-  .img-ph{display:flex;align-items:center;justify-content:center;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-faint);font-family:var(--grot);font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:16px}
-  .img-ph.tall{min-height:240px}
-  .img-ph.med{min-height:180px}
-  .img-ph.sm{min-height:130px}
 </style>
 </head>
 <body>
@@ -60,15 +56,16 @@
     <span class="banner-tag">EPFL IAPR</span>
   </div>
   <h1 class="banner-title">UNO Vision</h1>
-  <p class="banner-sub">Detecting, recognizing, and inferring the full UNO game state from a single photo: a hybrid classical-CV + deep-learning pipeline. EPFL Image Analysis and Pattern Recognition, LTS5.</p>
+  <p class="banner-sub">Detecting, recognizing, and inferring the full UNO game state from a single photo: a hybrid classical-CV + deep-learning pipeline. EPFL IAPR.</p>
 </div>
 
 <div class="proj-body">
 <div class="proj-main">
 
-  <!-- INTRO -->
-  <h2>Overview</h2>
-  <p>Given a single overhead photo of an UNO table with four players, a discard pile, and a small token marking whose turn it is, we recover the entire game state: which card is in the center, who is active, and exactly which cards each player is holding. We built this as a hybrid pipeline rather than a single end-to-end model: classical image processing handles the parts of the problem that are <em>fixed and geometric</em> (where the players sit, what the active-turn marker looks like), and a small object detector handles the part that is genuinely visual and variable (recognizing 54 distinct UNO card faces under rotation, overlap, and lighting). The split mattered more than any single component: it is the reason the pipeline stays interpretable and debuggable.</p>
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">Given a single overhead photo of an UNO table with four players, a discard pile, and a small token marking whose turn it is, we recover the entire game state: which card is in the center, who is active, and exactly which cards each player is holding. We built a hybrid pipeline rather than a single end-to-end model: classical image processing handles the fixed geometric parts, and a small YOLO11 object detector handles recognizing 54 distinct UNO card faces under rotation, overlap, and varying lighting.</p>
+  </div>
 
   <div class="detail-photo">
     <figure>
@@ -77,130 +74,148 @@
     </figure>
   </div>
 
-  <!-- SECTION 1 -->
-  <h2>1. Framing the Problem</h2>
-  <p>For every photo, the output we need is one structured row: the center card, the active player, and the (possibly empty) hand of each of the four players, encoded as a CSV line like <code>r_5;b_skip;y_2</code>. The dataset spans two visually different table setups (a plain white background and a busy printed tablecloth), each shot with cards either spaced apart or overlapping. Only 81 real training images came with full labels, and crucially, the labels tell you <em>which</em> cards are present, not <em>where</em> they are; there were no bounding boxes to learn from.</p>
-  <p>That single fact shaped most of the early decisions: any deep-learning component would need bounding boxes we would have to create ourselves, and with that few images, the model also had to be small enough not to overfit immediately.</p>
-
-  <!-- SECTION 2 -->
-  <h2>2. Why a Hybrid Pipeline</h2>
-  <p>We split the problem along a simple line: <strong>does this sub-task depend on pixel content, or on board geometry?</strong></p>
-
-  <div class="split-reason">
-    <div class="split-cell">
-      <div class="sc-label">Geometry: Classical CV</div>
-      <p>The four player regions and the center never move from photo to photo: the camera framing is fixed. Assigning a detected card to "player 2" is a geometry problem, solved once with precomputed region masks and distance maps.</p>
+  <details class="collapsible">
+    <summary>1. Framing the Problem</summary>
+    <div class="detail-content">
+      <p>For every photo, the output we need is one structured row: the center card, the active player, and the (possibly empty) hand of each of the four players, encoded as a CSV line like <code>r_5;b_skip;y_2</code>. The dataset spans two visually different table setups (a plain white background and a busy printed tablecloth), each shot with cards either spaced apart or overlapping. Only 81 real training images came with full labels, and crucially, the labels tell you <em>which</em> cards are present, not <em>where</em> they are; there were no bounding boxes to learn from.</p>
+      <p>That single fact shaped most of the early decisions: any deep-learning component would need bounding boxes we would have to create ourselves, and with that few images, the model also had to be small enough not to overfit immediately.</p>
     </div>
-    <div class="split-cell">
-      <div class="sc-label">Color Signature: Classical CV</div>
-      <p>The active-player marker has a narrow, consistent HSV color signature. A classical color-segmentation detector is more robust to lighting than asking a neural net to learn "find the small gray rectangle" from 81 images.</p>
+  </details>
+
+  <details class="collapsible">
+    <summary>2. Why a Hybrid Pipeline</summary>
+    <div class="detail-content">
+      <p>We split the problem along a simple line: <strong>does this sub-task depend on pixel content, or on board geometry?</strong></p>
+
+      <div class="split-reason">
+        <div class="split-cell">
+          <div class="sc-label">Geometry: Classical CV</div>
+          <p>The four player regions and the center never move from photo to photo: the camera framing is fixed. Assigning a detected card to "player 2" is a geometry problem, solved once with precomputed region masks and distance maps.</p>
+        </div>
+        <div class="split-cell">
+          <div class="sc-label">Color Signature: Classical CV</div>
+          <p>The active-player marker has a narrow, consistent HSV color signature. A classical color-segmentation detector is more robust to lighting than asking a neural net to learn "find the small gray rectangle" from 81 images.</p>
+        </div>
+        <div class="split-cell">
+          <div class="sc-label">Card Faces: Deep Learning</div>
+          <p>Recognizing which of 54 card faces is showing, under overlap, rotation, and partial occlusion, is the one sub-task genuinely about pixel content with high intra-class variation. That is where we spent our deep-learning budget.</p>
+        </div>
+      </div>
+
+      <p>This division meant every non-learned stage could be unit-tested and visually verified against ground truth before the learned stage was ever trained, which made debugging the eventual end-to-end errors much easier to localize.</p>
+
+      <div class="block-label">Full pipeline</div>
+      <p class="block-heading" style="margin-bottom:10px">Six-stage inference chain</p>
+      <div class="pipeline">
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Load assets:</strong> input photo + reconstructed background for the detected table type</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Background subtraction:</strong> per-pixel RGB distance, threshold, morphological cleanup to produce a foreground mask</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>YOLO card detection:</strong> detect all visible card faces on the cleaned foreground-on-white image</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>HSV marker detection:</strong> threshold, shape-filter connected components to locate the active-turn token</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Region assignment:</strong> map each detection to the correct player / center region via masks and distance maps</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">06</div><div class="pipeline-text"><strong>Validate and export:</strong> apply empty-hand overrides, enforce format rules, write the CSV row</div></div>
+      </div>
     </div>
-    <div class="split-cell">
-      <div class="sc-label">Card Faces: Deep Learning</div>
-      <p>Recognizing which of 54 card faces is showing, under overlap, rotation, and partial occlusion, is the one sub-task genuinely about pixel content with high intra-class variation. That is where we spent our deep-learning budget.</p>
+  </details>
+
+  <details class="collapsible">
+    <summary>3. Reconstructing the Empty Background</summary>
+    <div class="detail-content">
+      <p>Before finding cards in a photo we need to know what the table looks like <em>without</em> them. There was no clean "empty table" reference shot in the dataset, so we built one by hand: across several training images where cards covered different, non-overlapping areas, we manually masked out the card regions in each one and stitched the visible background patches from multiple photos into a single composite: one reconstruction for the white background, one for the printed tablecloth.</p>
+
+      <div class="hw-photo-pair">
+        <figure>
+          <img src="assets/reconstructed_backgrounds.png" alt="Reconstructed empty backgrounds">
+          <figcaption>The two reconstructed empty backgrounds: colored tablecloth (left) and white (right).</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/foreground_distance_histogram.png" alt="RGB distance histogram">
+          <figcaption>RGB-distance histogram for the white background, with the threshold at 90 marked.</figcaption>
+        </figure>
+      </div>
+
+      <p>With that reference in hand, foreground extraction becomes a background-subtraction problem: blur both the input photo and the reconstructed background slightly, take the per-pixel RGB distance between them, and threshold. The two background types needed different thresholds: pixel values on the white background cluster tightly, so a tight threshold (90) cleanly separates cards from table; the printed background's colors spread across a wider range, so a looser threshold (119) was needed to avoid losing real foreground to noise.</p>
+      <p>The raw thresholded mask is noisy: fabric folds, shadows, and JPEG artifacts all show up. We cleaned it with a layered sequence of OpenCV morphological operations (close, open, dilate, erode, repeated, tuned by visual inspection) followed by <code>skimage</code>'s hole-filling and small-object removal.</p>
+
+      <div class="detail-photo">
+        <figure>
+          <img src="assets/foreground_pipeline_steps.png" alt="Foreground extraction pipeline steps">
+          <figcaption>Original photo, reconstructed background, foreground mask, and cards-only output.</figcaption>
+        </figure>
+      </div>
     </div>
-  </div>
+  </details>
 
-  <p>This division meant every non-learned stage could be unit-tested and visually verified against ground truth before the learned stage was ever trained, which made debugging the eventual end-to-end errors much easier to localize.</p>
+  <details class="collapsible">
+    <summary>4. Detecting Empty Hands</summary>
+    <div class="detail-content">
+      <p>A player with no cards is still part of the output format (<code>EMPTY</code>), so we needed a cheap, reliable way to flag it. Rather than learn this, we reused the foreground mask: count foreground pixels falling inside each player's region, and if the count is below a threshold, call that hand empty.</p>
+      <p>The subtlety is picking the threshold. An "empty" hand can still contain a few stray foreground pixels, most commonly the active-player marker sitting at the edge of that region. So we set the threshold from the marker's own pixel area plus a safety margin: a region is only empty if it has less foreground than "one marker's worth" of pixels could account for. This gave us two thresholds (one per marker shape): approx. 93,300 px for the round marker, approx. 96,900 px for the rectangular one.</p>
+    </div>
+  </details>
 
-  <div class="block-label">Full pipeline</div>
-  <p class="block-heading" style="margin-bottom:10px">Six-stage inference chain</p>
-  <div class="pipeline">
-    <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Load assets:</strong> input photo + reconstructed background for the detected table type</div></div>
-    <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Background subtraction:</strong> per-pixel RGB distance, threshold, morphological cleanup to produce a foreground mask</div></div>
-    <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>YOLO card detection:</strong> detect all visible card faces on the cleaned foreground-on-white image</div></div>
-    <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>HSV marker detection:</strong> threshold, shape-filter connected components to locate the active-turn token</div></div>
-    <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Region assignment:</strong> map each detection to the correct player / center region via masks and distance maps</div></div>
-    <div class="pipeline-step"><div class="pipeline-num">06</div><div class="pipeline-text"><strong>Validate and export:</strong> apply empty-hand overrides, enforce format rules, write the CSV row</div></div>
-  </div>
+  <details class="collapsible">
+    <summary>5. Finding the Active Player with Color</summary>
+    <div class="detail-content">
+      <p>The active-turn indicator is a small token (a round coin on the colored background, a rectangular block on the white one) and each has a distinctive, narrow HSV color signature. We measured that signature directly from template photos of the markers rather than guessing ranges by eye.</p>
 
-  <!-- SECTION 3 -->
-  <h2>3. Reconstructing the Empty Background</h2>
-  <p>Before finding cards in a photo we need to know what the table looks like <em>without</em> them. There was no clean "empty table" reference shot in the dataset, so we built one by hand: across several training images where cards covered different, non-overlapping areas, we manually masked out the card regions in each one and stitched the visible background patches from multiple photos into a single composite: one reconstruction for the white background, one for the printed tablecloth.</p>
+      <div class="detail-photo">
+        <figure>
+          <img src="assets/marker_hsv_histogram.png" alt="HSV histogram of the round marker">
+          <figcaption>Hue/Saturation/Value distributions measured from the round marker template. The tight cluster near hue 25 is what makes HSV thresholding reliable here.</figcaption>
+        </figure>
+      </div>
 
-  <div class="hw-photo-pair">
-    <figure>
-      <img src="assets/reconstructed_backgrounds.png" alt="Reconstructed empty backgrounds">
-      <figcaption>The two reconstructed empty backgrounds: colored tablecloth (left) and white (right).</figcaption>
-    </figure>
-    <figure>
-      <img src="assets/foreground_distance_histogram.png" alt="RGB distance histogram">
-      <figcaption>RGB-distance histogram for the white background, with the threshold at 90 marked.</figcaption>
-    </figure>
-  </div>
+      <p>The detector: convert the photo to HSV, threshold to the marker's known range, clean the binary mask with morphological opening/closing, then look at connected components. Not every blob that survives thresholding is the marker, so we filter candidates by <em>area</em> (close to the known marker size) and by <em>shape</em>: circularity for the round token, elongation and extent for the rectangular one. Whatever survives is assigned to the nearest player region, with a geometric sanity check as a fallback.</p>
 
-  <p>With that reference in hand, foreground extraction becomes a background-subtraction problem: blur both the input photo and the reconstructed background slightly (to absorb fabric texture and camera noise), take the per-pixel RGB distance between them, and threshold. The two background types needed different thresholds: pixel values on the white background cluster tightly near the top of the range, so a tight threshold (90) cleanly separates cards from table; the printed background's colors spread across a much wider range, so a looser threshold (119) was needed to avoid losing real foreground to noise.</p>
-  <p>The raw thresholded mask is noisy: fabric folds, shadows, and JPEG artifacts all show up. We cleaned it with a deliberately layered sequence of OpenCV morphological operations (close, open, dilate, erode, repeated, tuned by visual inspection) followed by <code>skimage</code>'s hole-filling and small-object removal.</p>
+      <div class="detail-photo">
+        <figure>
+          <img src="assets/active_marker_detection.png" alt="Detected active marker assigned to player 4">
+          <figcaption>Detected marker (round, highlighted) correctly assigned to player 4.</figcaption>
+        </figure>
+      </div>
 
-  <div class="detail-photo">
-    <figure>
-      <img src="assets/foreground_pipeline_steps.png" alt="Foreground extraction pipeline steps">
-      <figcaption>Original photo, reconstructed background, foreground mask, and cards-only output.</figcaption>
-    </figure>
-  </div>
+      <p>This method reached <strong>perfect active-player accuracy on every evaluated training image</strong>, which is why the final pipeline keeps it fully separate from the learned card detector: there is no reason to spend any of a tight 12M-parameter budget teaching a network to find a token whose color and shape are already known exactly.</p>
+    </div>
+  </details>
 
-  <!-- SECTION 4 -->
-  <h2>4. Detecting Empty Hands</h2>
-  <p>A player with no cards is still part of the output format (<code>EMPTY</code>), so we needed a cheap, reliable way to flag it. Rather than learn this, we reused the foreground mask: count foreground pixels falling inside each player's region, and if the count is below a threshold, call that hand empty.</p>
-  <p>The subtlety is picking the threshold. An "empty" hand can still contain a few stray foreground pixels, most commonly the active-player marker sitting at the edge of that region. So we set the threshold from the marker's own pixel area plus a safety margin rather than guessing a number: a region is only empty if it has less foreground than "one marker's worth" of pixels could account for. This gave us two thresholds (one per marker shape): approx. 93,300 px for the round marker, approx. 96,900 px for the rectangular one.</p>
+  <details class="collapsible">
+    <summary>6. Card Detection: YOLO11</summary>
+    <div class="detail-content">
+      <p>This is the one part of the problem that is irreducibly visual: 54 card classes (four colors by ten numbers, plus skip/reverse/draw-2 per color, plus wild and draw-4), shown under rotation, partial overlap, and two different lighting conditions. We used <strong>YOLO11n</strong> (the nano variant, approx. 2.6M parameters, well inside the 12M budget) as a full-image object detector, with no pretrained weights, trained entirely from scratch.</p>
+      <ul>
+        <li><strong>Full image, not five region crops.</strong> Cards lying near a region boundary would be cut in half if we cropped first. Detecting on the full image and assigning detections to regions afterward fixed this entirely.</li>
+        <li><strong>A cleaned input, not the raw photo.</strong> We feed YOLO the foreground-on-white representation from step 3, removing background variation as something the detector has to learn to ignore.</li>
+        <li><strong>The active marker is not a YOLO class.</strong> It is already solved in step 5: adding it as a 55th class would only dilute training signal for the 54 classes that actually need it.</li>
+      </ul>
 
-  <!-- SECTION 5 -->
-  <h2>5. Finding the Active Player with Color</h2>
-  <p>The active-turn indicator is a small token (a round coin on the colored background, a rectangular block on the white one) and each has a distinctive, narrow HSV color signature. We measured that signature directly from template photos of the markers rather than guessing ranges by eye.</p>
+      <div class="detail-photo">
+        <figure>
+          <img src="assets/yolo_input_cards_on_white.png" alt="YOLO input: cards on white background">
+          <figcaption>Example YOLO input: cards (and marker) preserved, board background replaced with white.</figcaption>
+        </figure>
+      </div>
 
-  <div class="detail-photo">
-    <figure>
-      <img src="assets/marker_hsv_histogram.png" alt="HSV histogram of the round marker">
-      <figcaption>Hue/Saturation/Value distributions measured from the round marker template. The tight cluster near hue 25 is what makes HSV thresholding reliable here.</figcaption>
-    </figure>
-  </div>
+      <p><strong>Real data was the bottleneck, so we manually annotated all 81 training photos with bounding boxes</strong>, then generated synthetic full-board images to make up the rest of a usable training set. The generator was not naive random placement: card rotation follows the region's real-world orientation, placement is spatially biased toward each region's center, and rare card classes are oversampled using inverse-frequency weighting. For overlapping cards, the visible-only bounding box is computed automatically from placement order, so a buried card does not get a YOLO label for area no longer visible.</p>
+      <p>Training ran at <code>imgsz=1280</code> for 100 epochs, batch size 8, with the standard Ultralytics detection loss (box regression + classification + distribution focal loss).</p>
 
-  <p>The detector: convert the photo to HSV, threshold to the marker's known range, clean the binary mask with morphological opening/closing, then look at connected components. Not every blob that survives thresholding is the marker; a card sliver or a JPEG-compression artifact can pass, so we filter candidates by <em>area</em> (close to the known marker size) and by <em>shape</em>: circularity for the round token, elongation and extent for the rectangular one, since "is this round vs. rectangular" generalizes across orientation in a way that simple width/height ratios do not. Whatever survives is assigned to the nearest player region, with a geometric sanity check as a fallback.</p>
+      <div class="detail-photo">
+        <figure>
+          <img src="assets/yolo_training_curves.png" alt="YOLO training and validation curves">
+          <figcaption>Training/validation loss and precision/recall/mAP curves over 100 epochs.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </details>
 
-  <div class="detail-photo">
-    <figure>
-      <img src="assets/active_marker_detection.png" alt="Detected active marker assigned to player 4">
-      <figcaption>Detected marker (round, highlighted) correctly assigned to player 4.</figcaption>
-    </figure>
-  </div>
+  <details class="collapsible">
+    <summary>7. Region Assignment</summary>
+    <div class="detail-content">
+      <p>At inference, each YOLO box gets assigned to a region by checking whether its center falls inside a region mask; if not (a card straddling a boundary, or a detection box slightly off), it falls back to whichever region's mask is geometrically closest by a precomputed distance map. We chose mask-distance over simple "closest region center" because cards can sit far from their own region's centroid while still clearly belonging to it. The manual empty-hand result from step 4 then overrides anything YOLO predicted in a region we are confident has no cards, which suppresses a class of false positives the detector cannot otherwise be talked out of.</p>
+      <p>We tuned the final confidence and IoU thresholds (settled on <code>conf=0.60</code>, <code>iou=0.50</code>) by sweeping values against the actual project scoring metric on the training set (not against YOLO's own mAP), since the metric that matters (player-card multiset F1) does not necessarily peak at the same threshold as raw detection quality.</p>
+    </div>
+  </details>
 
-  <p>This method reached <strong>perfect active-player accuracy on every evaluated training image</strong>, which is why the final pipeline keeps it fully separate from the learned card detector: there is no reason to spend any of a tight 12M-parameter budget teaching a network to find a token whose color and shape are already known exactly.</p>
-
-  <!-- SECTION 6 -->
-  <h2>6. Card Detection: YOLO11</h2>
-  <p>This is the one part of the problem that is irreducibly visual: 54 card classes (four colors by ten numbers, plus skip/reverse/draw-2 per color, plus wild and draw-4), shown under rotation, partial overlap, and two different lighting conditions. We used <strong>YOLO11n</strong> (the nano variant, approx. 2.6M parameters, well inside the 12M budget) as a full-image object detector, with no pretrained weights, trained entirely from scratch.</p>
-
-  <p>A few choices were deliberate:</p>
-  <ul>
-    <li><strong>Full image, not five region crops.</strong> Cards lying near a region boundary would be cut in half if we cropped first; the detector would only ever see a partial card. Detecting on the full image and assigning detections to regions afterward, using the same masks built in step 3, fixed this entirely.</li>
-    <li><strong>A cleaned input, not the raw photo.</strong> We feed YOLO the foreground-on-white representation from step 3, rather than the raw photo with its two different backgrounds. This removes background variation as something the detector has to learn to ignore, letting its limited capacity go toward card appearance instead.</li>
-    <li><strong>The active marker is not a YOLO class.</strong> It is already solved in step 5: adding it as a 55th class would only dilute training signal for the 54 classes that actually need it.</li>
-  </ul>
-
-  <div class="detail-photo">
-    <figure>
-      <img src="assets/yolo_input_cards_on_white.png" alt="YOLO input: cards on white background">
-      <figcaption>Example YOLO input: cards (and marker) preserved, board background replaced with white.</figcaption>
-    </figure>
-  </div>
-
-  <p><strong>Real data was the bottleneck, so we manually annotated all 81 training photos with bounding boxes</strong> (the labels gave us which cards were present per region, which we used to guide (but not replace) manual box-drawing), then generated synthetic full-board images to make up the rest of a usable training set. The generator was not naive random placement: card rotation follows the region's real-world orientation, placement is spatially biased toward each region's center the way real hands tend to cluster, and rare card classes are oversampled using inverse-frequency weighting. For overlapping cards, the visible-only bounding box is computed automatically from placement order, so a buried card does not get a YOLO label for area no longer visible.</p>
-  <p>Training ran at <code>imgsz=1280</code> for 100 epochs, batch size 8, with the standard Ultralytics detection loss (box regression + classification + distribution focal loss).</p>
-
-  <div class="detail-photo">
-    <figure>
-      <img src="assets/yolo_training_curves.png" alt="YOLO training and validation curves">
-      <figcaption>Training/validation loss and precision/recall/mAP curves over 100 epochs.</figcaption>
-    </figure>
-  </div>
-
-  <!-- SECTION 7 -->
-  <h2>7. Region Assignment</h2>
-  <p>At inference, each YOLO box gets assigned to a region by checking whether its center falls inside a region mask; if not (a card straddling a boundary, or a detection box slightly off), it falls back to whichever region's mask is geometrically closest by a precomputed distance map. We chose mask-distance over simple "closest region center" because cards can sit far from their own region's centroid while still clearly belonging to it. The manual empty-hand result from step 4 then overrides anything YOLO predicted in a region we are confident has no cards, which suppresses a class of false positives the detector cannot otherwise be talked out of.</p>
-  <p>We tuned the final confidence and IoU thresholds (settled on <code>conf=0.60</code>, <code>iou=0.50</code>) by sweeping values against the actual project scoring metric on the training set (not against YOLO's own mAP), since the metric that matters (player-card multiset F1) does not necessarily peak at the same threshold as raw detection quality.</p>
-
-  <!-- SECTION 8: RESULTS -->
-  <h2>8. Results</h2>
+  <h2>Results</h2>
 
   <div class="metric-row">
     <div class="metric-cell highlight">
@@ -229,7 +244,7 @@
     </tbody>
   </table>
 
-  <p>End-to-end, on the project's own weighted metric (<code>0.1·CenterAcc + 0.1·ActiveAcc + 0.8·F1</code>) measured over all 81 labeled training images, active-player accuracy was 100%, confirming the HSV marker approach as a clean, fully solved sub-problem. Center-card accuracy and player-card F1 were the main drag on the composite score, exactly where we expected the bottleneck, given how little real, fully-annotated detection data the card detector had to learn from. Reference baselines: deep-learning baseline at 0.647, classical-only baseline at 0.570.</p>
+  <p>End-to-end, on the project's own weighted metric (<code>0.1·CenterAcc + 0.1·ActiveAcc + 0.8·F1</code>) measured over all 81 labeled training images, active-player accuracy was 100%, confirming the HSV marker approach as a clean, fully solved sub-problem. Center-card accuracy and player-card F1 were the main drag on the composite score, exactly where we expected the bottleneck given how little real, fully-annotated detection data the card detector had to learn from. Reference baselines: deep-learning baseline at 0.647, classical-only baseline at 0.570.</p>
 
   <div class="results-grid">
     <figure>
@@ -249,16 +264,15 @@
     </figure>
   </div>
 
-
 </div><!-- /proj-main -->
 
 <div class="proj-sidebar">
   <div class="sidebar-block">
     <div class="sidebar-label">Details</div>
     <div class="sidebar-kv">
-      <div class="kv-row"><div class="kv-key">Context</div><div class="kv-val">Final project, IAPR · EPFL LTS5</div></div>
+      <div class="kv-row"><div class="kv-key">Context</div><div class="kv-val">Final project, EPFL IAPR</div></div>
       <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">April – June 2026</div></div>
-      <div class="kv-row"><div class="kv-key">Team</div><div class="kv-val">Joelle Alachkar, Mia Nasr, Joelle Ayoub (Group 54)</div></div>
+      <div class="kv-row"><div class="kv-key">Team</div><div class="kv-val">Group project</div></div>
       <div class="kv-row"><div class="kv-key">Format</div><div class="kv-val">Kaggle competition</div></div>
     </div>
   </div>
