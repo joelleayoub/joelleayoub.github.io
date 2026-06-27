@@ -1,71 +1,300 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Flexure Inverter: Joelle Ayoub</title>
+<title>Flexure Inverter · Instant-Lab EPFL — Joelle Ayoub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
 <script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
+<style>
+  /* inline math / formula block */
+  .formula-block{background:var(--paper-2);border:1px solid var(--rule);padding:20px 24px;margin:18px 0;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:14px;color:var(--ink);line-height:2}
+  .formula-block .formula-title{font-family:var(--grot);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:8px;font-feature-settings:"tnum"}
+  /* param grid */
+  .param-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin:18px 0}
+  .param-cell{background:var(--paper);padding:14px 16px}
+  .param-label{font-family:var(--grot);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+  .param-value{font-size:17px;color:var(--ink);font-weight:500;font-family:var(--grot)}
+  /* result callout */
+  .result-callout{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin:20px 0}
+  .result-cell{background:var(--paper-2);padding:18px 20px;text-align:center}
+  .result-cell .rc-label{font-family:var(--grot);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+  .result-cell .rc-value{font-size:28px;font-weight:300;font-family:var(--serif);color:var(--ink)}
+  .result-cell .rc-sub{font-family:var(--grot);font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .result-cell.highlight{background:var(--ink)}
+  .result-cell.highlight .rc-label,.result-cell.highlight .rc-value,.result-cell.highlight .rc-sub{color:var(--paper)}
+  /* step list */
+  .step-list{display:flex;flex-direction:column;gap:0;margin:16px 0}
+  .step-item{display:grid;grid-template-columns:36px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--rule);align-items:start}
+  .step-item:last-child{border-bottom:none}
+  .step-num{font-family:var(--grot);font-size:11px;color:var(--accent);font-weight:500;padding-top:2px}
+  .step-text{font-size:15px;color:var(--ink-soft);line-height:1.55}
+  .step-text strong{color:var(--ink);font-weight:500}
+  /* comparison bar chart */
+  .compare-bars{display:flex;flex-direction:column;gap:10px;margin:18px 0}
+  .cbar-row{display:flex;align-items:center;gap:12px}
+  .cbar-label{font-family:var(--grot);font-size:11px;color:var(--ink-soft);width:110px;flex-shrink:0;text-align:right}
+  .cbar-track{flex:1;height:10px;background:var(--paper-2);border:1px solid var(--rule);position:relative}
+  .cbar-fill{height:100%;background:var(--accent);transition:width .6s ease}
+  .cbar-fill.dim{background:var(--ink-faint)}
+  .cbar-val{font-family:var(--grot);font-size:11px;color:var(--ink);width:48px;flex-shrink:0}
+  /* media helpers */
+  .media-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+  .media-pair figure{margin:0}
+  .media-pair img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;border:1px solid var(--rule)}
+  .media-pair figcaption{font-family:var(--grot);font-size:10.5px;color:var(--ink-faint);margin-top:5px;line-height:1.4}
+  .full-media{margin:20px 0}
+  .full-media img{width:100%;max-height:400px;object-fit:contain;background:var(--paper-2);border:1px solid var(--rule);display:block}
+  .full-media figcaption{font-family:var(--grot);font-size:10.5px;color:var(--ink-faint);margin-top:5px;line-height:1.4}
+  .media-ph{display:flex;align-items:center;justify-content:center;background:var(--paper-2);border:1px solid var(--rule);color:var(--ink-faint);font-family:var(--grot);font-size:10px;letter-spacing:.08em;text-transform:uppercase;text-align:center;padding:16px}
+  .media-ph.tall{min-height:220px}
+  .media-ph.short{min-height:140px}
+</style>
 </head>
 <body>
 <nav class="nav">
-  <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Flexure Inverter</span></div>
+  <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Flexure Inverter · Instant-Lab</span></div>
   <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
+
 <div class="proj-banner">
-  <div class="banner-tags"><span class="banner-tag">Mechanism Design</span><span class="banner-tag">COMSOL FEM</span><span class="banner-tag">Flexures</span><span class="banner-tag">Laser Cutting</span></div>
-  <h1 class="banner-title">Flexure-Guided Angular Inverter</h1>
-  <p class="banner-sub">Reduced angular error by 83% (3° → ±0.5°) through analytical dimensioning, COMSOL FEM, and laser-cut prototype validation. Instant-Lab, EPFL Neuchâtel.</p>
+  <div class="banner-tags">
+    <span class="banner-tag">Mechanism Design</span>
+    <span class="banner-tag">Flexures</span>
+    <span class="banner-tag">COMSOL FEM</span>
+    <span class="banner-tag">Laser Cutting</span>
+    <span class="banner-tag">EPFL Instant-Lab</span>
+  </div>
+  <h1 class="banner-title">Optimisation d'un inverseur en guidage flexible</h1>
+  <p class="banner-sub">Summer internship at EPFL's Instant-Lab. Analytically dimensioned, simulated, fabricated and experimentally validated a perfectly-inverting flexure mechanism — reducing angular error by over 80% compared to non-optimised variants.</p>
 </div>
+
 <div class="proj-body">
 <div class="proj-main">
-  <h2>Overview</h2>
-  <p>Research internship at <strong>Instant-Lab, EPFL Neuchâtel</strong>. Designed and optimised a flexure-guided angular inverter: a compliant mechanism that transmits angular motion while inverting its sign, with high precision and low angular error.</p>
-  <h2>Design Process</h2>
-  <ul>
-    <li><strong>Analytical dimensioning</strong>: derived closed-form expressions for blade geometry vs. angular error</li>
-    <li><strong>CAD modelling</strong>: parametric SolidWorks model for rapid iteration</li>
-    <li><strong>COMSOL FEM</strong>: structural simulation to predict angular error across blade offset and orientation variants</li>
-    <li><strong>Laser-cut prototypes</strong>: fabricated and tested multiple configurations</li>
-    <li><strong>Camera-based measurement</strong>: experimental validation comparing optimised vs. non-optimised designs</li>
-  </ul>
-  <h2>Results</h2>
-  <table class="spec-table">
-    <tr><th>Metric</th><th>Before</th><th>After</th></tr>
-    <tr><td>Angular Error</td><td>±3°</td><td>±0.5°</td></tr>
-    <tr><td>Improvement</td><td colspan="2"><strong>83% reduction</strong></td></tr>
-    <tr><td>Key Variable</td><td colspan="2">Blade offset and orientation</td></tr>
-    <tr><td>Fabrication</td><td colspan="2">Laser cutting</td></tr>
-    <tr><td>Validation Method</td><td colspan="2">Camera-based angular measurement</td></tr>
-  </table>
-  <h2>Photo Gallery</h2>
-  <div class="photo-grid">
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a1010">⚙️</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a1010">📐</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a1010">📊</div></div>
+
+  <!-- OVERVIEW -->
+  <h2>Context</h2>
+  <p>At <strong>Instant-Lab, EPFL Neuchâtel</strong> (August 2024), I worked on optimising a <strong>flexure-guided angular inverter</strong> — a compliant mechanism that transmits angular motion from an input arm to an output arm while perfectly inverting its sign (θ_out = −θ_in), with minimal parasitic displacement.</p>
+  <p>Flexure-based inverters avoid friction and backlash by replacing pivots with thin elastic blades. The challenge: blade geometry directly couples to angular error. This project derived and validated the geometry conditions for a <em>perfect</em> inversion.</p>
+
+  <div class="result-callout">
+    <div class="result-cell">
+      <div class="rc-label">Non-optimised error</div>
+      <div class="rc-value">±3.5°</div>
+      <div class="rc-sub">max across ±25° range</div>
+    </div>
+    <div class="result-cell highlight">
+      <div class="rc-label">Optimised error</div>
+      <div class="rc-value">±0.5°</div>
+      <div class="rc-sub">&gt;80% reduction — confirmed experimentally</div>
+    </div>
   </div>
-  <p class="photo-caption">→ Add photos: assets/flexure-01.jpg etc.</p>
-</div>
+
+  <!-- PROCESS -->
+  <h2>Design Process</h2>
+  <div class="step-list">
+    <div class="step-item"><div class="step-num">01</div><div class="step-text"><strong>Analytical dimensioning</strong> — derived closed-form geometry for a "perfect" flexure inverter using the blade-offset ratio R/L and pivot parameters</div></div>
+    <div class="step-item"><div class="step-num">02</div><div class="step-text"><strong>CAD modelling</strong> — parametric design in SolidWorks, including the fan-shaped angle scale and the symmetric flexure body</div></div>
+    <div class="step-item"><div class="step-num">03</div><div class="step-text"><strong>COMSOL FEM simulation</strong> — structural finite-element analysis across the full angular range; von Mises stress maps at peak deflection</div></div>
+    <div class="step-item"><div class="step-num">04</div><div class="step-text"><strong>Laser-cut prototyping</strong> — multiple configurations fabricated (optimised, R=0, reversed-blade orientation rcc90 / rcc120)</div></div>
+    <div class="step-item"><div class="step-num">05</div><div class="step-text"><strong>Camera-based measurement</strong> — 12× microscope setup used to track angular position experimentally and compare to simulation</div></div>
+  </div>
+
+  <!-- DIMENSIONING -->
+  <h2>Analytical Dimensioning</h2>
+  <p>A perfectly-inverting full-flexure mechanism requires two key conditions on blade geometry. Starting from the pivot parameters, the blade offset R and height H are determined analytically:</p>
+
+  <div class="formula-block">
+    <div class="formula-title">Governing equations — perfect flexure inverter</div>
+    R / L = 1 / 6<br>
+    H / L_pivot = (2/15) · (1 / cos(α_pivot)) · (9λ² − 9λ + 1)<br>
+    <span style="color:var(--ink-faint)">where  λ = D_pivot / L_pivot</span>
+  </div>
+
+  <p>Applying these to the target envelope (α_pivot = 60°, L_pivot = 84 mm) gives:</p>
+
+  <div class="param-grid">
+    <div class="param-cell"><div class="param-label">α_pivot</div><div class="param-value">60°</div></div>
+    <div class="param-cell"><div class="param-label">L_pivot</div><div class="param-value">84 mm</div></div>
+    <div class="param-cell"><div class="param-label">D_pivot</div><div class="param-value">112 mm</div></div>
+    <div class="param-cell"><div class="param-label">L_lame</div><div class="param-value">28 mm</div></div>
+    <div class="param-cell"><div class="param-label">H</div><div class="param-value">112 mm</div></div>
+    <div class="param-cell"><div class="param-label">R (offset)</div><div class="param-value">4.667 mm</div></div>
+  </div>
+
+  <!-- CAD -->
+  <h2>CAD Design</h2>
+  <p>The mechanism consists of a fixed frame, two symmetric flexure stages, and a fan-shaped input arm with a protractor scale for visual angle reading. Blade geometry matches the analytically derived parameters.</p>
+
+  <div class="full-media">
+    <figure>
+      <img src="assets/cad.png" hidden alt="CAD model of the flexure inverter">
+      <div class="media-ph tall">CAD view — assets/cad.png</div>
+      <figcaption>Parametric CAD layout. Left: input arm with fan-shaped protractor. Right: symmetric flexure body with blade stages.</figcaption>
+    </figure>
+  </div>
+
+  <!-- SIMULATION -->
+  <h2>COMSOL FEM Simulation</h2>
+  <p>The optimised inverter was simulated in COMSOL across an input range of ±20°. Angular error (θ_out + θ_in) remained below <strong>±0.35°</strong> — a near-perfect inversion consistent with the analytical prediction.</p>
+  <p>Von Mises stress maps at peak deflection confirm that stress stays well below yield, and the symmetric behaviour at +20° and −20° validates the design.</p>
+
+  <div class="media-pair">
+    <figure>
+      <img src="assets/sim-error.png" hidden alt="Simulation angular error plot">
+      <div class="media-ph tall">Error plot — assets/sim-error.png</div>
+      <figcaption>Angular error vs. input angle for the optimised ("inverseur parfait") design. Max error ≈ ±0.35°.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/sim-stress.png" hidden alt="COMSOL von Mises stress map">
+      <div class="media-ph tall">Stress map — assets/sim-stress.png</div>
+      <figcaption>Von Mises stress at α = ±11.9°. Stress concentration at blade roots; peak well below yield.</figcaption>
+    </figure>
+  </div>
+
+  <p>A separate simulation compared the flexure error against the theoretical ideal kinematics (four-bar linkage), showing the residual 4th-order error term Δθ ≈ −(h/2)θ⁴ characteristic of this topology.</p>
+
+  <!-- PROTOTYPE -->
+  <h2>Prototyping</h2>
+  <p>Prototypes were laser-cut from plastic sheet and assembled with bolts onto an acrylic backing plate. The fan-scale on the input arm and a reference mark on the output allow direct visual angle reading.</p>
+
+  <div class="full-media">
+    <figure>
+      <img src="assets/prototype.jpg" hidden alt="Laser-cut prototype assembled">
+      <div class="media-ph tall">Prototype photo — assets/prototype.jpg</div>
+      <figcaption>Assembled laser-cut prototype. Input arm (left) with fan-scale; output arm (right) with symmetric flexure stage.</figcaption>
+    </figure>
+  </div>
+
+  <!-- EXPERIMENTAL -->
+  <h2>Experimental Validation</h2>
+  <p>A 12× camera microscope measured the output angle for a series of discrete input positions. Red reference lines on the frame established a stable datum. Results were overlaid with simulation predictions.</p>
+
+  <div class="media-pair">
+    <figure>
+      <img src="assets/exp-setup-1.jpg" hidden alt="Camera measurement setup">
+      <div class="media-ph tall">Setup — assets/exp-setup-1.jpg</div>
+      <figcaption>Camera measurement at θ_in ≈ +10°. Red reference lines used to track output angle.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/exp-setup-2.jpg" hidden alt="Camera measurement deflected">
+      <div class="media-ph tall">Deflected — assets/exp-setup-2.jpg</div>
+      <figcaption>Same setup at a larger positive input. The output arm deflects symmetrically in the opposite direction.</figcaption>
+    </figure>
+  </div>
+
+  <div class="full-media">
+    <figure>
+      <img src="assets/exp-results.png" hidden alt="Experimental vs simulation error comparison">
+      <div class="media-ph short">Results chart — assets/exp-results.png</div>
+      <figcaption>Experimental (teal) vs. simulation (red) angular error for the optimised design. Good agreement; scatter likely due to manual angle reading.</figcaption>
+    </figure>
+  </div>
+
+  <!-- NON-OPTIMISED CASES -->
+  <h2>Non-Optimised Cases</h2>
+  <p>Two optimisation parameters were varied independently to quantify their effect:</p>
+  <ul>
+    <li><strong>Blade offset R</strong> — setting R = 0 (blades aligned with the pivot axis) nearly doubles the maximum error</li>
+    <li><strong>Blade orientation</strong> — reversed orientation (rcc90, rcc120) produces a large antisymmetric error, reaching −3.5° at ±20°</li>
+  </ul>
+
+  <div class="compare-bars">
+    <div class="cbar-row">
+      <div class="cbar-label">Optimised (R opt)</div>
+      <div class="cbar-track"><div class="cbar-fill" style="width:13%"></div></div>
+      <div class="cbar-val">±0.4°</div>
+    </div>
+    <div class="cbar-row">
+      <div class="cbar-label">R = 0</div>
+      <div class="cbar-track"><div class="cbar-fill dim" style="width:22%"></div></div>
+      <div class="cbar-val">±0.7°</div>
+    </div>
+    <div class="cbar-row">
+      <div class="cbar-label">rcc90 / rcc120</div>
+      <div class="cbar-track"><div class="cbar-fill dim" style="width:100%"></div></div>
+      <div class="cbar-val">±3.5°</div>
+    </div>
+  </div>
+
+  <div class="media-pair">
+    <figure>
+      <img src="assets/nonopt-cad.png" hidden alt="Non-optimised CAD">
+      <div class="media-ph tall">Non-opt CAD — assets/nonopt-cad.png</div>
+      <figcaption>Reversed-orientation blade layout (rcc90/rcc120): blades tilted in the wrong direction relative to the pivot angle.</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/nonopt-exp.jpg" hidden alt="Non-optimised prototype deflecting">
+      <div class="media-ph tall">Non-opt prototype — assets/nonopt-exp.jpg</div>
+      <figcaption>Non-optimised prototype at large deflection. Parasitic lateral displacement is visible.</figcaption>
+    </figure>
+  </div>
+
+  <!-- FINAL COMPARISON -->
+  <h2>Comparison</h2>
+  <p>The final comparison overlays all configurations. The optimised design (red line) stays within ±0.5° across the full measurement range, while non-optimised variants reach −3.5°. Experimental scatter on the optimised design matches the FEM prediction well.</p>
+
+  <div class="full-media">
+    <figure>
+      <img src="assets/comparison.png" hidden alt="Full comparison chart">
+      <div class="media-ph short">Comparison chart — assets/comparison.png</div>
+      <figcaption>Angular error vs. input angle: optimised (red line + experimental teal dots), non-optimised mean (teal curve), FEM (black). The optimised geometry suppresses error by &gt;80%.</figcaption>
+    </figure>
+  </div>
+
+  <table class="spec-table">
+    <thead><tr><th>Configuration</th><th>Max error (FEM)</th><th>Max error (exp.)</th></tr></thead>
+    <tbody>
+      <tr><td>Optimised (R = L/6, correct orientation)</td><td>±0.35°</td><td>±0.5°</td></tr>
+      <tr><td>R = 0 (no offset)</td><td>±0.7°</td><td>—</td></tr>
+      <tr><td>Reversed orientation (rcc90 / rcc120)</td><td>±3.5°</td><td>±3.5°</td></tr>
+    </tbody>
+  </table>
+
+</div><!-- /proj-main -->
+
 <div class="proj-sidebar">
   <div class="sidebar-block">
     <div class="sidebar-label">Details</div>
     <div class="sidebar-kv">
-      <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Design Intern</strong></div></div>
-      <div class="kv-row"><div class="kv-key">Organisation</div><div class="kv-val">Instant-Lab · EPFL Neuchâtel</div></div>
-      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Jul – Aug 2024</div></div>
-      <div class="kv-row"><div class="kv-key">Result</div><div class="kv-val"><strong>83% error reduction</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Research Intern</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Lab</div><div class="kv-val">Instant-Lab · EPFL Neuchâtel</div></div>
+      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">August 2024</div></div>
+      <div class="kv-row"><div class="kv-key">Error reduction</div><div class="kv-val"><strong>&gt; 80%</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Optimised error</div><div class="kv-val"><strong>±0.5° (exp.)</strong></div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Methods</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Analysis</div><div class="kv-val">Analytical mechanics</div></div>
+      <div class="kv-row"><div class="kv-key">Simulation</div><div class="kv-val">COMSOL Multiphysics FEM</div></div>
+      <div class="kv-row"><div class="kv-key">CAD</div><div class="kv-val">SolidWorks</div></div>
+      <div class="kv-row"><div class="kv-key">Fabrication</div><div class="kv-val">Laser cutting</div></div>
+      <div class="kv-row"><div class="kv-key">Measurement</div><div class="kv-val">12× camera microscope</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Key Parameters</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">α_pivot</div><div class="kv-val">60°</div></div>
+      <div class="kv-row"><div class="kv-key">L_pivot / D_pivot</div><div class="kv-val">84 / 112 mm</div></div>
+      <div class="kv-row"><div class="kv-key">Blade offset R</div><div class="kv-val">L / 6 = 4.67 mm</div></div>
+      <div class="kv-row"><div class="kv-key">H</div><div class="kv-val">112 mm</div></div>
     </div>
   </div>
 </div>
-</div>
+
+</div><!-- /proj-body -->
+
 <div class="proj-nav">
   <a href="../thymio-nav/" class="proj-nav-item"><span class="proj-nav-dir">← Previous</span><span class="proj-nav-title">Thymio Navigation</span></a>
   <a href="../founderful/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next →</span><span class="proj-nav-title">Founderful & PAVE</span></a>
 </div>
+
 <script>
 const root=document.documentElement,tbtn=document.getElementById('themeToggle');
 tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==="dark"?"light":"dark";root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
 </script>
 </body></html>
-
