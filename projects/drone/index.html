@@ -27,9 +27,10 @@
   .block-divider{border:none;border-top:2px solid var(--rule);margin:56px 0 40px}
   .block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
   .block-heading{font-family:var(--serif);font-size:22px;font-weight:400;font-style:italic;color:var(--ink);margin:0 0 22px}
-  .placeholder-card{border:1px dashed var(--rule);border-radius:2px;padding:36px 28px;text-align:center;margin:24px 0}
-  .placeholder-card .ph-label{font-family:var(--grot);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:10px}
-  .placeholder-card .ph-body{font-size:14px;color:var(--ink-faint);line-height:1.65;max-width:380px;margin:0 auto}
+  .hw-photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:20px 0}
+  .hw-photo-pair figure{margin:0}
+  .hw-photo-pair img{width:100%;height:200px;object-fit:cover;display:block}
+  .hw-photo-pair figcaption{font-size:12px;color:var(--ink-faint);margin-top:6px;font-family:var(--grot)}
 </style>
 </head>
 <body>
@@ -43,7 +44,7 @@
     <span class="banner-tag">Python</span><span class="banner-tag">Webots</span><span class="banner-tag">Crazyflie</span><span class="banner-tag">OpenCV</span><span class="banner-tag">Computer Vision</span><span class="banner-tag">Cascaded PID</span><span class="banner-tag">State Machine</span><span class="banner-tag">Autonomous Navigation</span>
   </div>
   <h1 class="banner-title">Autonomous Crazyflie Gate Racing</h1>
-  <p class="banner-sub">A vision-based autonomy stack for a simulated Crazyflie quadrotor: gate detection with OpenCV, geometric position estimation, 8-state FSM navigation, spatial memory, and cascaded PID control. EPFL MICRO-502 Aerial Robotics.</p>
+  <p class="banner-sub">A vision-based autonomy stack for a simulated and physical Crazyflie quadrotor: gate detection with OpenCV, geometric position estimation, FSM navigation, spatial memory, and cascaded PID control. EPFL MICRO-502 Aerial Robotics.</p>
 </div>
 
 <div class="proj-body">
@@ -154,18 +155,92 @@
     </div>
   </details>
 
-  <h2>Outcome</h2>
+  <h2>Simulation Outcome</h2>
   <p>The controller completes the full pipeline: take off, detect and estimate five unknown gate positions from vision, fly through each counter-clockwise, return to start, then execute two faster memory-replay laps. It handles vision loss, false positives, oblique views, range-sensor failures, and missed gate credits through fallback logic at every layer.</p>
 
   <!-- ===== REAL FLIGHT ===== -->
   <hr class="block-divider">
   <div class="block-label">Real Flight</div>
-  <p class="block-heading">Crazyflie 2.x Hardware</p>
+  <p class="block-heading">Crazyflie 2.x Hardware &middot; Group task &middot; MICRO-502</p>
 
-  <div class="placeholder-card">
-    <div class="ph-label">Hardware Task In Progress</div>
-    <p class="ph-body">The group real-flight phase on a physical Crazyflie quadrotor will be documented here once completed. Content coming soon.</p>
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">The same gate-racing task deployed on a physical Crazyflie 2.x quadrotor. The simulation autonomy stack is adapted to run over a radio link using the Bitcraze Python library, with velocity commands replacing the custom PID cascade and onboard Kalman filtering replacing the perfect simulator state.</p>
   </div>
+
+  <div class="hw-photo-pair">
+    <figure>
+      <img src="assets/crazyflie.png" alt="Crazyflie 2.x quadrotor">
+      <figcaption>Crazyflie 2.x -- the physical platform</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/setup.png" alt="Gate arena setup">
+      <figcaption>Real gate arena setup</figcaption>
+    </figure>
+  </div>
+
+  <details class="collapsible">
+    <summary>From Simulation to Hardware</summary>
+    <div class="detail-content">
+      <p>Moving from Webots to a real drone introduces a new class of constraints that the simulation cannot replicate.</p>
+
+      <h3>What makes this harder</h3>
+      <ul>
+        <li><strong>Sensor noise.</strong> IMU, optical flow, and barometer readings are all noisier than in simulation. Gate position estimates based on real sensor data are less stable and require more conservative filtering thresholds.</li>
+        <li><strong>Imperfect state estimate.</strong> The simulator provided exact ground-truth pose. On hardware, position comes from an onboard Kalman filter that can drift, especially under vibration or rapid maneuvers.</li>
+        <li><strong>Real-world vision.</strong> Lighting conditions, shadows, and camera exposure variation mean the magenta gates look different from frame to frame. HSV thresholds that worked cleanly in simulation require real-world calibration.</li>
+        <li><strong>Radio link reliability.</strong> Commands and telemetry travel over a 2.4 GHz radio link. Packet loss and latency add uncertainty to the control loop that does not exist in simulation.</li>
+        <li><strong>Safety constraints.</strong> In simulation a crash is free. On a physical drone, a software bug can destroy hardware or injure people, so every failure mode needs a safe landing fallback.</li>
+        <li><strong>Speed tuning from scratch.</strong> Gains and velocity limits tuned in simulation do not transfer directly. The approach is to start slow and increase speed incrementally once stability is confirmed.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Computer Vision</summary>
+    <div class="detail-content">
+      <p>The same HSV gate detection pipeline from simulation runs on the real onboard camera stream. The core approach is unchanged: convert to HSV, threshold for magenta, clean with morphological operations, extract and score contours. The key adaptation is threshold calibration for real-world lighting and tuning the scoring weights to account for noisier, lower-contrast images.</p>
+      <p>Real-world gate appearances vary more than simulation: lighting angle, exposure, and distance all affect how the magenta patch looks in HSV space. The confirmation layer becomes more important on hardware, as individual detections are less reliable and the median filter over multiple frames is the primary mechanism for producing stable gate estimates.</p>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Path Planning and Navigation</summary>
+    <div class="detail-content">
+      <h3>FSM adapted for hardware</h3>
+      <p>The mission FSM keeps the same phase structure as simulation, adapted to output velocity commands rather than position setpoints. Each phase produces a <code>(vx, vy, yaw_rate, z)</code> tuple sent directly to the drone's hover commander. Position tracking uses the Kalman-filtered state from the onboard estimator, polled at 100 ms intervals.</p>
+      <div class="sm-grid">
+        <div class="sm-node"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 0.4 m, confirm altitude from EKF state</div></div>
+        <div class="sm-node"><div class="sm-label">Hover</div><div class="sm-desc">Hold altitude briefly while estimator settles</div></div>
+        <div class="sm-node"><div class="sm-label">Search</div><div class="sm-desc">Slow yaw scan while holding position and altitude</div></div>
+        <div class="sm-node"><div class="sm-label">Approach</div><div class="sm-desc">Velocity commands toward detected gate</div></div>
+        <div class="sm-node"><div class="sm-label">Pass</div><div class="sm-desc">Fly through gate at reduced speed</div></div>
+        <div class="sm-node"><div class="sm-label">Race</div><div class="sm-desc">Replay remembered gate centers via velocity commands</div></div>
+        <div class="sm-node"><div class="sm-label">Land</div><div class="sm-desc">Decrease altitude command at 0.2 m/s</div></div>
+        <div class="sm-node"><div class="sm-label">Done</div><div class="sm-desc">Stop setpoints, mission complete</div></div>
+      </div>
+
+      <h3>Kalman state and position tracking</h3>
+      <p>The onboard Kalman filter (EKF) fuses IMU, optical flow, and barometer to produce <code>stateEstimate.x/y/z</code> and <code>stabilizer.yaw</code>, streamed to the ground station via the cflib log framework. The estimator is reset at mission start to clear drift from handling. Telemetry age is monitored continuously -- if state data goes stale beyond a threshold, the safety layer triggers an automatic landing.</p>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Hardware Interface and Safety</summary>
+    <div class="detail-content">
+      <h3>Command interface</h3>
+      <p>On hardware, the custom 4-loop PID cascade from simulation is replaced by the Crazyflie's onboard attitude and rate controller. The mission code sends high-level velocity setpoints via <code>send_hover_setpoint(vx, vy, yaw_rate, z)</code> -- the drone's firmware handles all attitude stabilization internally. This simplifies the software stack considerably and offloads the lowest-level control to a well-tested onboard system.</p>
+
+      <h3>Radio link and telemetry</h3>
+      <p>The drone connects over a 2.4 GHz radio link using the Bitcraze <code>cflib</code> Python library. Connection events (connected, disconnected, link lost) all have registered callbacks that update the safety state. Telemetry is logged at 100 ms intervals via a <code>LogConfig</code> subscribing to <code>stateEstimate.x</code>, <code>stateEstimate.y</code>, <code>stateEstimate.z</code>, and <code>stabilizer.yaw</code>.</p>
+
+      <h3>Safety watchdog</h3>
+      <p>A dedicated safety layer runs independently of the mission FSM. It monitors telemetry age and connection status on every control tick. If state data is stale for more than 1 s, or if the radio link drops, it immediately commands a controlled descent and stops all mission activity. This ensures the drone lands safely regardless of what the mission code is doing.</p>
+    </div>
+  </details>
+
+  <h2>Hardware Outcome</h2>
+  <p>The stack successfully bridges simulation to a physical platform: the same perception and navigation logic runs over a live radio link, with the hardware-specific interface, safety layer, and real-world vision calibration handling the gap between a perfect simulator and a noisy real environment. The incremental approach -- slow flights first, speed increased only once stability was confirmed -- is reflected in the architecture, where conservative thresholds and safe fallbacks are built in at every layer.</p>
 
 </div>
 
@@ -202,8 +277,14 @@
   </div>
   <div class="sidebar-block">
     <div class="sidebar-label">Real Flight</div>
-    <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val"><span class="status-dot"></span>In progress</div></div>
-    <p style="font-size:13px;color:var(--ink-faint);margin-top:10px;line-height:1.5">Group hardware phase on a real Crazyflie. Details will be added here once completed.</p>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Scope</div><div class="kv-val">Group task</div></div>
+      <div class="kv-row"><div class="kv-key">Platform</div><div class="kv-val">Crazyflie 2.x (physical)</div></div>
+      <div class="kv-row"><div class="kv-key">Link</div><div class="kv-val">Radio, 2.4 GHz</div></div>
+      <div class="kv-row"><div class="kv-key">Interface</div><div class="kv-val">cflib (Bitcraze)</div></div>
+      <div class="kv-row"><div class="kv-key">State</div><div class="kv-val">Kalman EKF (onboard)</div></div>
+      <div class="kv-row"><div class="kv-key">Control</div><div class="kv-val">Velocity setpoints</div></div>
+    </div>
   </div>
 </div>
 </div>
