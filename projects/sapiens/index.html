@@ -55,7 +55,7 @@
 
   <div class="overview-intro">
     <div class="overview-heading">Overview</div>
-    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. The full robot has 22 degrees of freedom: 12 across the two legs and 10 across the two arms. As hardware lead, we handle the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
+    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. The full robot has 22 degrees of freedom: 12 across the two legs and 10 across the two arms. We handled the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
   </div>
 
   <div class="hw-photo-pair">
@@ -72,13 +72,13 @@
   <details class="collapsible">
     <summary>The Task</summary>
     <div class="detail-content">
-      <p>Berkeley Humanoid Lite ships as open-source CAD files, firmware, and a parts list, not as a kit. Every structural part must be 3D-printed and iterated if necessary before assembly. The robot has 12 degrees of freedom across two legs (6 per leg), each joint driven by a brushless DC motor with a 3D-printed gearbox and a magnetic encoder. The complete build requires printing roughly 160 parts, hand-soldering all motor and encoder cables, performing electrical calibration on each of the 12 motors, and assembling the full kinematic chain from ankle to torso.</p>
+      <p>Berkeley Humanoid Lite ships as open-source CAD files, firmware, and a parts list, not as a kit. Every structural part must be 3D-printed and iterated if necessary before assembly. The full robot has 22 degrees of freedom: 12 across the two legs (6 per leg, each driven by a BLDC motor with a 3D-printed gearbox and magnetic encoder) and 10 across the two arms (5 per arm). The complete build requires printing roughly 160 parts, hand-soldering all motor and encoder cables, performing electrical calibration on each of the 22 motors, and assembling the full kinematic chain from ankle to torso.</p>
 
       <h3>What makes this hard</h3>
       <ul>
         <li><strong>Part count and tolerances.</strong> Around 160 printed parts must fit within tight tolerances, particularly at gear meshes and bearing seats. A part that is 0.2 mm oversized jams; undersized and it rattles. Each failure means reprinting and re-testing.</li>
         <li><strong>Assembly sequence constraints.</strong> Cable routing runs inside the links, so certain bolts and connectors become inaccessible after the next link is assembled. Disassembly to fix a wiring error costs hours.</li>
-        <li><strong>Per-motor electrical calibration.</strong> Each BLDC motor requires measuring its flux offset, the angular gap between encoder zero and motor electrical zero, which depends on how the magnet was glued and cannot be read from a datasheet. This must be measured individually on all 12 joints.</li>
+        <li><strong>Per-motor electrical calibration.</strong> Each BLDC motor requires measuring its flux offset, the angular gap between encoder zero and motor electrical zero, which depends on how the magnet was glued and cannot be read from a datasheet. This must be measured individually on all 22 joints.</li>
         <li><strong>Gearbox alignment.</strong> The gearboxes are themselves 3D-printed. Backlash and play are sensitive to print quality and assembly alignment, and accumulate across five joints per leg.</li>
       </ul>
     </div>
@@ -107,7 +107,7 @@
   <details class="collapsible">
     <summary>Motor Soldering and Electrical Integration</summary>
     <div class="detail-content">
-      <p>Each of the 12 joints is driven by a brushless DC motor paired with a small controller board. The motor has 14 pole pairs, meaning its electrical angle spins 14 times faster than the mechanical shaft, so precise position sensing is non-negotiable. Every connection is hand-soldered: three phase wires from each motor to its controller, I2C lines from the AS5600 magnetic encoder, and the CAN bus daisy-chain connecting all controllers back to the onboard computer.</p>
+      <p>Each of the 22 joints is driven by a brushless DC motor paired with a small controller board. The motor has 14 pole pairs, meaning its electrical angle spins 14 times faster than the mechanical shaft, so precise position sensing is non-negotiable. Every connection is hand-soldered: three phase wires from each motor to its controller, I2C lines from the AS5600 magnetic encoder, and the CAN bus daisy-chain connecting all controllers back to the onboard computer.</p>
 
       <div class="pipeline">
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Phase wire soldering:</strong> solder U, V, W phase wires from each BLDC motor to its controller board. Wire order determines motor spin direction and must be consistent per the firmware convention.</div></div>
@@ -121,7 +121,7 @@
   <details class="collapsible">
     <summary>Motor Calibration</summary>
     <div class="detail-content">
-      <p>Field-Oriented Control (FOC) requires knowing the exact angular offset between the encoder's mechanical zero and the motor's electrical zero: the flux offset. This number depends on how the magnet was glued and the encoder mounted, so it is unique to every motor and cannot be looked up. The controller performs an automatic electrical calibration by spinning the rotor under a known current and recording the encoder response. All 12 joints are calibrated individually after final assembly.</p>
+      <p>Field-Oriented Control (FOC) requires knowing the exact angular offset between the encoder's mechanical zero and the motor's electrical zero: the flux offset. This number depends on how the magnet was glued and the encoder mounted, so it is unique to every motor and cannot be looked up. The controller performs an automatic electrical calibration by spinning the rotor under a known current and recording the encoder response. All 22 joints are calibrated individually after final assembly.</p>
 
       <div class="pipeline">
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Bus bring-up:</strong> power the CAN bus and confirm each motor responds to a ping command. An unresponsive motor usually signals a wiring fault rather than a failed motor.</div></div>
