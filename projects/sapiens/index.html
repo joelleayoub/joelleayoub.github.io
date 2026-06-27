@@ -23,6 +23,13 @@
   .spec-table td:first-child{color:var(--ink);font-weight:500}
   .spec-table tr:hover td{background:var(--paper-2)}
   .badge-active{display:inline-block;background:var(--accent);color:#fff;font-family:var(--grot);font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 8px;border-radius:2px}
+  .hw-photo-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0}
+  .hw-photo-pair figure{margin:0}
+  .hw-photo-pair img{width:100%;height:220px;object-fit:cover;display:block}
+  .hw-photo-pair figcaption{font-size:12px;color:var(--ink-faint);margin-top:6px;font-family:var(--grot)}
+  .detail-photo{margin:20px 0}
+  .detail-photo img{width:100%;max-height:340px;object-fit:cover;display:block}
+  .detail-photo figcaption{font-size:12px;color:var(--ink-faint);margin-top:6px;font-family:var(--grot);line-height:1.5}
 </style>
 </head>
 <body>
@@ -49,6 +56,17 @@
   <div class="overview-intro">
     <div class="overview-heading">Overview</div>
     <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source 12-DoF biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. As hardware lead I own the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
+  </div>
+
+  <div class="hw-photo-pair">
+    <figure>
+      <img src="assets/mina.png" alt="SAPIENS humanoid robot, full assembly">
+      <figcaption>SAPIENS · full assembly on the Berkeley Humanoid Lite base</figcaption>
+    </figure>
+    <figure>
+      <img src="assets/team.JPG" alt="EPFL AI Team">
+      <figcaption>EPFL AI Team · hardware and software engineers</figcaption>
+    </figure>
   </div>
 
   <details class="collapsible">
@@ -78,6 +96,11 @@
         <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Kinematic chain buildup:</strong> assemble ankle, knee, and hip joints sequentially, torqueing all fasteners to spec and verifying range of motion at each stage before proceeding to the next link.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Iteration:</strong> identify parts that broke, bound, or did not meet tolerance under load. Modify parameters, reprint, and re-test. Iteration is not a failure mode, it is the process.</div></div>
       </div>
+
+      <figure class="detail-photo">
+        <img src="assets/assembling_mina.png" alt="Assembling the 3D-printed structural components">
+        <figcaption>Assembling the 3D-printed structural components, link by link.</figcaption>
+      </figure>
     </div>
   </details>
 
@@ -119,6 +142,11 @@
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The hand is being designed, printed, and integrated by the hardware team.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
       </div>
+
+      <figure class="detail-photo">
+        <img src="assets/new-hand.png" alt="Custom 4-finger 16-DoF dexterous hand prototype">
+        <figcaption>Plastic prototype of the custom 4-finger, 16-DoF hand. This version validated the kinematic design and range of motion, but has significant backlash from the printed gears and plastic servo motors. A metal version with metal gears and metal-gear servos is now in production.</figcaption>
+      </figure>
     </div>
   </details>
 
