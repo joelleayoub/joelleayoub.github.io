@@ -2,79 +2,190 @@
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Firehorn 1: Joelle Ayoub</title>
+<title>Firehorn 1 Payload: Joelle Ayoub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
 <script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
+<style>
+.liftoff-hero{margin:28px 0}
+.liftoff-hero img{width:100%;max-height:420px;object-fit:cover;object-position:center top;display:block;border:1px solid var(--rule)}
+.liftoff-hero figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px}
+.block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+.block-heading{font-size:22px;font-weight:300;font-style:italic;color:var(--ink);margin-bottom:20px;font-family:var(--serif)}
+.block-divider{border:none;border-top:1px solid var(--rule);margin:52px 0}
+.sd-note{padding:16px 20px;background:var(--paper-2);border-left:3px solid #a33;color:var(--ink-soft);font-size:14px;line-height:1.75;margin:20px 0}
+.sd-note strong{color:var(--ink)}
+.gallery-row{display:grid;grid-template-columns:1fr;gap:0;margin:32px 0}
+.gallery-row figure{margin:0}
+.gallery-row img{width:100%;max-height:360px;object-fit:cover;display:block;border:1px solid var(--rule)}
+.gallery-row figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px}
+</style>
 </head>
 <body>
 <nav class="nav">
   <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Firehorn 1</span></div>
   <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
+
 <div class="proj-banner">
-  <div class="banner-tags"><span class="banner-tag">Aerospace</span><span class="banner-tag">PCB Design</span><span class="banner-tag">Embedded</span><span class="banner-tag">EuRoC</span></div>
-  <h1 class="banner-title">Firehorn 1: Acoustic Levitation Payload</h1>
-  <p class="banner-sub">3U experimental payload on Switzerland's first cryogenic bi-liquid rocket. Custom KiCad PCB for avionics–camera communication. Competed at EuRoC 2025.</p>
+  <div class="banner-tags"><span class="banner-tag">Rocketry</span><span class="banner-tag">PCB Design</span><span class="banner-tag">KiCad</span><span class="banner-tag">Embedded</span><span class="banner-tag">EuRoC 2025</span></div>
+  <h1 class="banner-title">Firehorn 1 Payload</h1>
+  <p class="banner-sub">Payload Division Lead on Switzerland's first cryogenic bi-liquid rocket. Designed the full 3-camera recording system: custom KiCad PCB, Seeed XIAO, and three mechanical mounts. EuRoC 2025.</p>
 </div>
+
 <div class="proj-body">
 <div class="proj-main">
-  <h2>Overview</h2>
-  <p>As <strong>Team Leader of the Payload Division</strong> of EPFL Rocket Team, I led the design, assembly and integration of a 3U experimental payload based on <strong>ultrasonic acoustic levitation</strong>. The rocket, Firehorn 1, became the first Swiss cryogenic bi-liquid rocket to successfully take flight.</p>
-  <h2>3D Model</h2>
-  <div class="model-viewer-wrap"><div class="model-placeholder"><div class="model-placeholder-icon">🚀</div><div>Add payload CAD export here</div></div></div>
-  <h2>PCB Design</h2>
-  <p>Designed a custom PCB in KiCad for <strong>avionics–camera communication</strong>, selecting compact components and integrating power regulation to meet tight payload constraints (volume, mass, power budget).</p>
-  <h2>Payload Specifications</h2>
-  <table class="spec-table">
-    <tr><th>Parameter</th><th>Value</th></tr>
-    <tr><td>Form Factor</td><td>3U CubeSat standard</td></tr>
-    <tr><td>Experiment</td><td>Ultrasonic acoustic levitation</td></tr>
-    <tr><td>PCB Tool</td><td>KiCad</td></tr>
-    <tr><td>Interfaces</td><td>Avionics–camera communication</td></tr>
-    <tr><td>Competition</td><td>EuRoC (European Rocketry Challenge)</td></tr>
-    <tr><td>Launch Vehicle</td><td>Firehorn 1: first Swiss cryogenic bi-liquid rocket</td></tr>
-  </table>
-  <h2>Photo Gallery</h2>
-  <div class="photo-grid">
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">🚀</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">📡</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">🔌</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">⚡</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">🛠️</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#1a0f0f">🔥</div></div>
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">As Payload Division Lead on Firehorn 1, I owned the complete 3-camera flight recording system from PCB design to mechanical mounts, and brought an acoustic levitation experiment from proof of concept to flight-ready hardware. Firehorn 1 flew at EuRoC 2025 as Switzerland's first cryogenic bi-liquid rocket.</p>
   </div>
-  <p class="photo-caption">→ Add photos: assets/rocket-01.jpg etc.</p>
+
+  <figure class="liftoff-hero">
+    <img src="assets/liftoff.png" alt="Firehorn 1 liftoff at EuRoC 2025">
+    <figcaption>Firehorn 1 · liftoff at EuRoC 2025</figcaption>
+  </figure>
+
+  <details class="collapsible">
+    <summary>Firehorn 1 and the Payload Division</summary>
+    <div class="detail-content">
+      <p>Firehorn 1 is the EPFL Rocket Team's first EthaLOX (ethanol and liquid oxygen) single-stage launch vehicle. Designed for a 30 km apogee ceiling, its inaugural mission at EuRoC 2025 flew the 3 km qualification profile: 5 m tall, 83 kg dry mass, 7 kN thrust, 240 mm diameter. It is the first Swiss cryogenic bi-liquid rocket to have flown.</p>
+      <p>The Payload Division delivers two payloads: a 3U acoustic levitation demonstrator housed in the nose cone, and a three-camera flight recording system distributed along the airframe. I joined as Division Lead after a first-year student had completed a proof of concept for the acoustic levitation experiment, and built the camera system from scratch.</p>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/firehorn.png" alt="Firehorn 1 launch vehicle"><figcaption>Firehorn 1 launch vehicle</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/cameras.png" alt="Three camera positions on Firehorn 1"><figcaption>Camera placements: Camera 1 (bottom aerocover, downward), Camera 2 (top aerocover, radial), Camera 3 (AV bay, parachute)</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <hr class="block-divider">
+  <div class="block-label">Camera System · KiCad · Payload Division Lead</div>
+  <div class="block-heading">3-Camera Flight Recording System</div>
+
+  <details class="collapsible">
+    <summary>Camera Selection and Communication</summary>
+    <div class="detail-content">
+      <p>Three <strong>RunCam Split 4 V2</strong> cameras were selected: compact at 10.2 g, capable of 2.7K at 60 fps with a 140° field of view, and physically separating the lens from the processing board so the lens can be positioned independently within tight aerocover geometry.</p>
+      <p>The RunCam communicates over <strong>UART</strong>, while the avionics use <strong>I2C</strong> converted to an I2CAN bus for long cable runs through the airframe. Each camera module therefore needs a protocol bridge and regulated power. The full chain is: Avionics MCU → I2C → LT3960 (I2CAN transceiver) → I2CAN → Custom PCB → UART → RunCam.</p>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/runcam.png" alt="RunCam Split 4 V2 with its separated processing board"><figcaption>RunCam Split 4 V2: lens and processing board are physically separated</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/cammodule.png" alt="Camera module communication and power diagram"><figcaption>Camera module block diagram: AV board, custom PCB, RunCam PCB, and sensor</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>PCB Design</summary>
+    <div class="detail-content">
+      <p>The camera PCB handles three functions: I2CAN to UART protocol conversion, a 24 V to 5 V step-down for the RunCam processing board, and camera on/off commands from the avionics. It was designed entirely in <strong>KiCad</strong>.</p>
+      <p>The prototyping phase used an <strong>Arduino Nano</strong> as the microcontroller, which made it easy to iterate on the firmware and validate the communication chain. Once the design was confirmed and space inside the aerocover became a hard constraint, I replaced the Nano with a <strong>Seeed XIAO</strong>: a far more compact board with the same serial capability, freeing up significant board area and mass budget. The board connects to the avionics rod via MPS connectors for modular integration.</p>
+      <ul>
+        <li>LT3960 I2CAN transceiver for long-distance avionics communication</li>
+        <li>MPM3620 step-down converter (24 V to 5 V)</li>
+        <li>Seeed XIAO microcontroller replacing the Arduino Nano prototype</li>
+        <li>Photoresistor for liftoff detection on the camera power-on sequence</li>
+        <li>Aluminium thermal block bonded to each PCB for heat dissipation</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Camera Mechanical Mounts</summary>
+    <div class="detail-content">
+      <p>Three custom supports position each camera module in the airframe. The design constraints differ between positions: Camera 1 sits in a confined bottom aerocover and must face downward for liftoff monitoring, Camera 2 is radially oriented in the top aerocover and must survive the highest vibration loads, and Camera 3 mounts inside the avionics bay pointing at the parachute.</p>
+      <ul>
+        <li><strong>Camera 1:</strong> integrated into the bottom aerocover structure, facing down. 125.5 g. Modified aerocover geometry to clear the lens field of view.</li>
+        <li><strong>Camera 2:</strong> top aerocover, radial orientation. Aluminium heat block for thermal capacity, spring-loaded screws to isolate the camera from structural vibration. 221.66 g.</li>
+        <li><strong>Camera 3:</strong> avionics bay, fixed to the MPS rod stack, pointed at the parachute bay for deployment footage.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>EuRoC 2025 and the SD Cards</summary>
+    <div class="detail-content">
+      <p>Firehorn 1 lifted off at EuRoC 2025 and completed its flight, making history as Switzerland's first cryogenic bi-liquid rocket to fly. On landing, an unexpected fire broke out in the avionics bay. The heat burned through the electronics and melted the plastic enclosures around the camera modules.</p>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/sdcard.png" alt="SD card recovered from the burnt avionics bay"><figcaption>The SD card recovered from the fire: physically intact, all data lost</figcaption></figure>
+      </div>
+      <div class="sd-note"><strong>All footage was lost.</strong> The SD cards were physically recovered from the debris but the thermal damage had corrupted the recorded data. Nothing was saved from any of the three cameras.</div>
+    </div>
+  </details>
+
+  <hr class="block-divider">
+  <div class="block-label">Acoustic Levitation · Supervised</div>
+  <div class="block-heading">3U Experimental Payload</div>
+
+  <details class="collapsible">
+    <summary>Acoustic Levitation Experiment</summary>
+    <div class="detail-content">
+      <p>The 3U acoustic levitation payload uses two arrays of 19 ultrasonic transducers to generate a precise standing acoustic field capable of levitating a small spherical object. The aim is to observe how acoustic levitation behaves in high-g and low-g environments during flight.</p>
+      <p>A first-year student had completed a proof of concept before I joined the team. My role was to supervise and lead the work required to make it flight-ready: we re-soldered connections, replaced the driver and battery system with more reliable components, and ran extensive testing under vibration to confirm stable levitation before integration.</p>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/payload.png" alt="Ball levitating in the acoustic field"><figcaption>Spherical test object levitating between the two transducer arrays</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/payload_testing.png" alt="Acoustic levitation payload testing"><figcaption>Payload testing and validation before integration</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <div class="gallery-row">
+    <figure>
+      <img src="assets/joelle_rocket.png" alt="Joelle with Firehorn 1 at EuRoC 2025">
+      <figcaption>At EuRoC 2025 with Firehorn 1</figcaption>
+    </figure>
+  </div>
+
 </div>
+
 <div class="proj-sidebar">
   <div class="sidebar-block">
     <div class="sidebar-label">Details</div>
     <div class="sidebar-kv">
       <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Payload Division Lead</strong></div></div>
       <div class="kv-row"><div class="kv-key">Organisation</div><div class="kv-val">EPFL Rocket Team</div></div>
-      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Feb – Oct 2025</div></div>
+      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Feb 2025 &rarr; Oct 2025</div></div>
       <div class="kv-row"><div class="kv-key">Competition</div><div class="kv-val">EuRoC 2025</div></div>
-      <div class="kv-row"><div class="kv-key">Milestone</div><div class="kv-val"><strong style="color:#f0c040">First Swiss cryo rocket flight</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Milestone</div><div class="kv-val">First Swiss cryo bi-liquid rocket flight</div></div>
     </div>
   </div>
   <div class="sidebar-block">
-    <div class="sidebar-label">My Contributions</div>
-    <div class="contrib-list">
-      <div class="contrib-item"><div class="contrib-key">Hardware</div><div class="contrib-val">3U payload design, assembly, integration</div></div>
-      <div class="contrib-item"><div class="contrib-key">Electronics</div><div class="contrib-val">Custom KiCad PCB: avionics/camera comms, power regulation</div></div>
-      <div class="contrib-item"><div class="contrib-key">Interfaces</div><div class="contrib-val">Payload–avionics–structure coordination</div></div>
+    <div class="sidebar-label">Camera System</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Cameras</div><div class="kv-val">3 × RunCam Split 4 V2</div></div>
+      <div class="kv-row"><div class="kv-key">Resolution</div><div class="kv-val">2.7K at 60 fps</div></div>
+      <div class="kv-row"><div class="kv-key">MCU</div><div class="kv-val">Seeed XIAO (replaced Arduino Nano)</div></div>
+      <div class="kv-row"><div class="kv-key">Protocol</div><div class="kv-val">I2CAN in, UART out</div></div>
+      <div class="kv-row"><div class="kv-key">Power</div><div class="kv-val">24 V to 5 V step-down</div></div>
+      <div class="kv-row"><div class="kv-key">PCB tool</div><div class="kv-val">KiCad</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Acoustic Payload</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Form factor</div><div class="kv-val">3U, ~3 kg</div></div>
+      <div class="kv-row"><div class="kv-key">Transducers</div><div class="kv-val">2 arrays × 19 ultrasonic</div></div>
+      <div class="kv-row"><div class="kv-key">My role</div><div class="kv-val">Supervised hardware refinement and testing</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Vehicle</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Propellants</div><div class="kv-val">Ethanol / LOX (EthaLOX)</div></div>
+      <div class="kv-row"><div class="kv-key">Thrust</div><div class="kv-val">7 kN</div></div>
+      <div class="kv-row"><div class="kv-key">Dry mass</div><div class="kv-val">83 kg</div></div>
+      <div class="kv-row"><div class="kv-key">Length</div><div class="kv-val">5 m</div></div>
+      <div class="kv-row"><div class="kv-key">Target apogee</div><div class="kv-val">3 km (EuRoC) / 30 km (design)</div></div>
     </div>
   </div>
 </div>
 </div>
+
 <div class="proj-nav">
-  <a href="../rover/" class="proj-nav-item"><span class="proj-nav-dir">← Previous</span><span class="proj-nav-title">Mars Rover</span></a>
-  <a href="../cubesat/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next →</span><span class="proj-nav-title">CubeSat Dispenser</span></a>
+  <a href="../rover/" class="proj-nav-item"><span class="proj-nav-dir">&larr; Previous</span><span class="proj-nav-title">Mars Rover</span></a>
+  <a href="../cubesat/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next &rarr;</span><span class="proj-nav-title">CubeSat Dispenser</span></a>
 </div>
 <script>
 const root=document.documentElement,tbtn=document.getElementById('themeToggle');
 tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==="dark"?"light":"dark";root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
 </script>
 </body></html>
-
