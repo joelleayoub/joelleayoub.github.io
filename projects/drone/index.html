@@ -66,13 +66,13 @@
 
       <figure class="detail-feature-media">
         <img src="assets/track-diagram.png" alt="Arena layout with five gates and two lap paths" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">Track diagram -- drop assets/track-diagram.png</div>
+        <div class="detail-media-placeholder">Track diagram, drop assets/track-diagram.png</div>
         <figcaption>Orange: vision-based mapping lap. Red: timed laps 2 and 3.</figcaption>
       </figure>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Mapping lap</strong> -- gate positions are entirely unknown at takeoff. The drone must detect each gate from vision, estimate its world position, and fly through all five counter-clockwise. The clock does not run during this lap.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Timed laps 2 and 3</strong> -- replay the remembered gate centers at maximum speed without needing vision. Evaluated on three randomized environments.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Mapping lap:</strong> gate positions are entirely unknown at takeoff. The drone must detect each gate from vision, estimate its world position, and fly through all five counter-clockwise. The clock does not run during this lap.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Timed laps 2 and 3:</strong> replay the remembered gate centers at maximum speed without needing vision. Evaluated on three randomized environments.</div></div>
       </div>
 
       <h3>What makes this hard</h3>
@@ -94,7 +94,7 @@
 
       <figure class="detail-feature-media">
         <img src="assets/arena-overview.png" alt="Webots simulation arena" onerror="this.hidden=true">
-        <div class="detail-media-placeholder">Arena screenshot -- drop assets/arena-overview.png</div>
+        <div class="detail-media-placeholder">Arena screenshot, drop assets/arena-overview.png</div>
         <figcaption>Webots arena. Magenta gate patches are the primary detection cue.</figcaption>
       </figure>
 
@@ -133,10 +133,10 @@
       <p>A [x, y, z, yaw] setpoint is converted to four motor PWM commands through four cascaded PID loops. Quaternion rotation projects inertial velocity into the body frame between the position and velocity stages.</p>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Position PID</strong> -- XY and Z error to inertial-frame velocity setpoints.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Velocity PID</strong> -- body-frame velocity error to acceleration commands.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Attitude PID</strong> -- desired acceleration and yaw to roll, pitch, and yaw-rate setpoints. Acceleration clipped to &#177;&#960;/6 rad.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Rate PID</strong> -- angular rate errors to motor mixing commands. Thrust computed from 3D acceleration with gravity compensation.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Position PID:</strong> XY and Z error to inertial-frame velocity setpoints.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Velocity PID:</strong> body-frame velocity error to acceleration commands.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Attitude PID:</strong> desired acceleration and yaw to roll, pitch, and yaw-rate setpoints. Acceleration clipped to &#177;&#960;/6 rad.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Rate PID:</strong> angular rate errors to motor mixing commands. Thrust computed from 3D acceleration with gravity compensation.</div></div>
       </div>
 
       <h3>Tuned gains</h3>
@@ -171,7 +171,7 @@
   <div class="hw-photo-pair">
     <figure>
       <img src="assets/crazyflie.png" alt="Crazyflie 2.x quadrotor">
-      <figcaption>Crazyflie 2.x -- the physical platform</figcaption>
+      <figcaption>Crazyflie 2.x, the physical platform</figcaption>
     </figure>
     <figure>
       <img src="assets/setup.png" alt="Gate arena setup">
@@ -208,7 +208,7 @@
     <summary>Path Planning and Navigation</summary>
     <div class="detail-content">
       <h3>FSM adapted for hardware</h3>
-      <p>The mission FSM keeps the same phase structure as simulation, adapted to output velocity commands rather than position setpoints. Each phase produces a <code>(vx, vy, yaw_rate, z)</code> tuple sent directly to the drone's hover commander. Position tracking uses the Kalman-filtered state from the onboard estimator, polled at 100 ms intervals.</p>
+      <p>The mission FSM keeps the same phase structure as simulation, adapted to output velocity commands rather than position setpoints. Each phase produces a <code>(vx, vy, yaw_rate, z)</code> tuple sent directly to the drone hover commander. Position tracking uses the Kalman-filtered state from the onboard estimator, polled at 100 ms intervals.</p>
       <div class="sm-grid">
         <div class="sm-node"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 0.4 m, confirm altitude from EKF state</div></div>
         <div class="sm-node"><div class="sm-label">Hover</div><div class="sm-desc">Hold altitude briefly while estimator settles</div></div>
@@ -221,7 +221,7 @@
       </div>
 
       <h3>Kalman state and position tracking</h3>
-      <p>The onboard Kalman filter (EKF) fuses IMU, optical flow, and barometer to produce <code>stateEstimate.x/y/z</code> and <code>stabilizer.yaw</code>, streamed to the ground station via the cflib log framework. The estimator is reset at mission start to clear drift from handling. Telemetry age is monitored continuously -- if state data goes stale beyond a threshold, the safety layer triggers an automatic landing.</p>
+      <p>The onboard Kalman filter (EKF) fuses IMU, optical flow, and barometer to produce <code>stateEstimate.x/y/z</code> and <code>stabilizer.yaw</code>, streamed to the ground station via the cflib log framework. The estimator is reset at mission start to clear drift from handling. Telemetry age is monitored continuously, and if state data goes stale beyond a threshold, the safety layer triggers an automatic landing.</p>
     </div>
   </details>
 
@@ -229,7 +229,7 @@
     <summary>Hardware Interface and Safety</summary>
     <div class="detail-content">
       <h3>Command interface</h3>
-      <p>On hardware, the custom 4-loop PID cascade from simulation is replaced by the Crazyflie's onboard attitude and rate controller. The mission code sends high-level velocity setpoints via <code>send_hover_setpoint(vx, vy, yaw_rate, z)</code> -- the drone's firmware handles all attitude stabilization internally. This simplifies the software stack considerably and offloads the lowest-level control to a well-tested onboard system.</p>
+      <p>On hardware, the custom 4-loop PID cascade from simulation is replaced by the Crazyflie onboard attitude and rate controller. The mission code sends high-level velocity setpoints via <code>send_hover_setpoint(vx, vy, yaw_rate, z)</code>. The drone firmware handles all attitude stabilization internally, which simplifies the software stack and offloads the lowest-level control to a well-tested onboard system.</p>
 
       <h3>Radio link and telemetry</h3>
       <p>The drone connects over a 2.4 GHz radio link using the Bitcraze <code>cflib</code> Python library. Connection events (connected, disconnected, link lost) all have registered callbacks that update the safety state. Telemetry is logged at 100 ms intervals via a <code>LogConfig</code> subscribing to <code>stateEstimate.x</code>, <code>stateEstimate.y</code>, <code>stateEstimate.z</code>, and <code>stabilizer.yaw</code>.</p>
@@ -240,7 +240,7 @@
   </details>
 
   <h2>Hardware Outcome</h2>
-  <p>The stack successfully bridges simulation to a physical platform: the same perception and navigation logic runs over a live radio link, with the hardware-specific interface, safety layer, and real-world vision calibration handling the gap between a perfect simulator and a noisy real environment. The incremental approach -- slow flights first, speed increased only once stability was confirmed -- is reflected in the architecture, where conservative thresholds and safe fallbacks are built in at every layer.</p>
+  <p>The stack successfully bridges simulation to a physical platform: the same perception and navigation logic runs over a live radio link, with the hardware-specific interface, safety layer, and real-world vision calibration handling the gap between a perfect simulator and a noisy real environment. The incremental approach (slow flights first, speed increased only once stability was confirmed) is reflected in the architecture, where conservative thresholds and safe fallbacks are built in at every layer.</p>
 
 </div>
 
