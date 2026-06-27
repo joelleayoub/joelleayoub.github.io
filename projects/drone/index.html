@@ -73,13 +73,23 @@
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Mapping lap</strong> -- gate positions are entirely unknown at takeoff. The drone must detect each gate from vision, estimate its world position, and fly through all five counter-clockwise. The clock does not run during this lap.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Timed laps 2 and 3</strong> -- replay the remembered gate centers at maximum speed without needing vision. Evaluated on three randomized environments.</div></div>
       </div>
+
+      <h3>What makes this hard</h3>
+      <ul>
+        <li><strong>No prior map.</strong> Gate positions, sizes, and heights change every run. The controller cannot be tuned to a fixed layout and must work in any configuration.</li>
+        <li><strong>The mapping lap is entirely blind.</strong> The drone has no information about gate locations at takeoff. It must discover all five from vision alone before it can pass any of them.</li>
+        <li><strong>Visual distractors.</strong> Arena walls and floor patterns produce regions that look magenta under HSV thresholding, making reliable gate detection non-trivial.</li>
+        <li><strong>Oblique approaches.</strong> Arriving at a gate from a sharp angle produces a thin sliver of the magenta patch, which is easy to miss or mislocate in 3D space.</li>
+        <li><strong>Sensor limitations.</strong> The front range sensor sometimes reads the wall behind a gate rather than the gate itself, corrupting the depth estimate used for world-position projection.</li>
+        <li><strong>Speed and accuracy in tension.</strong> Faster replay waypoints improve lap time but make the drone more likely to overshoot or miss a gate credit. Too conservative and the 240 s cutoff becomes a real constraint.</li>
+      </ul>
     </div>
   </details>
 
   <details class="collapsible">
     <summary>Computer Vision</summary>
     <div class="detail-content">
-      <p>Each gate has a magenta 0.4 m patch at center height as the primary visual cue. The pipeline converts the camera frame to HSV, thresholds for the magenta range, cleans the mask with morphological operations, extracts contours, and filters candidates by area, aspect ratio, boundary margin, and pixel density. Each candidate is scored by size, center bias, and magenta density; the highest score becomes the detection output, with angular offsets <code>angle_x</code> / <code>angle_y</code> derived from the 1.5 rad camera FOV.</p>
+      <p>Each gate has a magenta 0.4 m patch at center height as the primary visual cue. The pipeline converts the camera frame to HSV, thresholds for the magenta range, cleans the mask with morphological operations, extracts contours, and filters candidates by area, aspect ratio, boundary margin, and pixel density. Each candidate is scored by size, center bias, and magenta density, and the highest score becomes the detection output, with angular offsets <code>angle_x</code> and <code>angle_y</code> derived from the 1.5 rad camera FOV.</p>
 
       <figure class="detail-feature-media">
         <img src="assets/arena-overview.png" alt="Webots simulation arena" onerror="this.hidden=true">
@@ -96,7 +106,7 @@
     <summary>Path Planning and Navigation</summary>
     <div class="detail-content">
       <h3>Gate Position Estimation</h3>
-      <p>Converting a pixel detection to a world position requires drone pose and depth. The primary depth source is the <code>range_front</code> sensor; when it reads the wall behind the gate, a fallback uses the known 0.4 m patch height and camera FOV to compute image-based depth. Gate XY is projected from drone position along the composite bearing (yaw + <code>angle_x</code>), with Z from the vertical angle offset. All estimates are clipped to valid arena and height bounds.</p>
+      <p>Converting a pixel detection to a world position requires drone pose and depth. The primary depth source is the <code>range_front</code> sensor, and when it reads the wall behind the gate, a fallback uses the known 0.4 m patch height and camera FOV to compute image-based depth. Gate XY is projected from drone position along the composite bearing (yaw + <code>angle_x</code>), with Z from the vertical angle offset. All estimates are clipped to valid arena and height bounds.</p>
 
       <h3>8-State FSM</h3>
       <p>A finite-state machine drives top-level behavior. Transitions depend on detection confidence, timers, arena geometry, and simulator gate-credit callbacks. Arena geometry priors (five gates at radius 3.0 m around [4, 4], counter-clockwise) guide search direction, validate detections, and provide fallback estimates when vision is lost. If Search stalls, the controller replays the previous gate to reposition before retrying.</p>
@@ -104,11 +114,11 @@
         <div class="sm-node"><div class="sm-label">Takeoff</div><div class="sm-desc">Climb to 1.05 m, stabilize</div></div>
         <div class="sm-node"><div class="sm-label">Search</div><div class="sm-desc">Yaw oscillation + altitude scan around expected gate sector</div></div>
         <div class="sm-node"><div class="sm-label">Scan Next</div><div class="sm-desc">Brief scan after a pass before committing to the next gate</div></div>
-        <div class="sm-node"><div class="sm-label">Align</div><div class="sm-desc">Visual servo to center gate; set approach yaw and altitude</div></div>
+        <div class="sm-node"><div class="sm-label">Align</div><div class="sm-desc">Visual servo to center gate, set approach yaw and altitude</div></div>
         <div class="sm-node"><div class="sm-label">Approach</div><div class="sm-desc">Move toward gate, collect close-range memory candidates</div></div>
-        <div class="sm-node"><div class="sm-label">Pass</div><div class="sm-desc">Fly through gate; wait for simulator credit</div></div>
+        <div class="sm-node"><div class="sm-label">Pass</div><div class="sm-desc">Fly through gate, wait for simulator credit</div></div>
         <div class="sm-node"><div class="sm-label">Return Start</div><div class="sm-desc">Navigate back to start to end mapping lap</div></div>
-        <div class="sm-node"><div class="sm-label">Fast Laps</div><div class="sm-desc">Replay gate centers at speed; no vision</div></div>
+        <div class="sm-node"><div class="sm-label">Fast Laps</div><div class="sm-desc">Replay gate centers at speed, no vision</div></div>
       </div>
 
       <h3>Gate Memory and Replay</h3>
@@ -140,25 +150,11 @@
         <tr><td>Rate roll/pitch</td><td class="pid-num">1.5</td><td class="pid-num">0.0</td><td class="pid-num">0.1</td></tr>
         <tr><td>Rate yaw</td><td class="pid-num">0.02</td><td class="pid-num">0.0</td><td class="pid-num">0.001</td></tr>
       </table>
-      <p>XY velocity capped at 2.0 m/s; Z at 0.75 m/s. The Z cap was critical: large waypoint jumps could otherwise cause the drone to over-tilt and lose altitude authority between gates.</p>
+      <p>XY velocity capped at 2.0 m/s, Z at 0.75 m/s. The Z cap was critical: large waypoint jumps could otherwise cause the drone to over-tilt and lose altitude authority between gates.</p>
     </div>
   </details>
 
-  <details class="collapsible">
-    <summary>Challenges</summary>
-    <div class="detail-content">
-      <ul>
-        <li><strong>Randomized layout</strong> -- no two runs are the same; the controller cannot rely on a fixed gate map</li>
-        <li><strong>First-lap blindness</strong> -- gate positions are entirely unknown at takeoff; vision is the only source of truth</li>
-        <li><strong>False positives</strong> -- arena walls and floor patterns produce magenta-like regions that must be rejected without discarding real gates</li>
-        <li><strong>Oblique views</strong> -- approaching a gate from a bad angle shows a thin sliver of patch; the controller detects this and repositions perpendicular before attempting a pass</li>
-        <li><strong>Range sensor wall bleed</strong> -- <code>range_front</code> sometimes reads the wall behind the gate; the image-depth fallback avoids this but adds uncertainty</li>
-        <li><strong>Speed vs. reliability</strong> -- aggressive replay waypoints improve lap time but risk altitude loss or missed gate credits; step-size limiting and retry logic balance both</li>
-      </ul>
-    </div>
-  </details>
-
-  <h2>Simulation Outcome</h2>
+  <h2>Outcome</h2>
   <p>The controller completes the full pipeline: take off, detect and estimate five unknown gate positions from vision, fly through each counter-clockwise, return to start, then execute two faster memory-replay laps. It handles vision loss, false positives, oblique views, range-sensor failures, and missed gate credits through fallback logic at every layer.</p>
 
   <!-- ===== REAL FLIGHT ===== -->
@@ -219,6 +215,6 @@
 
 <script>
 const root=document.documentElement,tbtn=document.getElementById('themeToggle');
-tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==="dark"?"light":"dark";root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
+tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
 </script>
 </body></html>
