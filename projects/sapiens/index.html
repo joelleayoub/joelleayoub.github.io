@@ -7,118 +7,223 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,400&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet" />
 <script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
-<script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+<style>
+  .pipeline{display:flex;flex-direction:column;gap:0;margin:18px 0}
+  .pipeline-step{display:grid;grid-template-columns:28px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--rule);align-items:start}
+  .pipeline-step:last-child{border-bottom:none}
+  .pipeline-num{font-family:var(--grot);font-size:11px;color:var(--accent);font-weight:500;padding-top:1px}
+  .pipeline-text{font-size:15px;color:var(--ink-soft);line-height:1.55}
+  .pipeline-text strong{color:var(--ink);font-weight:500}
+  .block-divider{border:none;border-top:2px solid var(--rule);margin:56px 0 40px}
+  .block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
+  .block-heading{font-family:var(--serif);font-size:22px;font-weight:400;font-style:italic;color:var(--ink);margin:0 0 22px}
+  .spec-table{width:100%;border-collapse:collapse;font-size:13px;margin:16px 0;font-family:var(--grot)}
+  .spec-table th{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);text-align:left;padding:7px 12px;border-bottom:1px solid var(--rule);font-weight:500}
+  .spec-table td{padding:7px 12px;border-bottom:1px solid var(--rule);color:var(--ink-soft)}
+  .spec-table td:first-child{color:var(--ink);font-weight:500}
+  .spec-table tr:hover td{background:var(--paper-2)}
+  .badge-active{display:inline-block;background:var(--accent);color:#fff;font-family:var(--grot);font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 8px;border-radius:2px}
+</style>
 </head>
 <body>
 <nav class="nav">
   <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">SAPIENS Humanoid Robot</span></div>
-  <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
+  <div class="nav-right"><a href="../../index.html#work" class="nav-back">&#8592; All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
 
 <div class="proj-banner">
   <div class="banner-tags">
-    <span class="banner-tag">Robotics</span><span class="banner-tag">ROS2</span><span class="banner-tag">3D Printing</span><span class="banner-tag">Imitation Learning</span><span class="banner-tag">URDF</span>
+    <span class="banner-tag">Humanoid Robotics</span><span class="banner-tag">3D Printing</span><span class="banner-tag">Motor Calibration</span><span class="banner-tag">ROS2</span><span class="banner-tag">Reinforcement Learning</span><span class="banner-tag">VR Teleoperation</span><span class="banner-tag">Imitation Learning</span>
   </div>
   <h1 class="banner-title">SAPIENS Humanoid Robot</h1>
-  <p class="banner-sub">EPFL's first full humanoid robot: built from scratch by a student team, with a redesigned dexterous hand and an imitation learning pipeline.</p>
-  <div class="banner-btns">
-    <a href="https://github.com/epfl-ai-team" target="_blank" class="btn btn-primary"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>View on GitHub</a>
-  </div>
+  <p class="banner-sub">EPFL's first full humanoid robot, built from the open-source Berkeley Humanoid Lite platform by a student team. Hardware lead responsible for the full mechanical build, motor integration, and custom hardware enhancements including a 16-DoF dexterous hand.</p>
 </div>
 
 <div class="proj-body">
 <div class="proj-main">
 
-  <h2>Overview</h2>
-  <p>SAPIENS is EPFL's first full humanoid robot, built from the ground up within the <strong>EPFL AI Team</strong>. The platform is based on Berkeley Humanoid Lite: a research-grade open-source design. As project lead I coordinate all subsystems, manage the budget and timeline, and drive the technical development.</p>
+  <!-- ===== HARDWARE ===== -->
+  <div class="block-label">Hardware &middot; Berkeley Humanoid Lite &middot; Hardware Project Lead</div>
+  <p class="block-heading">Hardware Build</p>
 
-  <h2>3D Model</h2>
-  <div class="model-viewer-wrap">
-    <div class="model-placeholder">
-      <div class="model-placeholder-icon">🤖</div>
-      <div>Add your URDF/GLTF export here</div>
-      <div style="font-size:10px;margin-top:4px">Replace this div with &lt;model-viewer src="assets/sapiens.glb"&gt;</div>
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source 12-DoF biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. As hardware lead I own the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
+  </div>
+
+  <details class="collapsible">
+    <summary>The Task</summary>
+    <div class="detail-content">
+      <p>Berkeley Humanoid Lite ships as open-source CAD files, firmware, and a parts list, not as a kit. Every structural part must be 3D-printed, inspected, and iterated before assembly. The robot has 12 degrees of freedom across two legs (6 per leg), each joint driven by a brushless DC motor with a 3D-printed gearbox and a magnetic encoder. The complete build requires printing roughly 160 parts, hand-soldering all motor and encoder cables, performing electrical calibration on each of the 12 motors, and assembling the full kinematic chain from ankle to torso.</p>
+
+      <h3>What makes this hard</h3>
+      <ul>
+        <li><strong>Part count and tolerances.</strong> Around 160 printed parts must fit within tight tolerances, particularly at gear meshes and bearing seats. A part that is 0.2 mm oversized jams; undersized and it rattles. Each failure means reprinting and re-testing.</li>
+        <li><strong>Assembly sequence constraints.</strong> Cable routing runs inside the links, so certain bolts and connectors become inaccessible after the next link is assembled. Disassembly to fix a wiring error costs hours.</li>
+        <li><strong>Per-motor electrical calibration.</strong> Each BLDC motor requires measuring its flux offset, the angular gap between encoder zero and motor electrical zero, which depends on how the magnet was glued and cannot be read from a datasheet. This must be measured individually on all 12 joints.</li>
+        <li><strong>Gearbox alignment.</strong> The gearboxes are themselves 3D-printed. Backlash and play are sensitive to print quality and assembly alignment, and accumulate across five joints per leg.</li>
+      </ul>
     </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Mechanical Assembly and Iteration</summary>
+    <div class="detail-content">
+      <p>The build starts from raw filament and ends with a standing 12-DoF biped. Every structural part, from ankle links to the hip yoke, is FDM-printed in PLA or PETG. Iteration is central to the process: initial prints reveal fit issues at bearing seats, gear mesh contact, or cable exit points, which feed back into revised print settings or modified CAD before the next attempt.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Part preparation:</strong> slice each component, tune infill and wall count for structural load, and print in batches. Inspect dimensional accuracy at bearing and shaft interfaces before moving on.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Gearbox and joint assembly:</strong> press-fit bearings, insert motor shafts, mesh printed gearbox stages. Verify free rotation and check for binding across the full range of motion.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Cable routing:</strong> route motor phase wires, encoder I2C lines, and CAN bus cables through internal link channels before closing each link segment. Order of operations is critical as access closes permanently after assembly.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Kinematic chain buildup:</strong> assemble ankle, knee, and hip joints sequentially, torqueing all fasteners to spec and verifying range of motion at each stage before proceeding to the next link.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Iteration:</strong> identify parts that broke, bound, or did not meet tolerance under load. Modify parameters, reprint, and re-test. Iteration is not a failure mode, it is the process.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Motor Soldering and Electrical Integration</summary>
+    <div class="detail-content">
+      <p>Each of the 12 joints is driven by a brushless DC motor paired with a small controller board. The motor has 14 pole pairs, meaning its electrical angle spins 14 times faster than the mechanical shaft, so precise position sensing is non-negotiable. Every connection is hand-soldered: three phase wires from each motor to its controller, I2C lines from the AS5600 magnetic encoder, and the CAN bus daisy-chain connecting all controllers back to the onboard computer.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Phase wire soldering:</strong> solder U, V, W phase wires from each BLDC motor to its controller board. Wire order determines motor spin direction and must be consistent per the firmware convention.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Encoder wiring:</strong> connect SDA and SCL lines from each AS5600 magnetic encoder to the controller. The encoder sits 1-2 mm beneath a diametrically magnetized disc on the motor shaft and reports absolute angle over I2C. Swapped SDA/SCL is a common wiring fault that bricks motor initialization at boot.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>CAN bus wiring:</strong> daisy-chain each controller onto the shared CAN bus (CAN-H and CAN-L twisted pair, 120 ohm termination at each bus end). Every motor gets a unique device ID.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Continuity and short checks:</strong> verify each connection with a multimeter before powering. Phase shorts destroy controller boards and motor windings instantly.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Motor Calibration</summary>
+    <div class="detail-content">
+      <p>Field-Oriented Control (FOC) requires knowing the exact angular offset between the encoder's mechanical zero and the motor's electrical zero: the flux offset. This number depends on how the magnet was glued and the encoder mounted, so it is unique to every motor and cannot be looked up. The controller performs an automatic electrical calibration by spinning the rotor under a known current and recording the encoder response. All 12 joints are calibrated individually after final assembly.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Bus bring-up:</strong> power the CAN bus and confirm each motor responds to a ping command. An unresponsive motor usually signals a wiring fault rather than a failed motor.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Encoder health check:</strong> read the AS5600 status registers (magnet detected, field strength, AGC gain) before calibrating. A gain railing at 0 or 255 means the air gap or magnet alignment is wrong and calibration will give a bad result.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>Electrical calibration:</strong> trigger the automatic flux offset measurement per motor. The board spins the rotor under open-loop current and records the encoder reading at each electrical phase. This produces the flux offset in radians, which is stored in the controller's flash memory.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Validation:</strong> command a small position target and verify the joint moves in the correct direction and settles at the target. Check that idle holding torque is symmetric across left and right counterpart joints. Asymmetric idle current is a calibration artifact, not a power problem.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">05</div><div class="pipeline-text"><strong>Limit verification:</strong> confirm that each joint's allowed position range contains the rest target. A misconfigured range causes the joint to fight itself under load, burning current and heat at idle.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Custom Enhancements <span style="font-size:12px;font-family:var(--grot);color:var(--ink-faint);font-style:normal;margin-left:8px">in progress</span></summary>
+    <div class="detail-content">
+      <p>Beyond the base BHL platform, the team is developing two hardware enhancements that extend the robot's manipulation capabilities beyond what the original design provides.</p>
+
+      <div class="pipeline">
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The hand is being designed, printed, and integrated by the hardware team.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
+      </div>
+    </div>
+  </details>
+
+  <p>With both legs assembled, calibrated, and walking on the base BHL platform, the hardware team is now completing the dexterous hand and integration with the software stack built in parallel by the rest of the team.</p>
+
+  <hr class="block-divider">
+
+  <!-- ===== SOFTWARE ===== -->
+  <div class="block-label">Software &middot; ROS2 &middot; Team effort</div>
+  <p class="block-heading">Software Stack</p>
+
+  <div class="overview-intro">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">The software stack covers the full pipeline from low-level motor control to high-level autonomy: a learned walking policy trained in simulation and deployed on the real legs, a CAN-bus arm controller with ROS2 middleware, VR teleoperation via a Meta Quest headset, and a camera-based perception pipeline for object detection and grasping. All systems run across three onboard computers coordinated over a private local network.</p>
   </div>
 
-  <h2>My Contributions</h2>
-  <h3>Mechanical Assembly & Iteration</h3>
-  <p>Led printing, iterating, and full assembly of the humanoid platform. The most significant modification was a <strong>redesigned dexterous hand</strong> with improved finger kinematics and contact surfaces for manipulation tasks.</p>
+  <details class="collapsible">
+    <summary>Locomotion: Reinforcement Learning</summary>
+    <div class="detail-content">
+      <p>The walking brain is a small neural network (policy) trained entirely in simulation using Proximal Policy Optimization (PPO) via the RSL-RL library in NVIDIA Isaac Lab. Training runs 2048 parallel simulated robots on a GPU simultaneously, with each copy receiving randomized body mass, friction, and actuation gains so the resulting policy is robust rather than tuned to one exact physics model. A training run that would take months on a real robot finishes in hours on a GPU.</p>
 
-  <h3>Camera Integration: Hardware & URDF</h3>
-  <p>Designed and integrated <strong>wrist-mounted camera supports</strong> both as physical mounts and within the robot's URDF model, keeping simulation and real-world perception consistent for the learning pipeline.</p>
+      <p>The policy takes 45 numbers as input at each timestep: a velocity command, body angular velocity, gravity direction in body frame, joint positions, joint velocities, and the previous action. It outputs 12 joint position targets, one per leg joint. A fast 250 Hz PD loop on the motor controllers chases these targets, while the policy itself thinks at 25 Hz. The walking gait emerges from the reward structure rather than from a gait clock: the policy discovers the left-right alternating cadence on its own because it is rewarded for keeping exactly one foot in the air at a time.</p>
 
-  <h3>Imitation Learning Pipeline</h3>
-  <p>Responsible for <strong>collecting and curating hand demonstration datasets</strong> using the onboard perception pipeline, for training manipulation policies via imitation learning.</p>
+      <p>Before touching hardware, every candidate policy is validated in a second independent physics engine (MuJoCo) that it was never trained on. Policies that look good in the training simulator but fail in MuJoCo are discarded as overfit to simulation artifacts. Only policies that agree across both simulators earn a place on the real robot.</p>
+    </div>
+  </details>
 
-  <h2>Technical Specifications</h2>
-  <table class="spec-table">
-    <tr><th>Component</th><th>Specification</th></tr>
-    <tr><td>Base Platform</td><td>Berkeley Humanoid Lite (open-source)</td></tr>
-    <tr><td>Actuation</td><td>Quasi-direct-drive motors, low gear ratio</td></tr>
-    <tr><td>Fabrication</td><td>3D-printed structural components (PLA / PETG)</td></tr>
-    <tr><td>Perception</td><td>Wrist-mounted cameras (custom mounts)</td></tr>
-    <tr><td>Software Stack</td><td>ROS2, MoveIt!, Python / C++</td></tr>
-    <tr><td>Simulation</td><td>Gazebo + URDF</td></tr>
-    <tr><td>Learning</td><td>Imitation learning: demonstration collection</td></tr>
-  </table>
+  <details class="collapsible">
+    <summary>Arm Control and VR Teleoperation</summary>
+    <div class="detail-content">
+      <p>The two arms each have 5 joints (shoulder pitch, roll, yaw, elbow, wrist) driven over a CAN bus at 1 Mbit/s. A single ROS2 node owns all CAN communication and translates high-level joint commands into the motor wire protocol at hundreds of frames per second. A safety watchdog inside each motor requires a heartbeat frame every second: if the host stops talking, the motor goes limp. A wall-clock-gated heartbeat in software ensures the watchdog is never starved regardless of loop rate.</p>
 
-  <h2>Photo Gallery</h2>
-  <div class="photo-grid">
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">🤖</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">⚙️</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">🖐</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">📷</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">🦾</div></div>
-    <div class="photo-cell"><div class="photo-cell-ph" style="background:#161b2e">🔩</div></div>
-  </div>
-  <p class="photo-caption">→ Replace placeholders: add photos to assets/sapiens-01.jpg etc.</p>
+      <p>Inverse kinematics maps a target hand position in 3D space to five motor angles using the Pink differential IK library on top of Pinocchio. The arms have 5 joints each, which means position (3 numbers) is always satisfied exactly while orientation is treated as a secondary goal. The IK solver runs as a QP at each tick with hard joint-range and joint-speed limits.</p>
 
-  <h2>Key Challenges</h2>
-  <ul>
-    <li><strong>System integration</strong>: coordinating mechanics, software, and electronics with 8 engineers in parallel requires careful interface definition</li>
-    <li><strong>URDF synchronisation</strong>: keeping the model accurate as hardware evolves (especially the custom hand and new camera mounts)</li>
-    <li><strong>Demo data quality</strong>: designing manipulation tasks that produce demonstrations which generalise well for imitation learning</li>
-  </ul>
+      <p>A Meta Quest headset teleoperates the arms in real time. The operator grips a controller to engage tracking: the target end-effector position follows the controller's translation delta while grip is held, and freezes when released. Smoothing runs as a One-Euro filter on the controller pose and a low-pass filter on the target, with a per-message slew clamp in the motor driver as a last line of defence. The full Quest-to-motor latency is approximately 15-25 ms over wired Ethernet.</p>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>Perception and Autonomy</summary>
+    <div class="detail-content">
+      <p>Three cameras (a head Logitech C920 and two wrist cameras) feed a detection pipeline that identifies objects in the scene and back-projects their pixel coordinates into base-frame 3D positions the IK solver can target. Detection has two backends: a YOLOWorld open-vocabulary model that accepts any text prompt ("a red screwdriver") without retraining, and a pure-OpenCV HSV color blob finder that runs on CPU without a GPU. Once a 3D position is known, the arm can be commanded to reach it via the IK and CAN pipeline.</p>
+
+      <p>Camera calibration covers three layers. Intrinsics (focal length, optical center, distortion) are measured from a ChArUco board shown at roughly 15 viewing angles. An eye-on-base extrinsic places a fixed camera in the robot's coordinate frame. Hand-eye calibration for wrist cameras recovers the fixed camera-to-wrist offset so the live wrist pose from forward kinematics can be composed into a live camera pose at any arm configuration.</p>
+
+      <p>All software runs over ROS2 with a rosbridge WebSocket server exposing the full topic, service, and action graph to a browser-based web console. The operator can launch nodes, tune parameters, view camera feeds, and send arm goals from a single interface without touching a terminal during operation.</p>
+    </div>
+  </details>
 
 </div>
 <div class="proj-sidebar">
   <div class="sidebar-block">
     <div class="sidebar-label">Details</div>
     <div class="sidebar-kv">
-      <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Project Lead</strong></div></div>
+      <div class="kv-row"><div class="kv-key">My Role</div><div class="kv-val"><strong>Hardware Project Lead</strong></div></div>
       <div class="kv-row"><div class="kv-key">Organisation</div><div class="kv-val">EPFL AI Team</div></div>
-      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Feb 2026 → Present</div></div>
+      <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Feb 2026 &#8594; Present</div></div>
       <div class="kv-row"><div class="kv-key">Team</div><div class="kv-val">8 engineers</div></div>
       <div class="kv-row"><div class="kv-key">Status</div><div class="kv-val"><span class="status-dot"></span><strong>Active</strong></div></div>
     </div>
   </div>
   <div class="sidebar-block">
-    <div class="sidebar-label">Links</div>
-    <div class="sidebar-links">
-      <a href="https://github.com/epfl-ai-team" target="_blank" class="sidebar-link"><svg viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>EPFL AI Team GitHub</a>
-      <a href="https://berkeleyhumanoid.github.io" target="_blank" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Berkeley Humanoid Lite</a>
+    <div class="sidebar-label">Hardware</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Base</div><div class="kv-val">Berkeley Humanoid Lite</div></div>
+      <div class="kv-row"><div class="kv-key">DoF</div><div class="kv-val">12 (legs) + custom arm</div></div>
+      <div class="kv-row"><div class="kv-key">Motors</div><div class="kv-val">BLDC, quasi-direct drive</div></div>
+      <div class="kv-row"><div class="kv-key">Fabrication</div><div class="kv-val">FDM 3D printing, ~160 parts</div></div>
+      <div class="kv-row"><div class="kv-key">Encoders</div><div class="kv-val">AS5600 magnetic, 12-bit</div></div>
+      <div class="kv-row"><div class="kv-key">Bus</div><div class="kv-val">CAN, 1 Mbit/s</div></div>
     </div>
   </div>
   <div class="sidebar-block">
-    <div class="sidebar-label">My Contributions</div>
-    <div class="contrib-list">
-      <div class="contrib-item"><div class="contrib-key">Leadership</div><div class="contrib-val">Team Lead: 8 engineers</div></div>
-      <div class="contrib-item"><div class="contrib-key">Mechanical</div><div class="contrib-val">Assembly, hand redesign, camera mounts</div></div>
-      <div class="contrib-item"><div class="contrib-key">Software</div><div class="contrib-val">URDF integration, perception pipeline</div></div>
-      <div class="contrib-item"><div class="contrib-key">Research</div><div class="contrib-val">Imitation learning dataset curation</div></div>
+    <div class="sidebar-label">Enhancements</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Hand</div><div class="kv-val">Custom 4-finger, 16-DoF</div></div>
+      <div class="kv-row"><div class="kv-key">Control</div><div class="kv-val">IMU gloves (in progress)</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Software Stack</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Locomotion</div><div class="kv-val">PPO, Isaac Lab, RSL-RL</div></div>
+      <div class="kv-row"><div class="kv-key">Middleware</div><div class="kv-val">ROS2, rosbridge</div></div>
+      <div class="kv-row"><div class="kv-key">IK</div><div class="kv-val">Pink, Pinocchio</div></div>
+      <div class="kv-row"><div class="kv-key">Teleop</div><div class="kv-val">Meta Quest VR</div></div>
+      <div class="kv-row"><div class="kv-key">Perception</div><div class="kv-val">YOLOWorld, OpenCV</div></div>
+      <div class="kv-row"><div class="kv-key">Learning</div><div class="kv-val">Imitation Learning</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
+    <div class="sidebar-label">Links</div>
+    <div class="sidebar-links">
+      <a href="https://berkeley-humanoid-lite.gitbook.io/docs/" target="_blank" class="sidebar-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>Berkeley Humanoid Lite Docs</a>
     </div>
   </div>
 </div>
 </div>
 
 <div class="proj-nav">
-  <a href="../../index.html#projects" class="proj-nav-item"><span class="proj-nav-dir">← Back</span><span class="proj-nav-title">All Projects</span></a>
-  <a href="../rover/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next →</span><span class="proj-nav-title">Mars Rover: 1st Place ERC</span></a>
+  <a href="../../index.html#projects" class="proj-nav-item"><span class="proj-nav-dir">&#8592; Back</span><span class="proj-nav-title">All Projects</span></a>
+  <a href="../rover/" class="proj-nav-item" style="text-align:right;align-items:flex-end"><span class="proj-nav-dir">Next &#8594;</span><span class="proj-nav-title">Mars Rover: 1st Place ERC</span></a>
 </div>
 <script>
 const root=document.documentElement,tbtn=document.getElementById('themeToggle');
 tbtn.addEventListener('click',()=>{const n=root.getAttribute('data-theme')==="dark"?"light":"dark";root.setAttribute('data-theme',n);try{localStorage.setItem('ja-theme',n);}catch(e){}});
 </script>
 </body></html>
-
