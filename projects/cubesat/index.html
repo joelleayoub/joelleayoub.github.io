@@ -34,7 +34,7 @@
       <p><strong>CHESS</strong>, the Constellation of High-Energy Swiss Satellites, is the team's flagship mission. It consists of two 3U CubeSats designed to study the Earth's exosphere and ionosphere from complementary orbits. The spacecraft combine scientific payloads from ETH Zurich, the University of Bern, and NovoViz with an onboard computer, electrical power system, and attitude-control system developed by the team.</p>
       <p>The programme progresses through three pathfinder satellites of increasing complexity. The qualification dispenser supports this mission by enabling mechanically representative vibration testing of the Pathfinder 0 satellite before flight.</p>
       <div class="diagram-stack">
-        <figure class="detail-media-item"><img src="assets/chess-mission.jpg" alt="CHESS CubeSat mission" onerror="this.hidden=true"><div class="detail-media-placeholder">CHESS mission image</div><figcaption>The CHESS mission and its 3U CubeSat platform</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/chess.png" alt="CHESS CubeSat mission"><figcaption>The CHESS mission and its 3U CubeSat platform</figcaption></figure>
       </div>
     </div>
   </details>
@@ -49,11 +49,11 @@
         <li><strong>Insufficient stiffness:</strong> move every dispenser resonance above the 2000 Hz test band</li>
         <li><strong>Fastener failures:</strong> introduce redundant load paths, sufficient thread engagement, and locking provisions</li>
         <li><strong>Incorrect tolerances:</strong> guarantee smooth and repeatable rail insertion independently of assembly torque</li>
-        <li><strong>Limited access:</strong> route accelerometer cables without interrupting structural load paths</li>
+        <li><strong>Top plate bending:</strong> add internal support rails to prevent the top plate from deflecting into the CubeSat under vibration loading</li>
       </ul>
       <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/previous-dispenser.jpg" alt="Previous CubeSat qualification dispenser" onerror="this.hidden=true"><div class="detail-media-placeholder">Previous dispenser</div><figcaption>The first-generation qualification dispenser</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/previous-test-failure.jpg" alt="Damage found after the previous dispenser vibration test" onerror="this.hidden=true"><div class="detail-media-placeholder">Previous test failure</div><figcaption>Failure evidence from the first vibration campaign</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/prev_dispenser_front.png" alt="First-generation CubeSat qualification dispenser"><figcaption>The first-generation dispenser before the vibration campaign</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/fig7_loose_screws.jpg" alt="Loose screws found after vibration testing"><figcaption>Loose screws found after vibration: no thread inserts or locking compound</figcaption></figure>
       </div>
     </div>
   </details>
@@ -72,8 +72,11 @@
         <li>Type III hard anodizing for wear resistance on contact surfaces</li>
       </ul>
       <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/redesigned-dispenser.jpg" alt="Redesigned 3U CubeSat qualification dispenser" onerror="this.hidden=true"><div class="detail-media-placeholder">Redesigned dispenser</div><figcaption>Closed-box dispenser architecture</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/dispenser-cad.jpg" alt="CubeSat qualification dispenser CAD assembly" onerror="this.hidden=true"><div class="detail-media-placeholder">Dispenser CAD assembly</div><figcaption>CAD assembly and CubeSat rail interface</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/fig6_screw_aluminium.png" alt="Screw pulling out of aluminium threads without a Helicoil insert"><figcaption>Screw pulling out of bare aluminium: the root cause that motivated stainless Helicoil inserts</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/new_dispenser_open.png" alt="Redesigned closed-box dispenser, open view"><figcaption>Redesigned closed-box dispenser, open view showing the CubeSat cavity</figcaption></figure>
+      </div>
+      <div class="diagram-stack" style="margin-top:12px">
+        <figure class="detail-media-item"><img src="assets/new_dispenser_iso.png" alt="Redesigned dispenser isometric view"><figcaption>Isometric view of the redesigned dispenser assembly</figcaption></figure>
       </div>
     </div>
   </details>
@@ -85,16 +88,18 @@
       <p>Modal analysis placed the first natural frequency at <strong>2060.6 Hz</strong>, exceeding the 2000 Hz requirement with a 3.0% margin. Random-vibration analysis used the 14.1 g qualification profile, and a separate 20 g quasi-static analysis verified strength and displacement along the deployment axis.</p>
       <table class="spec-table">
         <tr><th>Analysis</th><th>Result</th></tr>
-        <tr><td>First Natural Frequency</td><td>2060.6 Hz</td></tr>
-        <tr><td>Modal Requirement</td><td>&gt;2000 Hz</td></tr>
-        <tr><td>Qualification Random Vibration</td><td>14.1 g rms, 3&sigma; evaluation</td></tr>
-        <tr><td>Peak Random-Vibration Stress</td><td>56.9 MPa, located on the mass model</td></tr>
-        <tr><td>Quasi-Static Load</td><td>20 g along the deployment axis</td></tr>
-        <tr><td>Maximum Quasi-Static Displacement</td><td>0.128 mm</td></tr>
+        <tr><td>Mode 1 (top plate bending)</td><td>2060.6 Hz, requirement &gt;2000 Hz, MOS +3.0%</td></tr>
+        <tr><td>Mode 2 (pusher plate)</td><td>2355.8 Hz</td></tr>
+        <tr><td>Mode 3 (side panel)</td><td>2981.8 Hz</td></tr>
+        <tr><td>Random vibration profile</td><td>14.1 g rms, 3&sigma; evaluation (NASA GEVS)</td></tr>
+        <tr><td>Peak random-vibration stress</td><td>56.9 MPa on mass model, MOS +7.84</td></tr>
+        <tr><td>Quasi-static load</td><td>20 g along deployment axis</td></tr>
+        <tr><td>Quasi-static mean stress</td><td>9.09 MPa, MOS +43.2</td></tr>
+        <tr><td>Maximum quasi-static displacement</td><td>0.128 mm</td></tr>
       </table>
       <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/fem-mode-1.jpg" alt="First vibration mode of the CubeSat dispenser" onerror="this.hidden=true"><div class="detail-media-placeholder">First mode at 2060.6 Hz</div><figcaption>First mode shape from modal analysis</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/fem-random-vibration.jpg" alt="Random vibration FEM result for the CubeSat dispenser" onerror="this.hidden=true"><div class="detail-media-placeholder">Random vibration result</div><figcaption>Qualification random-vibration verification</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/mode1_2060hz.png" alt="First vibration mode shape at 2060.6 Hz"><figcaption>Mode 1 at 2060.6 Hz: top plate bending, the governing mode</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/rvib_disp_x.png" alt="Random vibration displacement result along X axis"><figcaption>Random vibration displacement (X axis), 3&sigma; evaluation</figcaption></figure>
       </div>
       <div class="technical-note"><strong>Verification note:</strong> the FEM uses bonded contact idealisations that can overestimate joint stiffness. A pre-test modal survey is therefore required to confirm that the 3.0% frequency margin is preserved in the manufactured assembly.</div>
     </div>
@@ -105,11 +110,7 @@
     <div class="detail-content">
       <p>The dispenser consists of 17 CNC-machined Al7075-T6 parts. Manufacturing documentation defines critical flatness, the 80 mm shaker-table grid, Helicoil installation, surface finish, and post-treatment dimensions. Fit checks verify that the CubeSat mass model slides freely under its own weight and seats repeatably against the spring-loaded pusher plate.</p>
       <p>The vibration campaign is planned on a three-axis electrodynamic shaker table at the University of Bern. Control and response accelerometers will measure input loads, structural response, and any shift in natural frequency before and after testing.</p>
-      <div class="detail-media-grid">
-        <figure class="detail-media-item"><img src="assets/manufactured-dispenser.jpg" alt="Manufactured CubeSat qualification dispenser" onerror="this.hidden=true"><div class="detail-media-placeholder">Manufactured dispenser</div><figcaption>Machined and assembled qualification dispenser</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/vibration-test.jpg" alt="CubeSat dispenser vibration test at the University of Bern" onerror="this.hidden=true"><div class="detail-media-placeholder">Vibration test campaign</div><figcaption>Planned shaker-table validation at the University of Bern</figcaption></figure>
-      </div>
-      <div class="technical-note"><strong>Status at report submission:</strong> design, FEM verification, and fabrication were complete. The physical vibration campaign and FEM correlation had not yet been conducted.</div>
+      <div class="technical-note"><strong>Status:</strong> design, FEM verification, and fabrication complete. The vibration campaign at the University of Bern and post-test FEM correlation are upcoming.</div>
     </div>
   </details>
 </div>
@@ -118,7 +119,7 @@
   <div class="sidebar-block">
     <div class="sidebar-label">Details</div>
     <div class="sidebar-kv">
-      <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Structures Engineer</strong></div></div>
+      <div class="kv-row"><div class="kv-key">Role</div><div class="kv-val"><strong>Structures Lead (sole)</strong></div></div>
       <div class="kv-row"><div class="kv-key">Organisation</div><div class="kv-val">EPFL Spacecraft Team</div></div>
       <div class="kv-row"><div class="kv-key">Period</div><div class="kv-val">Feb 2026 &rarr; Present</div></div>
       <div class="kv-row"><div class="kv-key">Type</div><div class="kv-val">Semester Project</div></div>
@@ -126,10 +127,20 @@
     </div>
   </div>
   <div class="sidebar-block">
+    <div class="sidebar-label">Material</div>
+    <div class="sidebar-kv">
+      <div class="kv-row"><div class="kv-key">Alloy</div><div class="kv-val">Al 7075-T6</div></div>
+      <div class="kv-row"><div class="kv-key">Yield strength</div><div class="kv-val">503 MPa</div></div>
+      <div class="kv-row"><div class="kv-key">Young's modulus</div><div class="kv-val">71.7 GPa</div></div>
+      <div class="kv-row"><div class="kv-key">Surface treatment</div><div class="kv-val">Hard anodising MIL-A-8625 Type III</div></div>
+    </div>
+  </div>
+  <div class="sidebar-block">
     <div class="sidebar-label">Standards</div>
     <div class="contrib-list">
-      <div class="contrib-item"><div class="contrib-key">Compliance</div><div class="contrib-val">ECSS, CubeSat Design Specification, KZ-11, NASA GEVS</div></div>
-      <div class="contrib-item"><div class="contrib-key">Testing</div><div class="contrib-val">Vibration qualification and modal survey</div></div>
+      <div class="contrib-item"><div class="contrib-key">Structural</div><div class="contrib-val">ECSS-E-ST-10-03C, ECSS-E-ST-32-10C, ECSS-E-ST-32-03C</div></div>
+      <div class="contrib-item"><div class="contrib-key">Vibration</div><div class="contrib-val">NASA GEVS (14.1 g rms profile)</div></div>
+      <div class="contrib-item"><div class="contrib-key">Interface</div><div class="contrib-val">CubeSat Design Spec Rev.14, KZ-11 launch vehicle ICD</div></div>
     </div>
   </div>
 </div>
