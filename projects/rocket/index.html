@@ -8,9 +8,6 @@
 <script>(function(){try{var t=localStorage.getItem('ja-theme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();</script>
 <link rel="stylesheet" href="../../project.css">
 <style>
-.liftoff-hero{margin:28px 0}
-.liftoff-hero img{width:100%;max-height:420px;object-fit:cover;object-position:center 30%;display:block;border:1px solid var(--rule)}
-.liftoff-hero figcaption{font-family:var(--grot);font-size:11px;color:var(--ink-faint);margin-top:6px}
 .block-label{font-family:var(--grot);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:4px}
 .block-heading{font-size:22px;font-weight:300;font-style:italic;color:var(--ink);margin-bottom:20px;font-family:var(--serif)}
 .block-divider{border:none;border-top:1px solid var(--rule);margin:52px 0}
@@ -24,7 +21,7 @@
 <body>
 <nav class="nav">
   <div class="nav-logo"><a href="../../index.html">Joelle Ayoub</a><span class="sep">/</span><span class="proj-name">Firehorn 1</span></div>
-  <div class="nav-right"><a href="../../index.html#work" class="nav-back">← All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
+  <div class="nav-right"><a href="../../index.html#work" class="nav-back">&larr; All work</a><button class="themebtn" id="themeToggle" aria-label="Toggle dark mode"><span class="ic"></span></button></div>
 </nav>
 
 <div class="proj-banner">
@@ -35,29 +32,26 @@
 
 <div class="proj-body">
 <div class="proj-main">
-  <div class="overview-intro">
-    <div class="overview-heading">Overview</div>
-    <p class="overview-lead">As Payload Division Lead on Firehorn 1, I owned the complete 3-camera flight recording system from PCB design to mechanical mounts, and brought an acoustic levitation experiment from proof of concept to flight-ready hardware. Firehorn 1 flew at EuRoC 2025 as Switzerland's first cryogenic bi-liquid rocket.</p>
-  </div>
-
-  <figure class="liftoff-hero">
-    <img src="assets/liftoff.png" alt="Firehorn 1 liftoff at EuRoC 2025">
-    <figcaption>Firehorn 1 · liftoff at EuRoC 2025</figcaption>
-  </figure>
 
   <details class="collapsible">
     <summary>EPFL Rocket Team and Firehorn 1</summary>
     <div class="detail-content">
       <p>The <strong>EPFL Rocket Team</strong> is a student association of approximately 240 members dedicated to reaching space before the end of the decade with a fully student-developed liquid launch vehicle. Founded in 2017, the team has won EuRoC 2021, placed third in 2022, and in 2023 launched Nordend, Switzerland's first liquid rocket to fly.</p>
       <p><strong>Firehorn 1</strong> is the team's first EthaLOX (ethanol and liquid oxygen) single-stage launch vehicle, designed from the outset for a 30 km apogee. Its inaugural mission at EuRoC 2025 flew the 3 km qualification profile: 5 m tall, 83 kg dry mass, 7 kN thrust. It carries two payloads, both developed by the Payload Division: an acoustic levitation experiment in the nose cone, and a three-camera flight recording system distributed along the airframe.</p>
-      <div class="diagram-stack">
-        <figure class="detail-media-item"><img src="assets/firehorn.png" alt="Firehorn 1 launch vehicle"><figcaption>Firehorn 1 launch vehicle</figcaption></figure>
+      <div class="detail-media-grid">
+        <figure class="detail-media-item"><img src="assets/firehorn.png" alt="Firehorn 1 launch vehicle"><figcaption>Firehorn 1 on the launch rail at EuRoC 2025</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/joelle_rocket.png" alt="Joelle with Firehorn 1 at EuRoC 2025" style="object-fit:cover;object-position:center top"><figcaption>At EuRoC 2025 with Firehorn 1</figcaption></figure>
       </div>
     </div>
   </details>
 
+  <div class="overview-intro" style="margin-top:32px">
+    <div class="overview-heading">Overview</div>
+    <p class="overview-lead">As Payload Division Lead on Firehorn 1, I owned the complete 3-camera flight recording system from PCB design to mechanical mounts, and brought an acoustic levitation experiment from proof of concept to flight-ready hardware. Firehorn 1 flew at EuRoC 2025 as Switzerland's first cryogenic bi-liquid rocket.</p>
+  </div>
+
   <hr class="block-divider">
-  <div class="block-label">Camera System · KiCad · Payload Division Lead</div>
+  <div class="block-label">Camera System &middot; KiCad &middot; Payload Division Lead</div>
   <div class="block-heading">3-Camera Flight Recording System</div>
 
   <details class="collapsible">
@@ -65,8 +59,8 @@
     <div class="detail-content">
       <p>Three cameras are distributed along the airframe to capture liftoff, the flight environment, and parachute deployment. Each position has its own thermal, vibration, and size constraints.</p>
       <ul>
-        <li><strong>Camera 1</strong> (bottom aerocover, facing downward): liftoff monitoring, integrated into the aerocover structure, 125.5 g</li>
-        <li><strong>Camera 2</strong> (top aerocover, radial): flight environment, radial orientation, aluminium heat block and spring-loaded screws for vibration isolation, 221.66 g</li>
+        <li><strong>Camera 1</strong> (bottom aerocover, facing downward): liftoff monitoring, integrated into the aerocover structure, 125.5 g total</li>
+        <li><strong>Camera 2</strong> (top aerocover, radial): flight environment, radial orientation, aluminium heat block and spring-loaded screws for vibration isolation, 221.66 g total</li>
         <li><strong>Camera 3</strong> (avionics bay): parachute deployment footage</li>
       </ul>
       <div class="diagram-stack">
@@ -82,7 +76,7 @@
       <p>The RunCam communicates over <strong>UART</strong>, while the avionics use <strong>I2C</strong> converted to I2CAN for long cable runs through the airframe. Each camera module bridges the two: I2CAN in from the avionics, UART out to the camera, plus regulated power.</p>
       <div class="detail-media-grid">
         <figure class="detail-media-item"><img src="assets/runcam.png" alt="RunCam Split 4 V2 with separated processing board"><figcaption>RunCam Split 4 V2: lens and processing board are physically separated</figcaption></figure>
-        <figure class="detail-media-item"><img src="assets/cammodule.png" alt="Camera module communication and power diagram"><figcaption>Communication chain: Avionics → I2CAN → Custom PCB → UART → RunCam</figcaption></figure>
+        <figure class="detail-media-item"><img src="assets/cammodule.png" alt="Camera module communication and power diagram"><figcaption>Communication chain: avionics &rarr; I2CAN &rarr; custom PCB &rarr; UART &rarr; RunCam</figcaption></figure>
       </div>
     </div>
   </details>
@@ -90,31 +84,44 @@
   <details class="collapsible">
     <summary>PCB Design</summary>
     <div class="detail-content">
-      <p>The camera PCB handles three functions: I2CAN to UART protocol conversion, a 24 V to 5 V step-down for the RunCam processing board, and camera on/off commands triggered by a photoresistor on liftoff. It was designed entirely in <strong>KiCad</strong>.</p>
+      <p>The camera PCB handles two core functions: I2CAN to UART protocol conversion, and a 24 V to 5 V step-down for the RunCam processing board. Cameras are turned on and off by commands from the avionics system. The board was designed entirely in <strong>KiCad</strong>.</p>
       <p>Prototyping used an <strong>Arduino Nano</strong> to validate the communication chain quickly. Once the design was confirmed and space inside the aerocover became a hard constraint, I replaced the Nano with a <strong>Seeed XIAO</strong>: a far more compact board with the same serial capability. The board connects to the avionics rod via MPS connectors for modular integration and is thermally bonded to an aluminium block to manage heat.</p>
       <ul>
         <li>LT3960 I2CAN transceiver for long-distance avionics communication</li>
         <li>MPM3620 step-down converter (24 V to 5 V)</li>
         <li>Seeed XIAO microcontroller, replacing the Arduino Nano for compactness</li>
-        <li>Photoresistor for liftoff-triggered camera power-on</li>
         <li>MPS connectors for modular rod-mount integration</li>
       </ul>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>EuRoC 2025 · the Flight</summary>
+    <summary>Camera Mechanical Mounts</summary>
+    <div class="detail-content">
+      <p>Each camera position required a custom mount designed around the aerocover geometry and vibration environment. The mounts were 3D-printed in <strong>PETCF</strong> (carbon-fibre-reinforced PETG), chosen for its stiffness and dimensional stability under the thermal and mechanical loads of the flight environment.</p>
+      <ul>
+        <li><strong>Camera 1 mount</strong> (bottom, downward-facing): integrates flush with the aerocover base plate, minimising protrusion into the airflow</li>
+        <li><strong>Camera 2 mount</strong> (top, radial): bolts to the inner wall of the aerocover with an aluminium heat block and spring-loaded fasteners to damp vibration at the camera interface</li>
+      </ul>
+      <div class="diagram-stack">
+        <figure class="detail-media-item"><img src="assets/camerasupport.png" alt="Camera mount CAD models for bottom and radial positions"><figcaption>Camera 1 (bottom) and Camera 2 (radial) mount designs in SolidWorks</figcaption></figure>
+      </div>
+    </div>
+  </details>
+
+  <details class="collapsible">
+    <summary>EuRoC 2025 &middot; the Flight</summary>
     <div class="detail-content">
       <p>Firehorn 1 lifted off at EuRoC 2025 and completed its flight, becoming <strong>Switzerland's first cryogenic bi-liquid rocket to fly</strong>. Over 80 team members were on site after more than a year of development.</p>
       <figure class="photo-natural">
-        <img src="assets/joelle_rocket.png" alt="Joelle with Firehorn 1 at EuRoC 2025">
-        <figcaption>At EuRoC 2025 with Firehorn 1</figcaption>
+        <img src="assets/liftoff.png" alt="Firehorn 1 liftoff at EuRoC 2025">
+        <figcaption>Firehorn 1 liftoff at EuRoC 2025</figcaption>
       </figure>
     </div>
   </details>
 
   <details class="collapsible">
-    <summary>EuRoC 2025 · the Fire</summary>
+    <summary>EuRoC 2025 &middot; the Fire</summary>
     <div class="detail-content">
       <p>On landing, an unexpected fire broke out in the avionics bay. The heat burned through the electronics and melted the plastic enclosures around the camera modules. The SD cards were physically recovered from the debris.</p>
       <figure class="photo-natural">
@@ -122,11 +129,12 @@
         <figcaption>Recovering the SD cards from the charred avionics bay</figcaption>
       </figure>
       <div class="sd-note"><strong>All footage was lost.</strong> The thermal damage had corrupted all recorded data. Nothing was saved from any of the three cameras.</div>
+      <p style="font-size:14px;color:var(--ink-soft);margin-top:16px">Unfortunately, walking away from the launch site with nothing to show for months of work on the camera system is one of those moments that stays with you.</p>
     </div>
   </details>
 
   <hr class="block-divider">
-  <div class="block-label">Acoustic Levitation · Supervised</div>
+  <div class="block-label">Acoustic Levitation &middot; Supervised</div>
   <div class="block-heading">3U Experimental Payload</div>
 
   <details class="collapsible">
@@ -137,16 +145,19 @@
       <ul>
         <li><strong>Acoustic levitator:</strong> the two opposing transducer domes, held at a fixed 8.5 cm separation by a stabilizer</li>
         <li><strong>Battery pack holder:</strong> secures the 2 x 18650 cells that power the system independently from the rocket avionics</li>
-        <li><strong>Raspberry Pi Zero W holder:</strong> the main processing unit, runs the levitation control logic</li>
         <li><strong>Motor driver holder (L298N):</strong> amplifies the square-wave drive signals to the transducers</li>
+        <li><strong>Raspberry Pi Zero W holder:</strong> the main processing unit, runs the levitation control logic</li>
         <li><strong>Accelerometer holder:</strong> records acceleration data throughout the flight for post-processing</li>
         <li><strong>Camera holder:</strong> positions an internal camera 30 cm from the levitation point to monitor the ball</li>
       </ul>
-      <p>The transducer structure was initially printed in regular PETG, which deformed under soldering heat. It was redesigned in <strong>HT PETG</strong> (high-temperature PETG) to survive the assembly process without distortion.</p>
+      <p>The transducer structure was initially printed in regular PETG, which deformed under soldering heat. It was redesigned in <strong>HT-PETG</strong> (high-temperature PETG) to survive the assembly process without distortion.</p>
       <p>I supervised this payload and led the work to make it flight-ready: re-soldering connections, upgrading the motor driver and battery system to more reliable components, and running extensive testing under vibration to confirm stable levitation before integration.</p>
       <div class="detail-media-grid">
         <figure class="detail-media-item"><img src="assets/payload.png" alt="Ball levitating between the two transducer arrays"><figcaption>Spherical test object levitating in the acoustic field</figcaption></figure>
         <figure class="detail-media-item"><img src="assets/payload_testing.png" alt="Acoustic levitation payload testing"><figcaption>Payload testing and validation before integration</figcaption></figure>
+      </div>
+      <div class="diagram-stack" style="margin-top:20px">
+        <figure class="detail-media-item"><img src="assets/payloadwiring.png" alt="Acoustic levitation payload wiring: Arduino Nano, L298N motor driver, top and bottom transducer arrays"><figcaption>Wiring diagram: Arduino Nano drives the L298N motor driver, which feeds the top and bottom transducer arrays</figcaption></figure>
       </div>
     </div>
   </details>
@@ -167,11 +178,12 @@
   <div class="sidebar-block">
     <div class="sidebar-label">Camera System</div>
     <div class="sidebar-kv">
-      <div class="kv-row"><div class="kv-key">Cameras</div><div class="kv-val">3 × RunCam Split 4 V2</div></div>
+      <div class="kv-row"><div class="kv-key">Cameras</div><div class="kv-val">3 &times; RunCam Split 4 V2</div></div>
       <div class="kv-row"><div class="kv-key">Resolution</div><div class="kv-val">2.7K at 60 fps</div></div>
       <div class="kv-row"><div class="kv-key">MCU</div><div class="kv-val">Seeed XIAO (replaced Arduino Nano)</div></div>
       <div class="kv-row"><div class="kv-key">Protocol</div><div class="kv-val">I2CAN in, UART out</div></div>
       <div class="kv-row"><div class="kv-key">Power</div><div class="kv-val">24 V to 5 V step-down</div></div>
+      <div class="kv-row"><div class="kv-key">Mounts</div><div class="kv-val">PETCF 3D-printed</div></div>
       <div class="kv-row"><div class="kv-key">PCB tool</div><div class="kv-val">KiCad</div></div>
     </div>
   </div>
