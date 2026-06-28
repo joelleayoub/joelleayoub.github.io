@@ -45,29 +45,29 @@
     <span class="banner-tag">Humanoid Robotics</span><span class="banner-tag">3D Printing</span><span class="banner-tag">Motor Calibration</span><span class="banner-tag">ROS2</span><span class="banner-tag">Reinforcement Learning</span><span class="banner-tag">VR Teleoperation</span><span class="banner-tag">Imitation Learning</span>
   </div>
   <h1 class="banner-title">SAPIENS Humanoid Robot</h1>
-  <p class="banner-sub">EPFL's first full humanoid robot, built from the open-source Berkeley Humanoid Lite platform by a student team. Hardware lead responsible for the full mechanical build, motor integration, and custom hardware enhancements including a 16-DoF dexterous hand.</p>
+  <p class="banner-sub">Mina is EPFL's first student-built humanoid robot, built by a team of 8 on the open-source Berkeley Humanoid Lite platform. Hardware lead responsible for the full mechanical build, motor integration, and custom hardware enhancements including a 16-DoF dexterous hand.</p>
 </div>
 
 <div class="proj-body">
 <div class="proj-main">
 
   <!-- ===== HARDWARE ===== -->
-  <div class="block-label">Hardware &middot; Berkeley Humanoid Lite &middot; Hardware Project Lead</div>
+  <div class="block-label">Hardware &middot; Berkeley Humanoid Lite</div>
   <p class="block-heading">Hardware Build</p>
 
   <div class="overview-intro">
     <div class="overview-heading">Overview</div>
-    <p class="overview-lead">SAPIENS is built on Berkeley Humanoid Lite, an open-source biped from UC Berkeley designed for under $5,000 using 3D-printed structural parts and off-the-shelf quasi-direct-drive motors. The full robot has 22 degrees of freedom: 12 across the two legs and 10 across the two arms. We handled the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and performing motor calibration joint by joint.</p>
+    <p class="overview-lead">SAPIENS is the EPFL AI Team's humanoid robotics project. Mina, our first robot, is built on Berkeley Humanoid Lite (an open-source biped from UC Berkeley), not just to assemble a kit, but to deeply understand every subsystem: actuation, mechanics, electronics, and the software stack that ties them together, while iterating and customising where it makes sense for our use case. The full robot has 22 degrees of freedom: 12 across the two legs and 10 across the two arms. As hardware lead, I own the full build pipeline: printing and iterating all structural components, soldering and wiring the electrical systems, and calibrating all 22 motors joint by joint. The end goal: Mina autonomously detecting objects, navigating through a room, and retrieving exactly what she was asked for, powered by the computer vision, autonomous navigation, teleoperation, and imitation learning pipelines we are building.</p>
   </div>
 
   <div class="hw-photo-pair">
     <figure>
       <img src="assets/mina.png" alt="SAPIENS humanoid robot, full assembly">
-      <figcaption>SAPIENS · full assembly on the Berkeley Humanoid Lite base</figcaption>
+      <figcaption>Mina · full assembly</figcaption>
     </figure>
     <figure>
       <img src="assets/team.JPG" alt="EPFL AI Team">
-      <figcaption>EPFL AI Team · hardware and software engineers</figcaption>
+      <figcaption>SAPIENS · the dream team</figcaption>
     </figure>
   </div>
 
@@ -113,7 +113,7 @@
 
       <div class="pipeline">
         <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Phase wire soldering:</strong> solder U, V, W phase wires from each BLDC motor to its controller board. Wire order determines motor spin direction and must be consistent per the firmware convention.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Encoder wiring:</strong> connect SDA and SCL lines from each AS5600 magnetic encoder to the controller. The encoder sits 1-2 mm beneath a diametrically magnetized disc on the motor shaft and reports absolute angle over I2C. Swapped SDA/SCL is a common wiring fault that bricks motor initialization at boot.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>Encoder wiring:</strong> connect SDA and SCL lines from each AS5600 magnetic encoder to the controller. The encoder sits 1-2 mm beneath a diametrically magnetized disc on the motor shaft and reports absolute angle over I2C.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">03</div><div class="pipeline-text"><strong>CAN bus wiring:</strong> daisy-chain each controller onto the shared CAN bus (CAN-H and CAN-L twisted pair, 120 ohm termination at each bus end). Every motor gets a unique device ID.</div></div>
         <div class="pipeline-step"><div class="pipeline-num">04</div><div class="pipeline-text"><strong>Continuity and short checks:</strong> verify each connection with a multimeter before powering. Phase shorts destroy controller boards and motor windings instantly.</div></div>
       </div>
@@ -141,8 +141,8 @@
       <p>Beyond the base BHL platform, the team is developing two hardware enhancements that extend the robot's manipulation capabilities beyond what the original design provides.</p>
 
       <div class="pipeline">
-        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand <span style="font-family:var(--grot);font-size:11px;color:var(--ink-faint)">(in progress)</span>:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The hand is being designed, printed, and integrated by the hardware team.</div></div>
-        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves <span style="font-family:var(--grot);font-size:11px;color:var(--ink-faint)">(in progress)</span>:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">01</div><div class="pipeline-text"><strong>Custom 4-finger dexterous hand:</strong> a fully custom hand with 4 fingers and 16 degrees of freedom, designed to replace the BHL gripper. Each finger joint is independently actuated, enabling fine manipulation tasks that a simple parallel gripper cannot perform. The structural parts are PETG-printed; the finger links are resin-printed for precision.</div></div>
+        <div class="pipeline-step"><div class="pipeline-num">02</div><div class="pipeline-text"><strong>IMU-based control gloves:</strong> custom gloves equipped with inertial measurement units at each finger segment, allowing an operator to teleoperate the 16-DoF hand by hand gesture. The gloves translate finger bend angles in real time onto the hand's actuators, providing an intuitive interface for collecting manipulation demonstrations.</div></div>
       </div>
 
       <figure class="detail-photo">
@@ -157,7 +157,7 @@
   <hr class="block-divider">
 
   <!-- ===== SOFTWARE ===== -->
-  <div class="block-label">Software &middot; ROS2 &middot; Team effort</div>
+  <div class="block-label">Software &middot; ROS2</div>
   <p class="block-heading">Software Stack</p>
 
   <div class="overview-intro">
@@ -166,7 +166,7 @@
   </div>
 
   <details class="collapsible">
-    <summary>Locomotion: Reinforcement Learning</summary>
+    <summary>Locomotion: Reinforcement Learning<span style="font-size:12px;font-family:var(--grot);color:var(--ink-faint);font-style:normal;margin-left:8px">in progress</span></summary>
     <div class="detail-content">
       <p>The walking brain is a small neural network (policy) trained entirely in simulation using Proximal Policy Optimization (PPO) via the RSL-RL library in NVIDIA Isaac Lab. Training runs 2048 parallel simulated robots on a GPU simultaneously, with each copy receiving randomized body mass, friction, and actuation gains so the resulting policy is robust rather than tuned to one exact physics model. A training run that would take months on a real robot finishes in hours on a GPU.</p>
 
@@ -178,7 +178,7 @@
   </details>
 
   <details class="collapsible">
-    <summary>Arm Control and VR Teleoperation</summary>
+    <summary>Arm Control and VR Teleoperation<span style="font-size:12px;font-family:var(--grot);color:var(--ink-faint);font-style:normal;margin-left:8px">in progress</span></summary>
     <div class="detail-content">
       <p>The two arms each have 5 joints (shoulder pitch, roll, yaw, elbow, wrist) driven over a CAN bus at 1 Mbit/s. A single ROS2 node owns all CAN communication and translates high-level joint commands into the motor wire protocol at hundreds of frames per second. A safety watchdog inside each motor requires a heartbeat frame every second: if the host stops talking, the motor goes limp. A wall-clock-gated heartbeat in software ensures the watchdog is never starved regardless of loop rate.</p>
 
@@ -189,7 +189,7 @@
   </details>
 
   <details class="collapsible">
-    <summary>Perception and Autonomy</summary>
+    <summary>Perception and Autonomy<span style="font-size:12px;font-family:var(--grot);color:var(--ink-faint);font-style:normal;margin-left:8px">in progress</span></summary>
     <div class="detail-content">
       <p>Three cameras (a head Logitech C920 and two wrist cameras) feed a detection pipeline that identifies objects in the scene and back-projects their pixel coordinates into base-frame 3D positions the IK solver can target. Detection has two backends: a YOLOWorld open-vocabulary model that accepts any text prompt ("a red screwdriver") without retraining, and a pure-OpenCV HSV color blob finder that runs on CPU without a GPU. Once a 3D position is known, the arm can be commanded to reach it via the IK and CAN pipeline.</p>
 
@@ -217,7 +217,7 @@
       <div class="kv-row"><div class="kv-key">Base</div><div class="kv-val">Berkeley Humanoid Lite</div></div>
       <div class="kv-row"><div class="kv-key">DoF</div><div class="kv-val">22 total (12 legs, 10 arms)</div></div>
       <div class="kv-row"><div class="kv-key">Motors</div><div class="kv-val">BLDC, quasi-direct drive</div></div>
-      <div class="kv-row"><div class="kv-key">Fabrication</div><div class="kv-val">FDM 3D printing, ~160 parts</div></div>
+      <div class="kv-row"><div class="kv-key">Fabrication</div><div class="kv-val">PETG · FDM · ~160 parts</div></div>
       <div class="kv-row"><div class="kv-key">Encoders</div><div class="kv-val">AS5600 magnetic, 12-bit</div></div>
       <div class="kv-row"><div class="kv-key">Bus</div><div class="kv-val">CAN, 1 Mbit/s</div></div>
     </div>
